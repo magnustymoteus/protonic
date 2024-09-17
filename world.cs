@@ -24,8 +24,15 @@ public partial class world : Node2D
 		isBuilding = !isBuilding;
 		buildingUI.SetVisible(isBuilding);
 	}
-	public void switchComponent(int id) {
-		GD.Print("switched to ", id);
+	public void switchComponent(string componentName) {
+		
+	}
+
+	public string LoadFromFile()
+	{
+		using var file = FileAccess.Open("user://save_game.dat", FileAccess.ModeFlags.Read);
+		string content = file.GetAsText();
+		return content;
 	}
 	
 	public void clickedOnMap(Vector2 position) {

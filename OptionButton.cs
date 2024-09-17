@@ -19,6 +19,6 @@ public partial class OptionButton : Godot.OptionButton
 
 	private void OnItemSelected(int id)
 	{
-		world.Call("switchComponent", id);
+		world.Call("switchComponent", GetItemText(id));
 	}
 }
