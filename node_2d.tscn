@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://c74atj8f1b45o"]
+[gd_scene load_steps=11 format=3 uid="uid://c74atj8f1b45o"]
 
-[ext_resource type="Script" path="res://followMouse.cs" id="1_4b3oy"]
 [ext_resource type="Script" path="res://movement.cs" id="1_bnikr"]
 [ext_resource type="Script" path="res://world.cs" id="1_mpgw7"]
+[ext_resource type="Script" path="res://FollowMouse.cs" id="2_o2urw"]
+[ext_resource type="Script" path="res://FollowRect.cs" id="2_w5puj"]
+[ext_resource type="Script" path="res://ComponentRect.cs" id="3_b3qem"]
 [ext_resource type="Script" path="res://TileMapLayer.cs" id="3_kh37h"]
 [ext_resource type="Script" path="res://BuildButton.cs" id="5_2lm7o"]
-[ext_resource type="Script" path="res://OptionButton.cs" id="6_xeo8f"]
+[ext_resource type="Script" path="res://Tree.cs" id="9_6r6ng"]
 
 [sub_resource type="TileSet" id="TileSet_3d7cb"]
 tile_size = Vector2i(32, 32)
@@ -15,14 +17,18 @@ size = Vector2(41, 40)
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI")]
 script = ExtResource("1_mpgw7")
-buildingUI = NodePath("buildingUI")
+buildingUI = NodePath("Control")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
-tile_set = SubResource("TileSet_3d7cb")
-script = ExtResource("3_kh37h")
-world = NodePath("..")
+[node name="followMouse" type="Node2D" parent="." node_paths=PackedStringArray("tileMapLayer")]
+script = ExtResource("2_o2urw")
+tileMapLayer = NodePath("../TileMapLayer")
 
-[node name="followRect" type="ColorRect" parent="." node_paths=PackedStringArray("tileMapLayer")]
+[node name="componentRect" type="TextureRect" parent="followMouse"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_b3qem")
+
+[node name="followRect" type="ColorRect" parent="followMouse" node_paths=PackedStringArray("tileMapLayer")]
 z_index = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -36,8 +42,13 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.152941)
-script = ExtResource("1_4b3oy")
-tileMapLayer = NodePath("../TileMapLayer")
+script = ExtResource("2_w5puj")
+tileMapLayer = NodePath("../../TileMapLayer")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
+tile_set = SubResource("TileSet_3d7cb")
+script = ExtResource("3_kh37h")
+world = NodePath("..")
 
 [node name="colorRect" type="ColorRect" parent="."]
 offset_right = 1920.0
@@ -72,6 +83,7 @@ shape = SubResource("RectangleShape2D_u688n")
 [node name="components" type="Node2D" parent="."]
 
 [node name="BuildButton" type="CheckButton" parent="." node_paths=PackedStringArray("buildUI")]
+z_index = 2
 offset_left = 1617.0
 offset_top = 979.0
 offset_right = 1884.0
@@ -80,21 +92,19 @@ theme_override_font_sizes/font_size = 40
 text = "Build Mode
 "
 script = ExtResource("5_2lm7o")
-buildUI = NodePath("../buildingUI")
+buildUI = NodePath("../Control")
 
-[node name="buildingUI" type="Node2D" parent="."]
-visible = false
+[node name="Control" type="Control" parent="."]
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="OptionButton" type="OptionButton" parent="buildingUI" node_paths=PackedStringArray("world")]
-offset_left = 59.0
-offset_top = 26.0
-offset_right = 207.0
-offset_bottom = 57.0
-item_count = 3
-popup/item_0/text = "Beamline Tube"
-popup/item_1/text = "Injector"
-popup/item_1/id = 1
-popup/item_2/text = "Monitor"
-popup/item_2/id = 2
-script = ExtResource("6_xeo8f")
+[node name="Tree" type="Tree" parent="Control" node_paths=PackedStringArray("world")]
+offset_left = 50.0
+offset_top = 29.0
+offset_right = 290.0
+offset_bottom = 237.0
+script = ExtResource("9_6r6ng")
 world = NodePath("../..")

@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 public partial class world : Node2D
 {
-	[Export] private Node2D buildingUI;
+	[Export] private Control buildingUI;
 
 	private bool isBuilding;
 	// Called when the node enters the scene tree for the first time.
@@ -25,7 +25,7 @@ public partial class world : Node2D
 		buildingUI.SetVisible(isBuilding);
 	}
 	public void switchComponent(string componentName) {
-		
+		GD.Print("switched to ", componentName);
 	}
 
 	public string LoadFromFile()
