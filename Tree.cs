@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class Tree : Godot.Tree
 {
@@ -31,12 +32,29 @@ public partial class Tree : Godot.Tree
 		TreeItem selected = GetSelected();
 		if (selected.GetChildCount() == 0)
 		{
-			world.Call("switchComponent", selected.GetText(0));
+			world.Call("switchComponent", GetPath(selected));
 		}
 		else DeselectAll();
 	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+
+	private string TransformText(string text)
+	{
+		return text.ToLower().Replace(' ', '_');
+	}
+	private string GetPath(TreeItem item)
+	{
+		string result = TransformText(item.GetText(0));
+		TreeItem currentItem = item;
+		while (currentItem.GetParent() != null)
+		{
+			currentItem = currentItem.GetParent();
+			result = TransformText(currentItem.GetText(0)) + "/"+result;
+		}
+
+		return result;
 	}
 }

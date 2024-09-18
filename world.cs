@@ -5,6 +5,8 @@ using System.Diagnostics;
 public partial class world : Node2D
 {
 	[Export] private Control buildingUI;
+	[Export] private TextureRect textureRect;
+	[Export] private ColorRect colorRect;
 
 	private bool isBuilding;
 	// Called when the node enters the scene tree for the first time.
@@ -24,8 +26,11 @@ public partial class world : Node2D
 		isBuilding = !isBuilding;
 		buildingUI.SetVisible(isBuilding);
 	}
-	public void switchComponent(string componentName) {
-		GD.Print("switched to ", componentName);
+	public void switchComponent(string componentPath) {
+		GD.Print("switched to ", componentPath);
+		Texture2D texture = ResourceLoader.Load<Texture2D>("components/"+componentPath+"/disconnected.png");
+		textureRect.SetTexture(texture);
+		colorRect.SetSize(texture.GetSize());
 	}
 
 	public string LoadFromFile()
@@ -39,6 +44,16 @@ public partial class world : Node2D
 		if (isBuilding)
 		{
 			GD.Print("place on ", position);
+		}
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event.IsActionPressed("rotate"))
+		{
+			float rotation = (float)Math.PI / 2.0f;
+			textureRect.Rotation += rotation;
+			colorRect.Rotation += rotation;
 		}
 	}
 }

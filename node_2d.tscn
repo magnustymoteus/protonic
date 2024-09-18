@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://c74atj8f1b45o"]
+[gd_scene load_steps=10 format=3 uid="uid://c74atj8f1b45o"]
 
 [ext_resource type="Script" path="res://movement.cs" id="1_bnikr"]
 [ext_resource type="Script" path="res://world.cs" id="1_mpgw7"]
 [ext_resource type="Script" path="res://FollowMouse.cs" id="2_o2urw"]
 [ext_resource type="Script" path="res://FollowRect.cs" id="2_w5puj"]
-[ext_resource type="Script" path="res://ComponentRect.cs" id="3_b3qem"]
 [ext_resource type="Script" path="res://TileMapLayer.cs" id="3_kh37h"]
 [ext_resource type="Script" path="res://BuildButton.cs" id="5_2lm7o"]
 [ext_resource type="Script" path="res://Tree.cs" id="9_6r6ng"]
@@ -15,18 +14,25 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI")]
+[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect")]
 script = ExtResource("1_mpgw7")
-buildingUI = NodePath("Control")
+buildingUI = NodePath("BuildUI")
+textureRect = NodePath("followMouse/componentRect")
+colorRect = NodePath("followMouse/followRect")
 
 [node name="followMouse" type="Node2D" parent="." node_paths=PackedStringArray("tileMapLayer")]
 script = ExtResource("2_o2urw")
 tileMapLayer = NodePath("../TileMapLayer")
 
 [node name="componentRect" type="TextureRect" parent="followMouse"]
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("3_b3qem")
+z_index = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="followRect" type="ColorRect" parent="followMouse" node_paths=PackedStringArray("tileMapLayer")]
 z_index = 1
@@ -92,19 +98,22 @@ theme_override_font_sizes/font_size = 40
 text = "Build Mode
 "
 script = ExtResource("5_2lm7o")
-buildUI = NodePath("../Control")
+buildUI = NodePath("../BuildUI")
 
-[node name="Control" type="Control" parent="."]
+[node name="BuildUI" type="Control" parent="."]
+visible = false
 z_index = 2
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Tree" type="Tree" parent="Control" node_paths=PackedStringArray("world")]
+[node name="Tree" type="Tree" parent="BuildUI" node_paths=PackedStringArray("world")]
+layout_mode = 0
 offset_left = 50.0
 offset_top = 29.0
 offset_right = 290.0
 offset_bottom = 237.0
+allow_search = false
 script = ExtResource("9_6r6ng")
 world = NodePath("../..")
