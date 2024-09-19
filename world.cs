@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Diagnostics;
+using protonic;
+using System.Collections.Generic;
 
 public partial class world : Node2D
 {
@@ -9,7 +11,13 @@ public partial class world : Node2D
 	[Export] private ColorRect colorRect;
 
 	private bool isBuilding;
-	// Called when the node enters the scene tree for the first time.
+
+	private string currentComponent;
+
+	public Component[] placedComponents;
+
+	public ComponentFactory factory;
+		
 	public override void _Ready()
 	{
 		isBuilding = false;
@@ -26,34 +34,23 @@ public partial class world : Node2D
 		isBuilding = !isBuilding;
 		buildingUI.SetVisible(isBuilding);
 	}
-	public void switchComponent(string componentPath) {
-		GD.Print("switched to ", componentPath);
-		Texture2D texture = ResourceLoader.Load<Texture2D>("components/"+componentPath+"/disconnected.png");
+	
+	public void switchComponent(string componentPath)
+	{
+		currentComponent = "components/" + componentPath + "/disconnected.png";
+		Texture2D texture = ResourceLoader.Load<Texture2D>(currentComponent);
 		textureRect.SetTexture(texture);
 		colorRect.SetSize(texture.GetSize());
 	}
-
-	public string LoadFromFile()
-	{
-		using var file = FileAccess.Open("user://save_game.dat", FileAccess.ModeFlags.Read);
-		string content = file.GetAsText();
-		return content;
-	}
 	
 	public void clickedOnMap(Vector2 position) {
-		if (isBuilding)
+		
+		if (isBuilding && currentComponent != null)
 		{
-			GD.Print("place on ", position);
-		}
-	}
-
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("rotate"))
-		{
-			float rotation = (float)Math.PI / 2.0f;
-			textureRect.Rotation += rotation;
-			colorRect.Rotation += rotation;
+			TextureRect textureRect = new TextureRect();
+			textureRect.SetTexture(ResourceLoader.Load<Texture2D>(currentComponent));
+			textureRect.SetPosition(position);
+			AddChild(textureRect);
 		}
 	}
 }

@@ -16,13 +16,4 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	{
 	}
 
-	public override void _Input(InputEvent @event)
-	{
-		if (@event is InputEventMouseButton eventMouseButton)
-		{
-			var position = new Vector2(tileSize.X * Mathf.Floor(eventMouseButton.Position.X / tileSize.X),
-				tileSize.Y * Mathf.Floor(eventMouseButton.Position.Y / tileSize.Y));
-			world.Call("clickedOnMap", position);
-		}
-	}
 }

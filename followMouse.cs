@@ -1,27 +1,39 @@
 using Godot;
 using System;
 
-public partial class FollowMouse : Node2D
+public partial class FollowMouse : ColorRect
 {
     private Vector2I tileSize;
     private Vector2 mousePos;
-    [Export] TileMapLayer tileMapLayer;
+    [Export] private TileMapLayer tileMapLayer;
 
-	
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         tileSize = tileMapLayer.TileSet.TileSize;
+        PivotOffset = tileSize / 2;
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public Vector2 GetTiledPosition()
+    {
+        return new Vector2(tileSize.X * Mathf.Ceil(mousePos.X / tileSize.X),
+            tileSize.Y * Mathf.Ceil(mousePos.Y / tileSize.Y));
+    }
     public override void _Process(double delta)
     {
-        mousePos = GetGlobalMousePosition();
-        if (tileMapLayer != null)
+        Vector2 newMousePos = GetGlobalMousePosition();
+        if (mousePos != newMousePos)
         {
-            Position = new Vector2(tileSize.X * Mathf.Ceil(mousePos.X/tileSize.X), tileSize.Y * Mathf.Ceil(mousePos.Y/tileSize.Y));
+            mousePos = newMousePos;
+            Vector2 tiledPosition = GetTiledPosition();
+            if (Position != tiledPosition) Position = GetTiledPosition();
         }
-        else Position = mousePos;
+    }
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("rotate"))
+        {
+            float rotation = (float)Math.PI / 2.0f;
+            SetRotation(GetRotation() + rotation);
+        }
     }
 }
