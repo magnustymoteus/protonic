@@ -47,10 +47,11 @@ public partial class world : Node2D
 		
 		if (isBuilding && currentComponent != null)
 		{
-			TextureRect textureRect = new TextureRect();
-			textureRect.SetTexture(ResourceLoader.Load<Texture2D>(currentComponent));
-			textureRect.SetPosition(position);
-			AddChild(textureRect);
+			TextureRect placedTextureRect = new TextureRect();
+			placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(currentComponent));
+			placedTextureRect.SetPosition(textureRect.GetGlobalPosition());
+			placedTextureRect.SetRotation(textureRect.GetParent<ColorRect>().GetRotation());
+			AddChild(placedTextureRect);
 		}
 	}
 }
