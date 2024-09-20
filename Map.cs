@@ -16,7 +16,7 @@ public partial class Map : ColorRect
 	{
 		if (Input.IsActionJustReleased("place"))
 		{
-			world.Call("clickedOnMap", followRect.Call("GetTiledPosition"));
+			world.Call("clickedOnMap");
 		}
 	}
 	

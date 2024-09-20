@@ -4,19 +4,19 @@ using Godot;
 public class ComponentFactory
 {
     
-    public Component CreateComponent(string componentName, Vector2 position, Vector2 tileSize)
+    public Component CreateComponent(string componentName, Vector2I position, Vector2I size, float rotation)
     {
         switch (componentName)
         {
-            case "Beamline Tube":
-                return CreateBeamlineTube(position, tileSize);
+            case "beamline_tube":
+                return CreateBeamlineTube(position, size, rotation);
             default:
                 return null;
         }
     }
-    public BeamlineTube CreateBeamlineTube(Vector2 position, Vector2 tileSize)
+    public BeamlineTube CreateBeamlineTube(Vector2I position, Vector2I size, float rotation)
     {
-        return new BeamlineTube(position, tileSize);
+        return new BeamlineTube(position, size, rotation);
     }
     
 }

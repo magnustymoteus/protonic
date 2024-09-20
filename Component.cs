@@ -1,28 +1,27 @@
-﻿namespace protonic;
+﻿using System;
+
+namespace protonic;
 using Godot;
 
 public class Component
 {
-    protected string name;
-    public Vector2I position;
-    
+    public string name;
+    public Vector2I beginPosition;
+    public Vector2I endPosition;
+    public float rotation;
 
-    public Component(string name, Vector2I position)
+    public Component(string name, Vector2I position, Vector2I size, float rotation)
     {
         this.name = name;
-        this.position = position;
-    }
-
-    public Component(string name, Vector2 position, Vector2 tileSize)
-    {
-        this.name = name;
-        this.position = new Vector2I(Mathf.FloorToInt(position.X/tileSize.X)-1, Mathf.FloorToInt(position.Y/tileSize.Y)-1);
+        this.beginPosition = position;
+        this.endPosition = position + size;
+        this.rotation = rotation;
     }
 }
 
 public class BeamlineTube : Component
 {
-    public BeamlineTube(Vector2 position, Vector2 tileSize) : base("Beamline Tube", position, tileSize)
+    public BeamlineTube(Vector2I position, Vector2I size, float rotation) : base("Beamline Tube", position, size, rotation)
     {
     }
 }

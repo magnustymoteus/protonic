@@ -14,11 +14,12 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect")]
+[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect", "tileMap")]
 script = ExtResource("1_mpgw7")
 buildingUI = NodePath("Control")
 textureRect = NodePath("ColorRect/componentRect")
 colorRect = NodePath("ColorRect/followRect")
+tileMap = NodePath("TileMapLayer")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
 tile_set = SubResource("TileSet_3d7cb")
@@ -37,9 +38,11 @@ tileMapLayer = NodePath("../TileMapLayer")
 [node name="componentRect" type="TextureRect" parent="ColorRect"]
 modulate = Color(1, 1, 1, 0.52549)
 z_index = 1
+layout_mode = 0
 
 [node name="followRect" type="ColorRect" parent="ColorRect"]
 z_index = 1
+layout_mode = 0
 offset_right = 32.0
 offset_bottom = 32.0
 pivot_offset = Vector2(16, 16)
