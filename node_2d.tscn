@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c74atj8f1b45o"]
+[gd_scene load_steps=12 format=3 uid="uid://c74atj8f1b45o"]
 
 [ext_resource type="Script" path="res://movement.cs" id="1_bnikr"]
 [ext_resource type="Script" path="res://world.cs" id="1_mpgw7"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://TileMapLayer.cs" id="3_kh37h"]
 [ext_resource type="Script" path="res://Map.cs" id="4_lvv8j"]
 [ext_resource type="Script" path="res://BuildButton.cs" id="5_2lm7o"]
+[ext_resource type="Script" path="res://InfoUi.cs" id="8_1kmim"]
+[ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://images/info.png" id="8_uiuo6"]
 [ext_resource type="Script" path="res://Tree.cs" id="9_6r6ng"]
 
 [sub_resource type="TileSet" id="TileSet_3d7cb"]
@@ -14,12 +16,14 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect", "tileMap")]
+[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect", "tileMap", "currentInfoText", "infoRect")]
 script = ExtResource("1_mpgw7")
-buildingUI = NodePath("Control")
+buildingUI = NodePath("buildUI")
 textureRect = NodePath("ColorRect/componentRect")
 colorRect = NodePath("ColorRect/followRect")
 tileMap = NodePath("TileMapLayer")
+currentInfoText = NodePath("infoUI/ColorRect/InfoText")
+infoRect = NodePath("infoUI/ColorRect")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
 tile_set = SubResource("TileSet_3d7cb")
@@ -49,8 +53,9 @@ pivot_offset = Vector2(16, 16)
 color = Color(1, 1, 1, 0.152941)
 
 [node name="map" type="ColorRect" parent="." node_paths=PackedStringArray("world", "followRect")]
+offset_top = -1.0
 offset_right = 1920.0
-offset_bottom = 1080.0
+offset_bottom = 1079.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 color = Color(0.544974, 0.544974, 0.544974, 1)
@@ -93,10 +98,10 @@ theme_override_font_sizes/font_size = 40
 text = "Build Mode
 "
 script = ExtResource("5_2lm7o")
-buildUI = NodePath("../Control")
+buildUI = NodePath("../buildUI")
 world = NodePath("..")
 
-[node name="Control" type="Control" parent="."]
+[node name="buildUI" type="Control" parent="."]
 visible = false
 z_index = 2
 layout_mode = 3
@@ -104,7 +109,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Tree" type="Tree" parent="Control" node_paths=PackedStringArray("world")]
+[node name="Tree" type="Tree" parent="buildUI" node_paths=PackedStringArray("world")]
 layout_mode = 0
 offset_left = 50.0
 offset_top = 29.0
@@ -113,3 +118,55 @@ offset_bottom = 237.0
 allow_search = false
 script = ExtResource("9_6r6ng")
 world = NodePath("../..")
+
+[node name="infoUI" type="Control" parent="." node_paths=PackedStringArray("closeButton")]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1733.0
+offset_top = 21.0
+offset_right = 1773.0
+offset_bottom = 61.0
+script = ExtResource("8_1kmim")
+closeButton = NodePath("ColorRect/CloseButton")
+
+[node name="ColorRect" type="ColorRect" parent="infoUI"]
+z_index = 2
+layout_mode = 0
+offset_left = -215.0
+offset_top = 36.0
+offset_right = 133.0
+offset_bottom = 292.0
+color = Color(0.346, 0.548, 1, 0.6)
+
+[node name="InfoText" type="RichTextLabel" parent="infoUI/ColorRect"]
+z_index = 2
+layout_mode = 0
+offset_left = 31.0
+offset_top = 96.0
+offset_right = 321.0
+offset_bottom = 223.0
+theme_override_colors/default_color = Color(1, 1, 1, 0.6)
+
+[node name="InfoIcon" type="TextureRect" parent="infoUI/ColorRect"]
+modulate = Color(100, 100, 100, 0.6)
+z_index = 2
+layout_mode = 0
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 536.0
+offset_bottom = 520.0
+scale = Vector2(0.135396, 0.139156)
+texture = ExtResource("8_uiuo6")
+
+[node name="CloseButton" type="Button" parent="infoUI/ColorRect"]
+z_index = 2
+layout_mode = 0
+offset_left = 302.0
+offset_top = -2.0
+offset_right = 339.0
+offset_bottom = 61.0
+theme_override_font_sizes/font_size = 40
+text = "X"
+flat = true
