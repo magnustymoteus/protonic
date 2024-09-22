@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://TileMapLayer.cs" id="3_kh37h"]
 [ext_resource type="Script" path="res://Map.cs" id="4_lvv8j"]
 [ext_resource type="Script" path="res://BuildButton.cs" id="5_2lm7o"]
-[ext_resource type="Script" path="res://InfoUi.cs" id="8_1kmim"]
+[ext_resource type="Script" path="res://InfoUI.cs" id="8_5u2q8"]
 [ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://images/info.png" id="8_uiuo6"]
 [ext_resource type="Script" path="res://Tree.cs" id="9_6r6ng"]
 
@@ -16,14 +16,13 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect", "tileMap", "currentInfoText", "infoRect")]
+[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect", "tileMap", "infoUI")]
 script = ExtResource("1_mpgw7")
 buildingUI = NodePath("buildUI")
 textureRect = NodePath("ColorRect/componentRect")
 colorRect = NodePath("ColorRect/followRect")
 tileMap = NodePath("TileMapLayer")
-currentInfoText = NodePath("infoUI/ColorRect/InfoText")
-infoRect = NodePath("infoUI/ColorRect")
+infoUI = NodePath("infoUI")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
 tile_set = SubResource("TileSet_3d7cb")
@@ -119,7 +118,7 @@ allow_search = false
 script = ExtResource("9_6r6ng")
 world = NodePath("../..")
 
-[node name="infoUI" type="Control" parent="." node_paths=PackedStringArray("closeButton")]
+[node name="infoUI" type="Control" parent="." node_paths=PackedStringArray("currentInfoText", "infoRect", "closeButton")]
 visible = false
 z_index = 2
 layout_mode = 3
@@ -128,7 +127,9 @@ offset_left = 1733.0
 offset_top = 21.0
 offset_right = 1773.0
 offset_bottom = 61.0
-script = ExtResource("8_1kmim")
+script = ExtResource("8_5u2q8")
+currentInfoText = NodePath("ColorRect/InfoText")
+infoRect = NodePath("ColorRect")
 closeButton = NodePath("ColorRect/CloseButton")
 
 [node name="ColorRect" type="ColorRect" parent="infoUI"]
