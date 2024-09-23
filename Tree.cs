@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Linq;
+using protonic.utils;
+
 
 public partial class Tree : Godot.Tree
 {
@@ -8,31 +10,45 @@ public partial class Tree : Godot.Tree
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		var root = CreateItem();
-		SetHideRoot(true);
-		var beam_tube = CreateItem(root);
-		var straight_tube = CreateItem(beam_tube);
-		var left_tube = CreateItem(beam_tube);
-		var right_tube = CreateItem(beam_tube);
-		var injector = CreateItem(root);
-		var monitor = CreateItem(root);
-		
-		beam_tube.SetText(0, "Beamline Tube");
-		straight_tube.SetText(0, "Straight");
-		left_tube.SetText(0, "Left");
-		right_tube.SetText(0, "Right");
-		injector.SetText(0, "Particle Injector");
-		monitor.SetText(0, "Particle Monitor");
+		ConstructTreeFromFileStructure("./components");
 
 		Connect("item_selected", new Callable(this, nameof(OnItemSelected)));
 	}
-
+    private void ConstructTreeFromFileStructure(string rootPath)  {
+	    var root = CreateItem();
+	    SetHideRoot(true);
+	    SetUpFileTree(rootPath);
+    }
+    public void SetUpFileTree(string rootPath, TreeItem root = null)
+    {
+	    using var dir = DirAccess.Open(rootPath);
+	    if (root == null) root = CreateItem();
+	    if (dir != null)
+	    {
+		    dir.ListDirBegin();
+		    string fileName = dir.GetNext();
+		    while (fileName != "")
+		    {
+			    if (dir.CurrentIsDir())
+			    {
+				    TreeItem currentChild = root.CreateChild();
+				    currentChild.SetText(0, fileName);
+				    SetUpFileTree(rootPath+"/"+fileName, currentChild);
+			    }
+			    fileName = dir.GetNext();
+		    }
+	    }
+	    else
+	    {
+		    GD.Print("An error occurred when trying to access the path.");
+	    }
+    }
 	private void OnItemSelected()
 	{
 		TreeItem selected = GetSelected();
 		if (selected.GetChildCount() == 0)
 		{
-			world.Call("switchComponent", GetPath(selected));
+			world.Call("SwitchComponent", GetPath(selected));
 		}
 		else DeselectAll();
 	}
@@ -40,19 +56,15 @@ public partial class Tree : Godot.Tree
 	public override void _Process(double delta)
 	{
 	}
-
-	private string TransformText(string text)
-	{
-		return text.ToLower().Replace(' ', '_');
-	}
+	
 	private string GetPath(TreeItem item)
 	{
-		string result = TransformText(item.GetText(0));
+		string result = item.GetText(0);
 		TreeItem currentItem = item;
 		while (currentItem.GetParent() != null)
 		{
 			currentItem = currentItem.GetParent();
-			result = TransformText(currentItem.GetText(0)) + "/"+result;
+			result = currentItem.GetText(0) + "/"+result;
 		}
 
 		return result;

@@ -37,13 +37,13 @@ public partial class world : Node2D
 	}
 	
 	
-	public void switchBuildingMode()
+	public void SwitchBuildingMode()
 	{
 		isBuilding = !isBuilding;
 		buildingUI.SetVisible(isBuilding);
 	}
 	
-	public void switchComponent(string componentPath)
+	public void SwitchComponent(string componentPath)
 	{
 		currentComponentPath = "components/" + componentPath + "/disconnected.png";
 		Texture2D texture = ResourceLoader.Load<Texture2D>(currentComponentPath);
@@ -96,7 +96,7 @@ public partial class world : Node2D
 			else i--;
 		}
 	}
-	public void clickedOnMap() {
+	public void ClickedOnMap() {
 		
 		if (isBuilding && currentComponentPath != null)
 		{

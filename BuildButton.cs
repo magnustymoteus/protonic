@@ -20,6 +20,6 @@ public partial class BuildButton : CheckButton
 	private void OnToggle(bool toggle)
 	{
 		buildUI.SetVisible(toggle);
-		world.Call("switchBuildingMode");
+		world.Call("SwitchBuildingMode");
 	}
 }
