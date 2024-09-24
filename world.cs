@@ -35,7 +35,30 @@ public partial class world : Node2D
 	{
 		
 	}
+
+	public Dictionary<ConnectiveDirection, Component> GetPossibleConnections(Vector2I beginPosition, Vector2I endPosition)
+	{
+		
+	}
+
+	public string GetComponentTexture(string componentPath)
+	{
+		
+		return "";
+	}
+
+	public void UpdateComponentTexture(string componentPath)
+	{
+		currentComponentPath = GetComponentTexture("components/" + componentPath);
+		Texture2D texture = ResourceLoader.Load<Texture2D>(currentComponentPath);
+		textureRect.SetTexture(texture);
+		colorRect.SetSize(texture.GetSize());
+	}
 	
+	public void OnTileChange()
+	{
+		UpdateComponentTexture(currentComponentPath);
+	}
 	
 	public void SwitchBuildingMode()
 	{
@@ -45,10 +68,7 @@ public partial class world : Node2D
 	
 	public void SwitchComponent(string componentPath)
 	{
-		currentComponentPath = "components/" + componentPath + "/disconnected.png";
-		Texture2D texture = ResourceLoader.Load<Texture2D>(currentComponentPath);
-		textureRect.SetTexture(texture);
-		colorRect.SetSize(texture.GetSize());
+		UpdateComponentTexture(componentPath);
 		infoUI.Call("PopupInfo", currentComponentPath);
 	}
 

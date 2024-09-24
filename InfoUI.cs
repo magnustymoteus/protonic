@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using protonic.utils;
 using static protonic.utils.FileLoader;
 
 public partial class InfoUI : Control
@@ -15,7 +16,7 @@ public partial class InfoUI : Control
 	public void PopupInfo(string componentPath)
 	{
 		SetOpacity(infoRect, 0.0f);
-		currentInfoText.SetText(GetComponentTextFile(componentPath, "info.txt"));
+		currentInfoText.SetText(FileLoader.SearchFile(componentPath, "info.txt"));
 		infoRect.GetParent<Control>().SetVisible(true);
 		fadeInInfo = true;
 	}
@@ -34,17 +35,6 @@ public partial class InfoUI : Control
 			infoRect.SetModulate(infoRect.GetModulate().Lerp(color, 2.0f*(float)delta));
 			if (infoRect.GetModulate().A >= 0.8f) fadeInInfo = false;
 		}
-	}
-	public string GetComponentTextFile(string componentPath, string file)
-	{
-		string[] currentPathArr = componentPath.Split('/');
-
-		while (!HasFile(currentPathArr.Join("/"), file) && currentPathArr.Length > 1)
-		{
-			currentPathArr = currentPathArr.Take(currentPathArr.Length-1).ToArray();
-		}
-
-		return LoadFromFile(currentPathArr.Join("/") + "/" + file);
 	}
 
 	public void SetOpacity(ColorRect currentColorRect, float opacity)

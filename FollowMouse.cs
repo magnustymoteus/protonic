@@ -5,6 +5,7 @@ public partial class FollowMouse : ColorRect
 {
     private Vector2I tileSize;
     [Export] private TileMapLayer tileMapLayer;
+    [Export] private Node2D world;
 
     public override void _Ready()
     {
@@ -20,7 +21,11 @@ public partial class FollowMouse : ColorRect
     }
     public override void _Process(double delta)
     {
-        Position = GetTiledPosition();
+        if (Position != GetTiledPosition())
+        {
+            world.Call("OnTileChange");
+            Position = GetTiledPosition();
+        }
     }
     public override void _Input(InputEvent @event)
     {

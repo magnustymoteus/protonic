@@ -29,7 +29,7 @@ tile_set = SubResource("TileSet_3d7cb")
 script = ExtResource("3_kh37h")
 world = NodePath("..")
 
-[node name="ColorRect" type="ColorRect" parent="." node_paths=PackedStringArray("tileMapLayer")]
+[node name="ColorRect" type="ColorRect" parent="." node_paths=PackedStringArray("tileMapLayer", "world")]
 z_index = 1
 offset_right = 32.0
 offset_bottom = 32.0
@@ -37,6 +37,7 @@ pivot_offset = Vector2(16, 16)
 color = Color(1, 1, 1, 0)
 script = ExtResource("2_o2urw")
 tileMapLayer = NodePath("../TileMapLayer")
+world = NodePath("..")
 
 [node name="componentRect" type="TextureRect" parent="ColorRect"]
 modulate = Color(1, 1, 1, 0.52549)
