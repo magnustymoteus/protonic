@@ -21,6 +21,7 @@ public partial class world : Node2D
 	private string currentComponentPath;
 
 	public Dictionary<Vector2I, Component> ComponentMap = new Dictionary<Vector2I, Component>();
+	public Dictionary<Vector2I, TextureRect> TextureMap = new Dictionary<Vector2I, TextureRect>();
 
 	public ComponentFactory factory;
 
@@ -37,32 +38,32 @@ public partial class world : Node2D
 		
 	}
 
-	public void Connect(string componentPath)
+	public HashSet<Component> Connect(Component sourceComponent)
 	{
-		Vector2I globalPos = VectorConverter.Convert(textureRect.GetGlobalPosition());
-		Vector2I size = VectorConverter.Convert(textureRect.GetSize());
-		float rotation = textureRect.GetParent<ColorRect>().GetRotation();
-		Component component = new Component(componentPath, globalPos, size, rotation);
-		
-		foreach (var availableConnectionFrom in component.availableConnections)
+		HashSet<Component> affectedComponents = new HashSet<Component>();
+		foreach (var targetFrom in sourceComponent.GetAvailableConnectionTargets())
 		{
-			Component componentTo;
-			Vector2I transformedPos = Component.ApplyConnectiveDirection(globalPos, availableConnectionFrom);
-			ComponentMap.TryGetValue(transformedPos, out componentTo);
-			if (componentTo != null)
+			Component targetComponent;
+			ComponentMap.TryGetValue(targetFrom.Item2, out targetComponent);
+			if (targetComponent != null)
 			{
-				SortedSet<ConnectiveDirection> availableConnectionsTo = componentTo.GetAvailableConnections();
-				foreach (var availableConnectionTo in availableConnectionsTo)
+				Vector2I sourceConnectPos = targetFrom.Item2 - Component.Convert(targetFrom.Item1);
+				if (targetComponent.CanConnect(sourceConnectPos))
 				{
-					if(availableConnectionTo == availableConnectionFrom.Item2) 
+					sourceComponent.AddConnection(sourceConnectPos- sourceComponent.beginPosition, targetFrom.Item1);
+					targetComponent.AddConnection(targetFrom.Item2-targetComponent.beginPosition, Component.Convert(-Component.Convert(targetFrom.Item1)));
+					affectedComponents.Add(sourceComponent);
+					affectedComponents.Add(targetComponent);
 				}
 			}
 		}
+
+		return affectedComponents;
 	}
 
 	public void UpdateComponentTexture()
 	{
-		string texturePath = Connect(currentComponentPath);
+		string texturePath = currentComponentPath + "/disconnected.png";
 		Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
 		textureRect.SetTexture(texture);
 		colorRect.SetSize(texture.GetSize());
@@ -100,13 +101,35 @@ public partial class world : Node2D
 		return true;
 	}
 
+	public void UpdateTexture(Component component)
+	{
+		TextureRect placedTextureRect;
+		GD.Print("position", component.beginPosition);
+		TextureMap.TryGetValue(component.beginPosition, out placedTextureRect);
+		bool isNew = placedTextureRect == null;
+		if (isNew)
+		{
+			placedTextureRect = new TextureRect();
+			placedTextureRect.SetPosition(textureRect.GetGlobalPosition());
+			placedTextureRect.SetRotation(textureRect.GetParent<ColorRect>().GetRotation());
+		}
+		placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(component.GetTexturePath()));
+		if (isNew)
+		{
+			AddChild(placedTextureRect);
+			TextureMap.Add(component.beginPosition, placedTextureRect);
+		}
+	}
+
 	public void PlaceComponent(Component component)
 	{
-		TextureRect placedTextureRect = new TextureRect();
-		placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(Connect(currentComponentPath)));
-		placedTextureRect.SetPosition(textureRect.GetGlobalPosition());
-		placedTextureRect.SetRotation(textureRect.GetParent<ColorRect>().GetRotation());
-		AddChild(placedTextureRect);
+		var affectedComponents = Connect(component);
+		foreach (Component affectedComponent in affectedComponents)
+		{
+			UpdateTexture(affectedComponent);
+		}
+		if (affectedComponents.Count == 0) UpdateTexture(component);
+		
 		for (int i = component.beginPosition.X; i < component.endPosition.X; i++)
 		{
 			for (int j = component.beginPosition.Y; j < component.endPosition.Y; j++)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Godot.Collections;
 using protonic.utils;
 
@@ -10,7 +11,7 @@ public enum ConnectiveDirection
     Left=0, Up=1, Right=2, Down=3
 }
 
-public class Component
+public class Component 
 {
     public string path;
     public Vector2I beginPosition;
@@ -18,7 +19,15 @@ public class Component
     public float rotation;
     public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> availableConnections;
     public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> connections;
+    public static Dictionary<ConnectiveDirection, Vector2I> TransformMap = new Dictionary<ConnectiveDirection, Vector2I>
+    {
+        { ConnectiveDirection.Left, new Vector2I(-1, 0) },
+        { ConnectiveDirection.Up, new Vector2I(0, -1) },
+        { ConnectiveDirection.Down, new Vector2I(0, 1) },
+        { ConnectiveDirection.Right, new Vector2I(1, 0) }
 
+    };
+    
     public Component(string path, Vector2I position, Vector2I size, float rotation)
     {
         this.path = path;
@@ -26,13 +35,23 @@ public class Component
         this.endPosition = GetEndPosition(position, size);
         this.rotation = rotation;
         this.availableConnections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
-        
+        this.connections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
         ImportPossibleConnections();
     }
 
     public void AddConnection(Vector2I position, ConnectiveDirection direction)
     {
-        connections[position].Add(direction);
+        GD.Print("adding connection ", position, ", ", direction.ToString());
+
+        SortedSet<ConnectiveDirection> existingConnections;
+        this.connections.TryGetValue(position, out existingConnections);
+        if (existingConnections == null)
+        {
+            existingConnections = new SortedSet<ConnectiveDirection>();
+            existingConnections.Add(direction);
+            connections.Add(position, existingConnections);
+        }
+        else connections[position].Add(direction);
     }
     public string GetTexturePath()
     {
@@ -41,42 +60,50 @@ public class Component
         else result += "connected";
         foreach (var connection in connections)
         {
-            foreach (var direction in connection.Value)
+            result += "_" + connection.Key.X + "_" + connection.Key.Y + "_";
+            foreach (ConnectiveDirection direction in connection.Value)
             {
-                result += "_"+connection.Key.X + "_" + connection.Key.Y + "_" + direction.ToString()[0];
+                result += direction.ToString()[0];
             }
         }
-
         return result + ".png";
     }
-    // RETURN POSITIONS WITH + VECTOR2I AND ROTATIONS ETC
-    public SortedSet<ConnectiveDirection> GetAvailableConnections()
+
+    public bool CanConnect(Vector2I position)
     {
-        SortedSet<ConnectiveDirection> result = new SortedSet<ConnectiveDirection>();
-		
-        foreach (var availableConnection in availableConnections)
+        foreach (var target in GetAvailableConnectionTargets())
         {
-            foreach (var direction in availableConnection.Value)
+            if (target.Item2 == position) return true;
+        }
+
+        return false;
+    }
+    public SortedSet<Tuple<ConnectiveDirection, Vector2I>> GetAvailableConnectionTargets()
+    {
+        SortedSet<Tuple<ConnectiveDirection, Vector2I>> result = new SortedSet<Tuple<ConnectiveDirection, Vector2I>>();
+		
+        foreach (var availableConnectionFrom in availableConnections)
+        {
+            foreach (var direction in availableConnectionFrom.Value)
             {
-                result.Add(direction);
+                Vector2I position = Matrix2x2.GetRotationMatrix(rotation).Multiply(
+                    this.beginPosition + availableConnectionFrom.Key + Component.Convert(direction));
+                result.Add(new Tuple<ConnectiveDirection, Vector2I>(direction, position));
+
             }
         }
 
         return result;
     }
 
-
-    public static Vector2I ApplyConnectiveDirection(Vector2I position, ConnectiveDirection direction)
+    public static Vector2I Convert(ConnectiveDirection direction)
     {
-        Dictionary<ConnectiveDirection, Vector2I> transformMap = new Dictionary<ConnectiveDirection, Vector2I>
-        {
-            { ConnectiveDirection.Left, new Vector2I(-1, 0) },
-            { ConnectiveDirection.Up, new Vector2I(0, -1) },
-            { ConnectiveDirection.Down, new Vector2I(0, 1) },
-            { ConnectiveDirection.Right, new Vector2I(1, 0) }
+        return TransformMap[direction];
+    }
 
-        };
-        return position + transformMap[direction];
+    public static ConnectiveDirection Convert(Vector2I direction)
+    {
+        return TransformMap.ToDictionary(x => x.Value, x => x.Key)[direction];
     }
     public static Vector2I GetBeginPosition(Vector2I position, Vector2I size)
     {
