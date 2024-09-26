@@ -16,7 +16,7 @@ public partial class InfoUI : Control
 	public void PopupInfo(string componentPath)
 	{
 		SetOpacity(infoRect, 0.0f);
-		currentInfoText.SetText(FileLoader.SearchFile(componentPath, "info.txt"));
+		currentInfoText.SetText(FileLoader.LoadTextFromFile(FileLoader.SearchFile(componentPath, "info.txt")));
 		infoRect.GetParent<Control>().SetVisible(true);
 		fadeInInfo = true;
 	}

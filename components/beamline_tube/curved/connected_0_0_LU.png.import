@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qt3xr24fe78r"
-path="res://.godot/imported/connected_R.png-005f380991cfe8558c3bd52290616af4.ctex"
+uid="uid://csj6klyx57h1s"
+path="res://.godot/imported/connected_0_0_LU.png-6ed890a439cce75067ee59a8b4964fdc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://components/beamline_tube/straight/connected_R.png"
-dest_files=["res://.godot/imported/connected_R.png-005f380991cfe8558c3bd52290616af4.ctex"]
+source_file="res://components/beamline_tube/curved/connected_0_0_LU.png"
+dest_files=["res://.godot/imported/connected_0_0_LU.png-6ed890a439cce75067ee59a8b4964fdc.ctex"]
 
 [params]
 

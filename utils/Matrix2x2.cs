@@ -11,7 +11,14 @@ public struct Matrix2x2
             { m21, m22 }
         };
     }
-
+    
+    public static Matrix2x2 GetRotationMatrix(float angle)
+    {
+        return new Matrix2x2(
+            (int)Mathf.Cos(angle), (int)-Mathf.Sin(angle),
+            (int)Mathf.Sin(angle),  (int)Mathf.Cos(angle)
+        );
+    }
     public Matrix2x2(double m11, double m12, double m21, double m22) : this((float) m11, (float) m12, (float) m21, (float) m22) {}
     public Vector2 Multiply(Vector2 vector)
     {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Drawing;
 using System.Linq;
+using protonic.utils;
 
 
 public partial class world : Node2D
@@ -19,7 +20,7 @@ public partial class world : Node2D
 
 	private string currentComponentPath;
 
-	public Dictionary<Tuple<int, int>, Component> map = new Dictionary<Tuple<int, int>, Component>();
+	public Dictionary<Vector2I, Component> ComponentMap = new Dictionary<Vector2I, Component>();
 
 	public ComponentFactory factory;
 
@@ -36,28 +37,40 @@ public partial class world : Node2D
 		
 	}
 
-	public Dictionary<ConnectiveDirection, Component> GetPossibleConnections(Vector2I beginPosition, Vector2I endPosition)
+	public void Connect(string componentPath)
 	{
+		Vector2I globalPos = VectorConverter.Convert(textureRect.GetGlobalPosition());
+		Vector2I size = VectorConverter.Convert(textureRect.GetSize());
+		float rotation = textureRect.GetParent<ColorRect>().GetRotation();
+		Component component = new Component(componentPath, globalPos, size, rotation);
 		
+		foreach (var availableConnectionFrom in component.availableConnections)
+		{
+			Component componentTo;
+			Vector2I transformedPos = Component.ApplyConnectiveDirection(globalPos, availableConnectionFrom);
+			ComponentMap.TryGetValue(transformedPos, out componentTo);
+			if (componentTo != null)
+			{
+				SortedSet<ConnectiveDirection> availableConnectionsTo = componentTo.GetAvailableConnections();
+				foreach (var availableConnectionTo in availableConnectionsTo)
+				{
+					if(availableConnectionTo == availableConnectionFrom.Item2) 
+				}
+			}
+		}
 	}
 
-	public string GetComponentTexture(string componentPath)
+	public void UpdateComponentTexture()
 	{
-		
-		return "";
-	}
-
-	public void UpdateComponentTexture(string componentPath)
-	{
-		currentComponentPath = GetComponentTexture("components/" + componentPath);
-		Texture2D texture = ResourceLoader.Load<Texture2D>(currentComponentPath);
+		string texturePath = Connect(currentComponentPath);
+		Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
 		textureRect.SetTexture(texture);
 		colorRect.SetSize(texture.GetSize());
 	}
 	
 	public void OnTileChange()
 	{
-		UpdateComponentTexture(currentComponentPath);
+		if(isBuilding && currentComponentPath != null) UpdateComponentTexture();
 	}
 	
 	public void SwitchBuildingMode()
@@ -68,71 +81,52 @@ public partial class world : Node2D
 	
 	public void SwitchComponent(string componentPath)
 	{
-		UpdateComponentTexture(componentPath);
+		currentComponentPath = componentPath;
+		UpdateComponentTexture();
 		infoUI.Call("PopupInfo", currentComponentPath);
 	}
 
 	public bool CanPlaceComponent(Component component)
 	{
-		bool XSmaller = component.beginPosition.X < component.endPosition.X;
-		bool YSmaller = component.beginPosition.Y < component.endPosition.Y;
-		int i = component.beginPosition.X;
-		while (i != component.endPosition.X)
+		for (int i = component.beginPosition.X; i < component.endPosition.X; i++)
 		{
-			int j = component.beginPosition.Y;
-			while (j != component.endPosition.Y)
+			for (int j = component.beginPosition.Y; j < component.endPosition.Y; j++)
 			{
 				Component actualComponent;
-				if (map.TryGetValue(new Tuple<int, int>(i, j), out actualComponent) && actualComponent != null) return false;
-				if (YSmaller) j++;
-				else j--;
+				if (ComponentMap.TryGetValue(new Vector2I(i, j), out actualComponent) && actualComponent != null) return false;
 			}
-			if (XSmaller) i++;
-			else i--;
 		}
+
 		return true;
 	}
 
 	public void PlaceComponent(Component component)
 	{
 		TextureRect placedTextureRect = new TextureRect();
-		placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(component.name));
+		placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(Connect(currentComponentPath)));
 		placedTextureRect.SetPosition(textureRect.GetGlobalPosition());
 		placedTextureRect.SetRotation(textureRect.GetParent<ColorRect>().GetRotation());
 		AddChild(placedTextureRect);
-		bool XSmaller = component.beginPosition.X < component.endPosition.X;
-		bool YSmaller = component.beginPosition.Y < component.endPosition.Y;
-		int i = component.beginPosition.X;
-		while (i != component.endPosition.X)
+		for (int i = component.beginPosition.X; i < component.endPosition.X; i++)
 		{
-			int j = component.beginPosition.Y;
-			while (j != component.endPosition.Y)
+			for (int j = component.beginPosition.Y; j < component.endPosition.Y; j++)
 			{
-				map.Add(new Tuple<int, int>(i, j), component);
-				if (YSmaller) j++;
-				else j--;
+				ComponentMap.Add(new Vector2I(i, j), component);
 			}
-			if (XSmaller) i++;
-			else i--;
 		}
 	}
-	public void ClickedOnMap() {
-		
+	public void ClickedOnMap()
+	{
 		if (isBuilding && currentComponentPath != null)
 		{
 			Vector2 tileSize = tileMap.GetTileSet().GetTileSize();
 			ColorRect parent = textureRect.GetParent<ColorRect>();
-			Vector2I position = new Vector2I((int)(parent.GetPosition().X/tileSize.X), (int)(parent.GetPosition().Y/tileSize.Y));
-			Vector2I size = new Vector2I((int)(textureRect.GetSize().X/tileSize.X), (int)(textureRect.GetSize().Y/tileSize.Y));
+			Vector2I position = VectorConverter.Convert(parent.GetPosition() / tileSize);
+			Vector2I size = VectorConverter.Convert(textureRect.GetSize() / tileSize);
 			float rotation = parent.GetRotation();
-			Matrix2x2 rotationMatrix = new Matrix2x2(
-				(int)Mathf.Cos(rotation), (int)-Mathf.Sin(rotation),
-				(int)Mathf.Sin(rotation),  (int)Mathf.Cos(rotation)
-			);
-			size = rotationMatrix.Multiply(size);
+			size = Matrix2x2.GetRotationMatrix(rotation).Multiply(size);
 			
 			Component newComponent = new Component(currentComponentPath, position, size, rotation);
-			
 			if (CanPlaceComponent(newComponent)) PlaceComponent(newComponent);
 		}
 	}

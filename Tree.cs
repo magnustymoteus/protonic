@@ -48,7 +48,7 @@ public partial class Tree : Godot.Tree
 		TreeItem selected = GetSelected();
 		if (selected.GetChildCount() == 0)
 		{
-			world.Call("SwitchComponent", GetPath(selected));
+			world.Call("SwitchComponent", "./components"+GetPath(selected));
 		}
 		else DeselectAll();
 	}

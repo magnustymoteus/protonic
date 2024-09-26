@@ -10,14 +10,31 @@ static class FileLoader
         using var file = FileAccess.Open(path+"/"+fileName,FileAccess.ModeFlags.Read);
         return file != null;
     }
-    
-    public static string LoadFromFile(string path)
+
+    public static FileAccess GetFile(string path)
     {
-        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        return file;
+    }
+    public static string LoadTextFromFile(string path)
+    {
+        var file = GetFile(path);
         if (file == null) return "";
         return file.GetAsText();
     }
-    public static string SearchFile(string basePath, string file)
+
+    public static Variant LoadJsonFromFile(FileAccess file)
+    {
+        string contents = LoadTextFromFile(file);
+        Variant json = Json.ParseString(contents);
+        return json;
+    }
+    public static string LoadTextFromFile(FileAccess file)
+    {
+        if (file == null) return "";
+        return file.GetAsText();
+    }
+    public static FileAccess SearchFile(string basePath, string file)
     {
         string[] currentPathArr = basePath.Split('/');
 
@@ -26,6 +43,6 @@ static class FileLoader
             currentPathArr = currentPathArr.Take(currentPathArr.Length-1).ToArray();
         }
 
-        return LoadFromFile(currentPathArr.Join("/") + "/" + file);
+        return GetFile(currentPathArr.Join("/") + "/" + file);
     }
 }
