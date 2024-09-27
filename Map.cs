@@ -13,10 +13,18 @@ public partial class Map : ColorRect
 
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustReleased("place"))
+		
+	}
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event.IsActionPressed("place"))
 		{
 			world.Call("ClickedOnMap");
 		}
+		else if (@event.IsActionPressed("delete"))
+		{
+			world.Call("DeleteComponent");
+		}
 	}
-	
 }

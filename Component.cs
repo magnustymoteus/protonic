@@ -14,9 +14,12 @@ public enum ConnectiveDirection
 public class Component 
 {
     public string path;
+    
+    // post rotation
     public Vector2I beginPosition;
     public Vector2I endPosition;
     public float rotation;
+    
     
     // relative position (pre-rotation) -> direction
 
@@ -56,11 +59,22 @@ public class Component
 
         this.arrows.Clear();
     }
+
+    public void InvokeForEveryTile(Delegate method)
+    {
+        for (int i = this.beginPosition.X; i < this.endPosition.X; i++)
+        {
+            for (int j = this.beginPosition.Y; j < this.endPosition.Y; j++)
+            {
+                method.DynamicInvoke(new Vector2I(i, j));
+            }
+        }
+    }
+
     public void PlaceConnectionArrows(Vector2 tileSize, Node2D parent)
     {
         foreach (var connection in this.GetAvailableConnectionTargets())
         {
-            GD.Print(connection.Item1);
             Vector2 position = (connection.Item2-Component.Convert(connection.Item1)/new Vector2(2.0f, 2.0f)) * tileSize;
             Texture2D texture = ResourceLoader.Load<Texture2D>("./images/connectionArrow.png");
             float rotation = ((int)connection.Item1 + 3) % 4 * Mathf.Pi / 2;
@@ -75,6 +89,12 @@ public class Component
         }
     }
 
+    public ConnectiveDirection UndoRotation(ConnectiveDirection direction)
+    {
+        return Component.Convert(Matrix2x2.GetRotationMatrix(this.rotation).Transpose()
+            .Multiply(Component.Convert(direction)));
+    }
+
     public void AddConnection(Vector2I position, ConnectiveDirection direction)
     {
         SortedSet<ConnectiveDirection> existingConnections;
@@ -87,8 +107,15 @@ public class Component
         }
         else connections[position].Add(direction);
 
-        availableConnections[position].Remove(direction);
+        availableConnections[position].Remove(UndoRotation(direction));
     }
+
+    public void RemoveConnection(Vector2I position, ConnectiveDirection direction)
+    {
+        this.connections[position].Remove(direction);
+        availableConnections[position].Add(UndoRotation(direction));
+    }
+    
     public string GetTexturePath()
     {
         string result = this.path + "/";
@@ -100,8 +127,7 @@ public class Component
             SortedSet<ConnectiveDirection> newConnections = new SortedSet<ConnectiveDirection>();
             foreach (ConnectiveDirection direction in connection.Value)
             {
-                newConnections.Add(Component.Convert(Matrix2x2.GetRotationMatrix(this.rotation).Transpose()
-                    .Multiply(Component.Convert(direction))));
+                newConnections.Add(UndoRotation(direction));
             }
 
             foreach (ConnectiveDirection newDirection in newConnections)
