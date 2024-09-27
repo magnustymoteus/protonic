@@ -16,11 +16,11 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "textureRect", "colorRect", "tileMap", "infoUI")]
+[node name="World" type="Node2D" node_paths=PackedStringArray("buildingUI", "componentHoverRect", "colorHoverRect", "tileMap", "infoUI")]
 script = ExtResource("1_mpgw7")
 buildingUI = NodePath("buildUI")
-textureRect = NodePath("ColorRect/componentRect")
-colorRect = NodePath("ColorRect/followRect")
+componentHoverRect = NodePath("ColorRect/componentRect")
+colorHoverRect = NodePath("ColorRect/followRect")
 tileMap = NodePath("TileMapLayer")
 infoUI = NodePath("infoUI")
 

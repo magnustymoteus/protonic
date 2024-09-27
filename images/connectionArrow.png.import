@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bym3ay5dd7d6b"
-path="res://.godot/imported/disconnected.png-cc2a1404f6a3bc3c61bfb53914464f7a.ctex"
+uid="uid://fhk8q55kh3la"
+path="res://.godot/imported/connectionArrow.png-4002ae1436cb17163a5eb4098b9c3254.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/disconnected.png"
-dest_files=["res://.godot/imported/disconnected.png-cc2a1404f6a3bc3c61bfb53914464f7a.ctex"]
+source_file="res://images/connectionArrow.png"
+dest_files=["res://.godot/imported/connectionArrow.png-4002ae1436cb17163a5eb4098b9c3254.ctex"]
 
 [params]
 

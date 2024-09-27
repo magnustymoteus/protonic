@@ -32,4 +32,11 @@ public struct Matrix2x2
         Vector2 result = Multiply(new Vector2(vector.X, vector.Y));
         return new Vector2I((int)result.X, (int)result.Y);
     }
+    public Matrix2x2 Transpose()
+    {
+        return new Matrix2x2(
+            _matrix[0, 0], _matrix[1, 0],
+            _matrix[0, 1], _matrix[1, 1]
+        );
+    }
 }

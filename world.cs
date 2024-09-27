@@ -5,16 +5,18 @@ using System;
 using System.Drawing;
 using System.Linq;
 using protonic.utils;
+using Color = Godot.Color;
 
 
 public partial class world : Node2D
 {
 	[Export] private Control buildingUI;
 	
-	[Export] private TextureRect textureRect;
-	[Export] private ColorRect colorRect;
+	[Export] private TextureRect componentHoverRect;
+	[Export] private ColorRect colorHoverRect;
 	
 	[Export] private TileMapLayer tileMap;
+	private Vector2 tileSize;
 	
 	private bool isBuilding;
 
@@ -30,6 +32,7 @@ public partial class world : Node2D
 	public override void _Ready()
 	{
 		isBuilding = false;
+		tileSize = tileMap.GetTileSet().GetTileSize();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,13 +68,16 @@ public partial class world : Node2D
 	{
 		string texturePath = currentComponentPath + "/disconnected.png";
 		Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
-		textureRect.SetTexture(texture);
-		colorRect.SetSize(texture.GetSize());
+		componentHoverRect.SetTexture(texture);
+		colorHoverRect.SetSize(texture.GetSize());
 	}
+
 	
 	public void OnTileChange()
 	{
-		if(isBuilding && currentComponentPath != null) UpdateComponentTexture();
+		if(isBuilding) {
+			if(currentComponentPath != null) UpdateComponentTexture();
+		}
 	}
 	
 	public void SwitchBuildingMode()
@@ -104,14 +110,13 @@ public partial class world : Node2D
 	public void UpdateTexture(Component component)
 	{
 		TextureRect placedTextureRect;
-		GD.Print("position", component.beginPosition);
 		TextureMap.TryGetValue(component.beginPosition, out placedTextureRect);
 		bool isNew = placedTextureRect == null;
 		if (isNew)
 		{
 			placedTextureRect = new TextureRect();
-			placedTextureRect.SetPosition(textureRect.GetGlobalPosition());
-			placedTextureRect.SetRotation(textureRect.GetParent<ColorRect>().GetRotation());
+			placedTextureRect.SetPosition(componentHoverRect.GetGlobalPosition());
+			placedTextureRect.SetRotation(componentHoverRect.GetParent<ColorRect>().GetRotation());
 		}
 		placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(component.GetTexturePath()));
 		if (isNew)
@@ -127,6 +132,8 @@ public partial class world : Node2D
 		foreach (Component affectedComponent in affectedComponents)
 		{
 			UpdateTexture(affectedComponent);
+			affectedComponent.ClearConnectionArrows(this);
+			affectedComponent.PlaceConnectionArrows(tileSize, this);
 		}
 		if (affectedComponents.Count == 0) UpdateTexture(component);
 		
@@ -142,15 +149,18 @@ public partial class world : Node2D
 	{
 		if (isBuilding && currentComponentPath != null)
 		{
-			Vector2 tileSize = tileMap.GetTileSet().GetTileSize();
-			ColorRect parent = textureRect.GetParent<ColorRect>();
+			ColorRect parent = componentHoverRect.GetParent<ColorRect>();
 			Vector2I position = VectorConverter.Convert(parent.GetPosition() / tileSize);
-			Vector2I size = VectorConverter.Convert(textureRect.GetSize() / tileSize);
+			Vector2I size = VectorConverter.Convert(componentHoverRect.GetSize() / tileSize);
 			float rotation = parent.GetRotation();
 			size = Matrix2x2.GetRotationMatrix(rotation).Multiply(size);
 			
 			Component newComponent = new Component(currentComponentPath, position, size, rotation);
-			if (CanPlaceComponent(newComponent)) PlaceComponent(newComponent);
+			if (CanPlaceComponent(newComponent))
+			{
+				PlaceComponent(newComponent);
+				newComponent.PlaceConnectionArrows(tileSize, this);
+			}
 		}
 	}
 }

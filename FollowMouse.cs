@@ -24,8 +24,9 @@ public partial class FollowMouse : ColorRect
         if (Position != GetTiledPosition())
         {
             world.Call("OnTileChange");
-            Position = GetTiledPosition();
         }
+        Position = GetTiledPosition();
+
     }
     public override void _Input(InputEvent @event)
     {

@@ -17,8 +17,12 @@ public class Component
     public Vector2I beginPosition;
     public Vector2I endPosition;
     public float rotation;
+    
+    // relative position (pre-rotation) -> direction
+
     public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> availableConnections;
     public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> connections;
+    
     public static Dictionary<ConnectiveDirection, Vector2I> TransformMap = new Dictionary<ConnectiveDirection, Vector2I>
     {
         { ConnectiveDirection.Left, new Vector2I(-1, 0) },
@@ -27,6 +31,8 @@ public class Component
         { ConnectiveDirection.Right, new Vector2I(1, 0) }
 
     };
+
+    public Array<Sprite2D> arrows = new Array<Sprite2D>();
     
     public Component(string path, Vector2I position, Vector2I size, float rotation)
     {
@@ -34,15 +40,43 @@ public class Component
         this.beginPosition = GetBeginPosition(position, size);
         this.endPosition = GetEndPosition(position, size);
         this.rotation = rotation;
+        
         this.availableConnections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
         this.connections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
+        
         ImportPossibleConnections();
+    }
+
+    public void ClearConnectionArrows(Node2D parent)
+    {
+        foreach (var arrow in this.arrows)
+        {
+            parent.RemoveChild(arrow);
+        }
+
+        this.arrows.Clear();
+    }
+    public void PlaceConnectionArrows(Vector2 tileSize, Node2D parent)
+    {
+        foreach (var connection in this.GetAvailableConnectionTargets())
+        {
+            GD.Print(connection.Item1);
+            Vector2 position = (connection.Item2-Component.Convert(connection.Item1)/new Vector2(2.0f, 2.0f)) * tileSize;
+            Texture2D texture = ResourceLoader.Load<Texture2D>("./images/connectionArrow.png");
+            float rotation = ((int)connection.Item1 + 3) % 4 * Mathf.Pi / 2;
+            Sprite2D arrowRect = new Sprite2D();
+            arrowRect.SetZIndex(2);
+            arrowRect.SetTexture(texture);
+            arrowRect.SetRotation(rotation);
+            arrowRect.SetGlobalPosition(position+tileSize/2);
+            arrowRect.SetModulate(new Color(0.0f, 1.0f, 0.0f, 0.8f));
+            this.arrows.Add(arrowRect);
+            parent.AddChild(arrowRect);
+        }
     }
 
     public void AddConnection(Vector2I position, ConnectiveDirection direction)
     {
-        GD.Print("adding connection ", position, ", ", direction.ToString());
-
         SortedSet<ConnectiveDirection> existingConnections;
         this.connections.TryGetValue(position, out existingConnections);
         if (existingConnections == null)
@@ -52,6 +86,8 @@ public class Component
             connections.Add(position, existingConnections);
         }
         else connections[position].Add(direction);
+
+        availableConnections[position].Remove(direction);
     }
     public string GetTexturePath()
     {
@@ -61,9 +97,16 @@ public class Component
         foreach (var connection in connections)
         {
             result += "_" + connection.Key.X + "_" + connection.Key.Y + "_";
+            SortedSet<ConnectiveDirection> newConnections = new SortedSet<ConnectiveDirection>();
             foreach (ConnectiveDirection direction in connection.Value)
             {
-                result += direction.ToString()[0];
+                newConnections.Add(Component.Convert(Matrix2x2.GetRotationMatrix(this.rotation).Transpose()
+                    .Multiply(Component.Convert(direction))));
+            }
+
+            foreach (ConnectiveDirection newDirection in newConnections)
+            {
+                result += newDirection.ToString()[0];
             }
         }
         return result + ".png";
@@ -86,10 +129,10 @@ public class Component
         {
             foreach (var direction in availableConnectionFrom.Value)
             {
-                Vector2I position = Matrix2x2.GetRotationMatrix(rotation).Multiply(
-                    this.beginPosition + availableConnectionFrom.Key + Component.Convert(direction));
-                result.Add(new Tuple<ConnectiveDirection, Vector2I>(direction, position));
-
+                Matrix2x2 rotationMatrix = Matrix2x2.GetRotationMatrix(rotation);
+                Vector2I position = this.beginPosition+rotationMatrix.Multiply(availableConnectionFrom.Key + Component.Convert(direction));
+                ConnectiveDirection rotatedDirection = Component.Convert(rotationMatrix.Multiply(Component.Convert(direction)));
+                result.Add(new Tuple<ConnectiveDirection, Vector2I>(rotatedDirection, position));
             }
         }
 
