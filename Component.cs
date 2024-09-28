@@ -60,17 +60,6 @@ public class Component
         this.arrows.Clear();
     }
 
-    public void InvokeForEveryTile(Delegate method)
-    {
-        for (int i = this.beginPosition.X; i < this.endPosition.X; i++)
-        {
-            for (int j = this.beginPosition.Y; j < this.endPosition.Y; j++)
-            {
-                method.DynamicInvoke(new Vector2I(i, j));
-            }
-        }
-    }
-
     public void PlaceConnectionArrows(Vector2 tileSize, Node2D parent)
     {
         foreach (var connection in this.GetAvailableConnectionTargets())
@@ -113,6 +102,7 @@ public class Component
     public void RemoveConnection(Vector2I position, ConnectiveDirection direction)
     {
         this.connections[position].Remove(direction);
+        if (this.connections[position].Count == 0) this.connections.Remove(position);
         availableConnections[position].Add(UndoRotation(direction));
     }
     
@@ -155,8 +145,8 @@ public class Component
         {
             foreach (var direction in availableConnectionFrom.Value)
             {
-                Matrix2x2 rotationMatrix = Matrix2x2.GetRotationMatrix(rotation);
-                Vector2I position = this.beginPosition+rotationMatrix.Multiply(availableConnectionFrom.Key + Component.Convert(direction));
+                Matrix2x2 rotationMatrix = Matrix2x2.GetRotationMatrix(this.rotation);
+                Vector2I position = GetTargetPosition(availableConnectionFrom.Key, direction);
                 ConnectiveDirection rotatedDirection = Component.Convert(rotationMatrix.Multiply(Component.Convert(direction)));
                 result.Add(new Tuple<ConnectiveDirection, Vector2I>(rotatedDirection, position));
             }
@@ -165,6 +155,10 @@ public class Component
         return result;
     }
 
+    public Vector2I GetTargetPosition(Vector2I position, ConnectiveDirection direction)
+    {
+        return this.beginPosition + Matrix2x2.GetRotationMatrix(this.rotation).Multiply(position + Component.Convert(direction));
+    }
     public static Vector2I Convert(ConnectiveDirection direction)
     {
         return TransformMap[direction];

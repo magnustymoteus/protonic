@@ -56,15 +56,25 @@ public class MapManager
         Textures.Remove(component.beginPosition);
         root.RemoveChild(rect);
         component.ClearConnectionArrows(root);
-        component.InvokeForEveryTile(DeleteComponent);
-        foreach (var target in component.GetAvailableConnectionTargets())
+        
+        for (int i = component.beginPosition.X; i < component.endPosition.X; i++)
         {
-	        Component targetComponent = GetComponent(target.Item2);
-	        if (targetComponent != null)
+	        for (int j = component.beginPosition.Y; j < component.endPosition.Y; j++)
 	        {
-		        GD.Print(targetComponent.beginPosition);
-		        targetComponent.RemoveConnection(target.Item2-Component.Convert(target.Item1), 
-			        Component.Convert(-Component.Convert(target.Item1)));
+		        Components.Remove(new Vector2I(i, j));
+	        }
+        }
+        
+        // FIX THIS
+        foreach (var connection in component.connections)
+        {
+	        foreach (var direction in connection.Value)
+	        {
+		        Vector2I targetPos = component.beginPosition+connection.Key + Component.Convert(direction);
+		        Component targetComponent = GetComponent(targetPos);
+				GD.Print(targetPos);
+				GD.Print(component.beginPosition+connection.Key-targetComponent.beginPosition);
+		        targetComponent.RemoveConnection(component.beginPosition+connection.Key+Component.Convert(direction)-targetComponent.beginPosition, Component.Convert(-Component.Convert(direction)));
 		        targetComponent.ClearConnectionArrows(root);
 		        targetComponent.PlaceConnectionArrows(root.TileSize, root);
 		        UpdateTexture(targetComponent);
