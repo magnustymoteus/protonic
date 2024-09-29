@@ -1,8 +1,9 @@
 ﻿namespace protonic;
+using protonic.utils;
 using System.Collections.Generic;
 using Godot;
 
-public class MapManager
+public class MapManager 
 {
     public Dictionary<Vector2I, Component> Components = new Dictionary<Vector2I, Component>();
     public Dictionary<Vector2I, TextureRect> Textures = new Dictionary<Vector2I, TextureRect>();
@@ -30,7 +31,7 @@ public class MapManager
     {
         return GetComponent(tile) != null;
     }
-    public void AddComponent(Component component)
+    public void AddComponent(Component component, bool addToActions=true)
     {
 	    var affectedComponents = Connect(component);
 	    foreach (Component affectedComponent in affectedComponents)
@@ -48,9 +49,23 @@ public class MapManager
 			    Components.Add(new Vector2I(i, j), component);
 		    }
 	    }
+
+
+	    if (addToActions)
+	    {
+		    Action action = new Action(
+			    "Add Component",
+			    () => AddComponent(component, false)
+		    );
+		    action.UndoAction = new Action(
+			    "Remove Component",
+			    () => DeleteComponent(component, false)
+		    );
+		    root.ActionManager.AddAction(action);
+	    }
     }
 
-    public void DeleteComponent(Component component)
+    public void DeleteComponent(Component component, bool addToActions=true)
     {
         TextureRect rect = GetTexture(component.beginPosition);
         Textures.Remove(component.beginPosition);
@@ -65,20 +80,30 @@ public class MapManager
 	        }
         }
         
-        // FIX THIS
         foreach (var connection in component.connections)
         {
 	        foreach (var direction in connection.Value)
 	        {
 		        Vector2I targetPos = component.beginPosition+connection.Key + Component.Convert(direction);
 		        Component targetComponent = GetComponent(targetPos);
-				GD.Print(targetPos);
-				GD.Print(component.beginPosition+connection.Key-targetComponent.beginPosition);
 		        targetComponent.RemoveConnection(component.beginPosition+connection.Key+Component.Convert(direction)-targetComponent.beginPosition, Component.Convert(-Component.Convert(direction)));
 		        targetComponent.ClearConnectionArrows(root);
 		        targetComponent.PlaceConnectionArrows(root.TileSize, root);
 		        UpdateTexture(targetComponent);
 	        }
+        }
+
+        if (addToActions)
+        {
+	        Action action = new Action(
+		        "Remove Component",
+		        () => DeleteComponent(component, false)
+	        );
+	        action.UndoAction = new Action(
+		        "Add Component",
+		        () => AddComponent(component, false)
+	        );
+	        root.ActionManager.AddAction(action);
         }
     }
     

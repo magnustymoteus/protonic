@@ -17,18 +17,18 @@ public partial class World : Node2D
 	
 	[Export] public TileMapLayer TileMap;
 	public Vector2 TileSize;
-	
-	public bool IsBuilding;
+
+	public bool IsBuilding = false;
 
 	public string CurrentComponentPath;
 	
 	[Export] public Control InfoUI;
 
 	public MapManager Map;
+	public ActionManager ActionManager = ActionManager.GetInstance();
 		
 	public override void _Ready()
 	{
-		IsBuilding = false;
 		TileSize = TileMap.GetTileSet().GetTileSize();
 		Map = new MapManager(this);
 	}
@@ -91,5 +91,11 @@ public partial class World : Node2D
 				newComponent.PlaceConnectionArrows(TileSize, this);
 			}
 		}
+	}
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if(@event.IsActionPressed("undo")) ActionManager.Undo();
+		else if(@event.IsActionPressed("redo")) ActionManager.Redo();
 	}
 }
