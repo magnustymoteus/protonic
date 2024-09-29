@@ -33,7 +33,6 @@ public class ActionManager : Singleton<ActionManager>
         {
             Action action = UndoneActions.Pop();
             AddAction(action);
-            GD.Print("do ", action.Name);
 
             action.Delegate.DynamicInvoke();
         }

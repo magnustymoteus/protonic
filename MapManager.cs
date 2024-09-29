@@ -33,6 +33,8 @@ public class MapManager
     }
     public void AddComponent(Component component, bool addToActions=true)
     {
+	    if (!CanPlaceComponent(component)) return;
+	    
 	    var affectedComponents = Connect(component);
 	    foreach (Component affectedComponent in affectedComponents)
 	    {
@@ -49,14 +51,14 @@ public class MapManager
 			    Components.Add(new Vector2I(i, j), component);
 		    }
 	    }
-
+		component.PlaceConnectionArrows(root.TileSize, root);
 
 	    if (addToActions)
 	    {
 		    Action action = new Action(
 			    "Add Component",
 			    () => AddComponent(component, false)
-		    );
+			    );
 		    action.UndoAction = new Action(
 			    "Remove Component",
 			    () => DeleteComponent(component, false)
@@ -90,9 +92,15 @@ public class MapManager
 		        targetComponent.ClearConnectionArrows(root);
 		        targetComponent.PlaceConnectionArrows(root.TileSize, root);
 		        UpdateTexture(targetComponent);
+
+		        component.availableConnections[connection.Key].Add(component.UndoRotation(direction));
 	        }
         }
+        
+        component.connections.Clear();
 
+        
+        
         if (addToActions)
         {
 	        Action action = new Action(
@@ -125,7 +133,6 @@ public class MapManager
 			    }
 		    }
 	    }
-
 	    return affectedComponents;
     }
     
@@ -136,8 +143,8 @@ public class MapManager
 	    if (isNew)
 	    {
 		    placedTextureRect = new TextureRect();
-		    placedTextureRect.SetPosition(root.ComponentHoverRect.GetGlobalPosition());
-		    placedTextureRect.SetRotation(root.ComponentHoverRect.GetParent<ColorRect>().GetRotation());
+		    placedTextureRect.SetPosition(component.beginPosition*root.TileSize);
+		    placedTextureRect.SetRotation(component.rotation);
 	    }
 	    placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(component.GetTexturePath()));
 	    if (isNew)

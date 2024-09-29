@@ -85,11 +85,7 @@ public partial class World : Node2D
 			size = Matrix2x2.GetRotationMatrix(rotation).Multiply(size);
 			
 			Component newComponent = new Component(CurrentComponentPath, position, size, rotation);
-			if (Map.CanPlaceComponent(newComponent))
-			{
-				Map.AddComponent(newComponent);
-				newComponent.PlaceConnectionArrows(TileSize, this);
-			}
+			Map.AddComponent(newComponent);
 		}
 	}
 
