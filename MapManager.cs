@@ -6,7 +6,7 @@ using Godot;
 public class MapManager 
 {
     public Dictionary<Vector2I, Component> Components = new Dictionary<Vector2I, Component>();
-    public Dictionary<Vector2I, TextureRect> Textures = new Dictionary<Vector2I, TextureRect>();
+    public Dictionary<Vector2I, Sprite2D> Textures = new Dictionary<Vector2I, Sprite2D>();
 
     protected World root;
     public MapManager(World root)
@@ -20,9 +20,9 @@ public class MapManager
         return result;
     }
     
-    public TextureRect GetTexture(Vector2I tile)
+    public Sprite2D GetTexture(Vector2I tile)
     {
-	    TextureRect result;
+	    Sprite2D result;
 	    this.Textures.TryGetValue(tile, out result);
 	    return result;
     }
@@ -69,7 +69,7 @@ public class MapManager
 
     public void DeleteComponent(Component component, bool addToActions=true)
     {
-        TextureRect rect = GetTexture(component.beginPosition);
+        Sprite2D rect = GetTexture(component.beginPosition);
         Textures.Remove(component.beginPosition);
         root.RemoveChild(rect);
         component.ClearConnectionArrows(root);
@@ -138,19 +138,20 @@ public class MapManager
     
     public void UpdateTexture(Component component)
     {
-	    TextureRect placedTextureRect = GetTexture(component.beginPosition);
-	    bool isNew = placedTextureRect == null;
+	    Sprite2D placedSprite = GetTexture(component.beginPosition);
+	    bool isNew = placedSprite == null;
 	    if (isNew)
 	    {
-		    placedTextureRect = new TextureRect();
-		    placedTextureRect.SetPosition(component.beginPosition*root.TileSize);
-		    placedTextureRect.SetRotation(component.rotation);
+		    placedSprite = new Sprite2D();
+		    placedSprite.SetGlobalPosition((component.beginPosition+new Vector2(0.5f, 0.5f)) * root.TileSize);
+		    placedSprite.SetCentered(true);
+		    placedSprite.SetRotation(component.rotation);
 	    }
-	    placedTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(component.GetTexturePath()));
+	    placedSprite.SetTexture(ResourceLoader.Load<Texture2D>(component.GetTexturePath()));
 	    if (isNew)
 	    {
-		    root.AddChild(placedTextureRect);
-		    Textures.Add(component.beginPosition, placedTextureRect);
+		    root.AddChild(placedSprite);
+		    Textures.Add(component.beginPosition, placedSprite);
 	    }
     }
 
