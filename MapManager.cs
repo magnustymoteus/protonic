@@ -143,9 +143,9 @@ public class MapManager
 	    if (isNew)
 	    {
 		    placedSprite = new Sprite2D();
-		    placedSprite.SetGlobalPosition((component.beginPosition+new Vector2(0.5f, 0.5f)) * root.TileSize);
 		    placedSprite.SetCentered(true);
 		    placedSprite.SetRotation(component.rotation);
+		    placedSprite.SetPosition((VectorConverter.Convert(component.beginPosition+component.endPosition)/2.0f)*root.TileSize);
 	    }
 	    placedSprite.SetTexture(ResourceLoader.Load<Texture2D>(component.GetTexturePath()));
 	    if (isNew)
