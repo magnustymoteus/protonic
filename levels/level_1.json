@@ -5,7 +5,8 @@ lattices.",
 	"tasks": [
 		{
 			"type": "build",
-			"component": "beamline_tube",
+			"position": [0,0],
+			"component": "beamline_tube/straight",
 			"description": "Build a beamline tube",
 		},
 	],

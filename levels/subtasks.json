@@ -1,0 +1,12 @@
+{
+	"subtasks": [
+		{
+			"id": 0,
+			"type": "build",
+		},
+		{
+			"id": 1,
+			"type": "upgrade",
+		},
+	]
+}

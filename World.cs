@@ -26,7 +26,17 @@ public partial class World : Node2D
 
 	public MapManager Map;
 	public ActionManager ActionManager = ActionManager.GetInstance();
-		
+
+	public string CurrentLevelPath;
+
+	public World(int Level)
+	{
+		CurrentLevelPath = "./levels/level_" + Level + ".json";
+;	}
+
+	public World() : this(1)
+	{ }
+
 	public override void _Ready()
 	{
 		TileSize = TileMap.GetTileSet().GetTileSize();
