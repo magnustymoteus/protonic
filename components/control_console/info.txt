@@ -1,0 +1,1 @@
+The control console features multiple screens displaying real-time data on beam status, power levels, and diagnostics, along with controls for adjusting settings, managing components, and triggering emergency shutdowns. 

@@ -8,7 +8,7 @@ public class MapManager
     public Dictionary<Vector2I, Component> Components = new Dictionary<Vector2I, Component>();
     public Dictionary<Vector2I, Sprite2D> Textures = new Dictionary<Vector2I, Sprite2D>();
 
-    protected World root;
+    public World root;
     public MapManager(World root)
     {
 	    this.root = root;

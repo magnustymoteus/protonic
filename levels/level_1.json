@@ -1,0 +1,12 @@
+{
+	"name": "Linear Accelerators",
+	"description": "Introduction to particle acceleration. Focus is on particle sources, RF cavities, and FODO-
+lattices.",
+	"tasks": [
+		{
+			"type": "build",
+			"component": "beamline_tube",
+			"description": "Build a beamline tube",
+		},
+	],
+}

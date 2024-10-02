@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c74atj8f1b45o"]
+[gd_scene load_steps=15 format=3 uid="uid://c74atj8f1b45o"]
 
 [ext_resource type="Script" path="res://movement.cs" id="1_bnikr"]
 [ext_resource type="Script" path="res://World.cs" id="1_rwg22"]
@@ -6,9 +6,12 @@
 [ext_resource type="Script" path="res://TileMapLayer.cs" id="3_kh37h"]
 [ext_resource type="Script" path="res://Map.cs" id="4_lvv8j"]
 [ext_resource type="Script" path="res://BuildButton.cs" id="5_2lm7o"]
+[ext_resource type="FontFile" uid="uid://d21b5xackhtje" path="res://fonts/oxanium/Oxanium-Bold.ttf" id="6_1rmw4"]
 [ext_resource type="Script" path="res://InfoUI.cs" id="8_5u2q8"]
 [ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://images/info.png" id="8_uiuo6"]
 [ext_resource type="Script" path="res://Tree.cs" id="9_6r6ng"]
+[ext_resource type="Script" path="res://TaskUI.cs" id="10_1mwgy"]
+[ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://fonts/oxanium/Oxanium-Regular.ttf" id="10_k4i0r"]
 
 [sub_resource type="TileSet" id="TileSet_3d7cb"]
 tile_size = Vector2i(32, 32)
@@ -39,6 +42,7 @@ color = Color(0.544974, 0.544974, 0.544974, 1)
 script = ExtResource("4_lvv8j")
 world = NodePath("..")
 followRect = NodePath("../ColorRect")
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="." node_paths=PackedStringArray("tileMapLayer", "world")]
 offset_right = 32.0
@@ -49,6 +53,7 @@ color = Color(1, 1, 1, 0)
 script = ExtResource("2_o2urw")
 tileMapLayer = NodePath("../TileMapLayer")
 world = NodePath("..")
+metadata/_edit_use_anchors_ = true
 
 [node name="componentRect" type="TextureRect" parent="ColorRect"]
 modulate = Color(1, 1, 1, 0.52549)
@@ -93,12 +98,14 @@ offset_left = 1617.0
 offset_top = 981.0
 offset_right = 1884.0
 offset_bottom = 1044.0
+theme_override_fonts/font = ExtResource("6_1rmw4")
 theme_override_font_sizes/font_size = 40
 text = "Build Mode
 "
 script = ExtResource("5_2lm7o")
 buildUI = NodePath("../buildUI")
 world = NodePath("..")
+metadata/_edit_use_anchors_ = true
 
 [node name="buildUI" type="Control" parent="."]
 visible = false
@@ -115,6 +122,7 @@ offset_left = 50.0
 offset_top = 29.0
 offset_right = 290.0
 offset_bottom = 237.0
+theme_override_fonts/font = ExtResource("6_1rmw4")
 allow_search = false
 script = ExtResource("9_6r6ng")
 world = NodePath("../..")
@@ -150,6 +158,8 @@ offset_top = 96.0
 offset_right = 321.0
 offset_bottom = 223.0
 theme_override_colors/default_color = Color(1, 1, 1, 0.6)
+theme_override_fonts/normal_font = ExtResource("10_k4i0r")
+theme_override_fonts/bold_font = ExtResource("6_1rmw4")
 
 [node name="InfoIcon" type="TextureRect" parent="infoUI/ColorRect"]
 modulate = Color(100, 100, 100, 0.6)
@@ -172,3 +182,19 @@ offset_bottom = 61.0
 theme_override_font_sizes/font_size = 40
 text = "X"
 flat = true
+
+[node name="taskUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_1mwgy")
+metadata/_edit_use_anchors_ = true
+
+[node name="taskTree" type="Tree" parent="taskUI"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 736.0
+offset_right = 459.0
+offset_bottom = 1040.0
+metadata/_edit_use_anchors_ = true
