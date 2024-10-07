@@ -5,9 +5,15 @@ lattices.",
 	"tasks": [
 		{
 			"type": "build",
-			"position": [0,0],
+			"position": [30,30],
 			"component": "beamline_tube/straight",
-			"description": "Build a beamline tube",
+			"description": "Build a beamline tube!",
+		},
+		{
+			"type": "build",
+			"position": [10,10],
+			"component": "beamline_tube/control_console",
+			"description": "Build a control console!"
 		},
 	],
 }
