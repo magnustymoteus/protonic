@@ -21,11 +21,125 @@ size = Vector2(41, 40)
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ComponentHoverRect", "ColorHoverRect", "TileMap", "InfoUI")]
 script = ExtResource("1_rwg22")
-BuildingUI = NodePath("buildUI")
+BuildingUI = NodePath("CanvasLayer/buildUI")
 ComponentHoverRect = NodePath("ColorRect/componentRect")
 ColorHoverRect = NodePath("ColorRect/followRect")
 TileMap = NodePath("TileMapLayer")
-InfoUI = NodePath("infoUI")
+InfoUI = NodePath("CanvasLayer/infoUI")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="taskUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("Tasks")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 57.0
+offset_top = 713.0
+offset_right = 97.0
+offset_bottom = 753.0
+script = ExtResource("10_1mwgy")
+Tasks = NodePath("../../Tasks")
+metadata/_edit_use_anchors_ = true
+
+[node name="taskTree" type="Tree" parent="CanvasLayer/taskUI"]
+layout_mode = 0
+offset_right = 420.0
+offset_bottom = 300.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="components" type="Node2D" parent="CanvasLayer"]
+
+[node name="BuildButton" type="CheckButton" parent="CanvasLayer" node_paths=PackedStringArray("buildUI", "world")]
+z_index = 2
+offset_left = 1617.0
+offset_top = 981.0
+offset_right = 1884.0
+offset_bottom = 1044.0
+theme_override_fonts/font = ExtResource("6_1rmw4")
+theme_override_font_sizes/font_size = 40
+text = "Build Mode
+"
+script = ExtResource("5_2lm7o")
+buildUI = NodePath("../buildUI")
+world = NodePath("../..")
+metadata/_edit_use_anchors_ = true
+
+[node name="buildUI" type="Control" parent="CanvasLayer"]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Tree" type="Tree" parent="CanvasLayer/buildUI" node_paths=PackedStringArray("world")]
+z_index = 2
+layout_mode = 0
+offset_left = 50.0
+offset_top = 29.0
+offset_right = 290.0
+offset_bottom = 237.0
+theme_override_fonts/font = ExtResource("6_1rmw4")
+allow_search = false
+script = ExtResource("9_6r6ng")
+world = NodePath("../../..")
+
+[node name="infoUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("currentInfoText", "infoRect", "closeButton")]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1733.0
+offset_top = 21.0
+offset_right = 1773.0
+offset_bottom = 61.0
+script = ExtResource("8_5u2q8")
+currentInfoText = NodePath("ColorRect/InfoText")
+infoRect = NodePath("ColorRect")
+closeButton = NodePath("ColorRect/CloseButton")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/infoUI"]
+z_index = 2
+layout_mode = 0
+offset_left = -215.0
+offset_top = 36.0
+offset_right = 133.0
+offset_bottom = 292.0
+color = Color(0.346, 0.548, 1, 0.6)
+
+[node name="InfoText" type="RichTextLabel" parent="CanvasLayer/infoUI/ColorRect"]
+z_index = 2
+layout_mode = 0
+offset_left = 31.0
+offset_top = 96.0
+offset_right = 321.0
+offset_bottom = 223.0
+theme_override_colors/default_color = Color(1, 1, 1, 0.6)
+theme_override_fonts/normal_font = ExtResource("10_k4i0r")
+theme_override_fonts/bold_font = ExtResource("6_1rmw4")
+
+[node name="InfoIcon" type="TextureRect" parent="CanvasLayer/infoUI/ColorRect"]
+modulate = Color(100, 100, 100, 0.6)
+z_index = 2
+layout_mode = 0
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 536.0
+offset_bottom = 520.0
+scale = Vector2(0.135396, 0.139156)
+texture = ExtResource("8_uiuo6")
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/infoUI/ColorRect"]
+z_index = 2
+layout_mode = 0
+offset_left = 302.0
+offset_top = -2.0
+offset_right = 339.0
+offset_bottom = 61.0
+theme_override_font_sizes/font_size = 40
+text = "X"
+flat = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
 tile_set = SubResource("TileSet_3d7cb")
@@ -57,6 +171,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="componentRect" type="TextureRect" parent="ColorRect"]
 modulate = Color(1, 1, 1, 0.52549)
+texture_filter = 1
 layout_mode = 0
 
 [node name="followRect" type="ColorRect" parent="ColorRect"]
@@ -90,112 +205,10 @@ color = Color(0, 0, 0, 1)
 position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_u688n")
 
-[node name="components" type="Node2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 
-[node name="BuildButton" type="CheckButton" parent="." node_paths=PackedStringArray("buildUI", "world")]
-z_index = 2
-offset_left = 1617.0
-offset_top = 981.0
-offset_right = 1884.0
-offset_bottom = 1044.0
-theme_override_fonts/font = ExtResource("6_1rmw4")
-theme_override_font_sizes/font_size = 40
-text = "Build Mode
-"
-script = ExtResource("5_2lm7o")
-buildUI = NodePath("../buildUI")
-world = NodePath("..")
-metadata/_edit_use_anchors_ = true
-
-[node name="buildUI" type="Control" parent="."]
-visible = false
-z_index = 2
+[node name="Tasks" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="Tree" type="Tree" parent="buildUI" node_paths=PackedStringArray("world")]
-z_index = 2
-layout_mode = 0
-offset_left = 50.0
-offset_top = 29.0
-offset_right = 290.0
-offset_bottom = 237.0
-theme_override_fonts/font = ExtResource("6_1rmw4")
-allow_search = false
-script = ExtResource("9_6r6ng")
-world = NodePath("../..")
-
-[node name="infoUI" type="Control" parent="." node_paths=PackedStringArray("currentInfoText", "infoRect", "closeButton")]
-visible = false
-z_index = 2
-layout_mode = 3
-anchors_preset = 0
-offset_left = 1733.0
-offset_top = 21.0
-offset_right = 1773.0
-offset_bottom = 61.0
-script = ExtResource("8_5u2q8")
-currentInfoText = NodePath("ColorRect/InfoText")
-infoRect = NodePath("ColorRect")
-closeButton = NodePath("ColorRect/CloseButton")
-
-[node name="ColorRect" type="ColorRect" parent="infoUI"]
-z_index = 2
-layout_mode = 0
-offset_left = -215.0
-offset_top = 36.0
-offset_right = 133.0
-offset_bottom = 292.0
-color = Color(0.346, 0.548, 1, 0.6)
-
-[node name="InfoText" type="RichTextLabel" parent="infoUI/ColorRect"]
-z_index = 2
-layout_mode = 0
-offset_left = 31.0
-offset_top = 96.0
-offset_right = 321.0
-offset_bottom = 223.0
-theme_override_colors/default_color = Color(1, 1, 1, 0.6)
-theme_override_fonts/normal_font = ExtResource("10_k4i0r")
-theme_override_fonts/bold_font = ExtResource("6_1rmw4")
-
-[node name="InfoIcon" type="TextureRect" parent="infoUI/ColorRect"]
-modulate = Color(100, 100, 100, 0.6)
-z_index = 2
-layout_mode = 0
-offset_left = 24.0
-offset_top = 8.0
-offset_right = 536.0
-offset_bottom = 520.0
-scale = Vector2(0.135396, 0.139156)
-texture = ExtResource("8_uiuo6")
-
-[node name="CloseButton" type="Button" parent="infoUI/ColorRect"]
-z_index = 2
-layout_mode = 0
-offset_left = 302.0
-offset_top = -2.0
-offset_right = 339.0
-offset_bottom = 61.0
-theme_override_font_sizes/font_size = 40
-text = "X"
-flat = true
-
-[node name="taskUI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 57.0
-offset_top = 716.0
-offset_right = 97.0
-offset_bottom = 756.0
-script = ExtResource("10_1mwgy")
-metadata/_edit_use_anchors_ = true
-
-[node name="taskTree" type="Tree" parent="taskUI"]
-layout_mode = 0
-offset_right = 420.0
-offset_bottom = 300.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-metadata/_edit_use_anchors_ = true

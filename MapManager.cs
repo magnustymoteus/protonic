@@ -143,6 +143,7 @@ public class MapManager
 	    if (isNew)
 	    {
 		    placedSprite = new Sprite2D();
+		    placedSprite.SetTextureFilter(CanvasItem.TextureFilterEnum.Nearest);
 		    placedSprite.SetCentered(true);
 		    placedSprite.SetRotation(component.rotation);
 		    placedSprite.SetPosition((VectorConverter.Convert(component.beginPosition+component.endPosition)/2.0f)*root.TileSize);

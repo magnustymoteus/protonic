@@ -9,10 +9,12 @@ public partial class TaskUI : Control
 	private Godot.Tree TaskTree;
 
 	public Variant CurrentLevel;
+
+	[Export] public Control Tasks;
 	
 	public void SetUpTasks(TreeItem root)
 	{
-		World world = GetParent<World>();
+		World world = GetTree().GetRoot().GetChild<World>(0);
 		foreach (var CurrentTask in CurrentLevel.AsGodotDictionary()["tasks"].AsGodotArray())
 		{
 			var CurrentTaskDict = CurrentTask.AsGodotDictionary();
@@ -21,10 +23,10 @@ public partial class TaskUI : Control
 			switch (CurrentTaskDict["type"].AsString())
 			{
 				case "build":
-					// TODO: fix this
 					Array<int> position = CurrentTaskDict["position"].AsGodotArray<int>();
-					Circle circle = new Circle(new Vector2(position[0], position[1])*32, 25, new Color(0.2f, 0.2f, 0.2f));
-					AddChild(circle);
+					Vector2 vectorPos = new Vector2(position[0], position[1]) * 32;
+					CircleControl circleControl = new CircleControl(vectorPos, CurrentTaskDict["type"].AsString());
+					Tasks.AddChild(circleControl);
 					break;
 				default:
 					break;
@@ -36,7 +38,7 @@ public partial class TaskUI : Control
 		TaskTree = GetChild<Godot.Tree>(0);
 		TreeItem root = TaskTree.CreateItem();
 		root.SetText(0,"Tasks");
-		CurrentLevel = FileLoader.LoadJsonFromFile(FileLoader.GetFile(GetParent<World>().CurrentLevelPath));
+		CurrentLevel = FileLoader.LoadJsonFromFile(FileLoader.GetFile(GetTree().GetRoot().GetChild<World>(0).CurrentLevelPath));
 		SetUpTasks(root);
 	}
 
