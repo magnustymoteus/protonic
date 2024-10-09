@@ -101,7 +101,7 @@ public partial class World : Node2D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed("undo")) ActionManager.Undo();
-		else if(@event.IsActionPressed("redo")) ActionManager.Redo();
+		if(Input.IsActionPressed("undo")) ActionManager.Undo();
+		else if(Input.IsActionPressed("redo")) ActionManager.Redo();
 	}
 }

@@ -1,16 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://c74atj8f1b45o"]
+[gd_scene load_steps=16 format=3 uid="uid://c74atj8f1b45o"]
 
 [ext_resource type="Script" path="res://movement.cs" id="1_bnikr"]
 [ext_resource type="Script" path="res://World.cs" id="1_rwg22"]
+[ext_resource type="Script" path="res://TaskUI/TaskUI.cs" id="2_dvk7q"]
 [ext_resource type="Script" path="res://FollowMouse.cs" id="2_o2urw"]
+[ext_resource type="Script" path="res://TaskUI/TaskTree.cs" id="3_510aq"]
 [ext_resource type="Script" path="res://TileMapLayer.cs" id="3_kh37h"]
 [ext_resource type="Script" path="res://Map.cs" id="4_lvv8j"]
 [ext_resource type="Script" path="res://BuildButton.cs" id="5_2lm7o"]
+[ext_resource type="Script" path="res://ComponentTree.cs" id="5_cyd18"]
 [ext_resource type="FontFile" uid="uid://d21b5xackhtje" path="res://fonts/oxanium/Oxanium-Bold.ttf" id="6_1rmw4"]
 [ext_resource type="Script" path="res://InfoUI.cs" id="8_5u2q8"]
 [ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://images/info.png" id="8_uiuo6"]
-[ext_resource type="Script" path="res://Tree.cs" id="9_6r6ng"]
-[ext_resource type="Script" path="res://TaskUI.cs" id="10_1mwgy"]
 [ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://fonts/oxanium/Oxanium-Regular.ttf" id="10_k4i0r"]
 
 [sub_resource type="TileSet" id="TileSet_3d7cb"]
@@ -37,7 +38,7 @@ offset_left = 57.0
 offset_top = 713.0
 offset_right = 97.0
 offset_bottom = 753.0
-script = ExtResource("10_1mwgy")
+script = ExtResource("2_dvk7q")
 Tasks = NodePath("../../Tasks")
 metadata/_edit_use_anchors_ = true
 
@@ -45,7 +46,10 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 0
 offset_right = 420.0
 offset_bottom = 300.0
+focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+allow_search = false
+script = ExtResource("3_510aq")
 metadata/_edit_use_anchors_ = true
 
 [node name="components" type="Node2D" parent="CanvasLayer"]
@@ -80,9 +84,10 @@ offset_left = 50.0
 offset_top = 29.0
 offset_right = 290.0
 offset_bottom = 237.0
+focus_mode = 0
 theme_override_fonts/font = ExtResource("6_1rmw4")
 allow_search = false
-script = ExtResource("9_6r6ng")
+script = ExtResource("5_cyd18")
 world = NodePath("../../..")
 
 [node name="infoUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("currentInfoText", "infoRect", "closeButton")]
@@ -133,10 +138,10 @@ texture = ExtResource("8_uiuo6")
 [node name="CloseButton" type="Button" parent="CanvasLayer/infoUI/ColorRect"]
 z_index = 2
 layout_mode = 0
-offset_left = 302.0
+offset_left = 309.0
 offset_top = -2.0
-offset_right = 339.0
-offset_bottom = 61.0
+offset_right = 346.0
+offset_bottom = 47.0
 theme_override_font_sizes/font_size = 40
 text = "X"
 flat = true

@@ -1,5 +1,5 @@
+using System.Linq;
 using Godot;
-using System;
 using Godot.Collections;
 using protonic;
 using protonic.utils;
@@ -8,13 +8,23 @@ public partial class TaskUI : Control
 	// Called when the node enters the scene tree for the first time.
 	private Godot.Tree TaskTree;
 
-	public Variant CurrentLevel;
+	private Variant CurrentLevel;
 
-	[Export] public Control Tasks;
-	
-	public void SetUpTasks(TreeItem root)
+	[Export] private Control Tasks;
+
+	public void DeselectAllTasks()
 	{
-		World world = GetTree().GetRoot().GetChild<World>(0);
+		foreach (CircleControl TaskCircle in Tasks.GetChildren()) TaskCircle.SetSelect(false);
+	}
+	
+	public void SelectTask(int index)
+	{
+		DeselectAllTasks();
+		Tasks.GetChild<CircleControl>(index).SetSelect(true);
+	}
+	
+	private void SetUpTasks(TreeItem root)
+	{
 		foreach (var CurrentTask in CurrentLevel.AsGodotDictionary()["tasks"].AsGodotArray())
 		{
 			var CurrentTaskDict = CurrentTask.AsGodotDictionary();

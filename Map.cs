@@ -3,7 +3,7 @@ using System;
 
 public partial class Map : ColorRect
 {
-	[Export] private Node2D world;
+	[Export] private World world;
 
 	[Export] private ColorRect followRect;
 
@@ -18,13 +18,13 @@ public partial class Map : ColorRect
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		if (@event.IsActionPressed("place"))
+		if (Input.IsActionPressed("place"))
 		{
-			world.Call("ClickedOnMap");
+			world.ClickedOnMap();
 		}
-		else if (@event.IsActionPressed("delete"))
+		else if (Input.IsActionPressed("delete"))
 		{
-			world.Call("DeleteComponent");
+			world.DeleteComponent();
 		}
 	}
 }

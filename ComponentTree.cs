@@ -4,7 +4,7 @@ using System.Linq;
 using protonic.utils;
 
 
-public partial class Tree : Godot.Tree
+public partial class ComponentTree : Godot.Tree
 {
 	[Export] private Node2D world;
 	// Called when the node enters the scene tree for the first time.
