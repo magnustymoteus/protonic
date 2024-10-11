@@ -126,8 +126,11 @@ public class MapManager
 			    Vector2I sourceConnectPos = targetFrom.Item2 - Component.Convert(targetFrom.Item1);
 			    if (targetComponent.CanConnect(sourceConnectPos))
 			    {
-				    sourceComponent.AddConnection(sourceConnectPos- sourceComponent.beginPosition, targetFrom.Item1);
-				    targetComponent.AddConnection(targetFrom.Item2-targetComponent.beginPosition, Component.Convert(-Component.Convert(targetFrom.Item1)));
+				    GD.Print("sourceComp add connection: ", sourceConnectPos, "-", sourceComponent.beginPosition, ",", targetFrom.Item1);
+				    GD.Print("targetComp add connection: ", targetFrom.Item2, "-", targetComponent.beginPosition, ",", Component.Convert(-Component.Convert(targetFrom.Item1)));
+				    // TODO: fix bug here
+				    sourceComponent.AddConnection(sourceConnectPos- sourceComponent.rectBeginPosition, targetFrom.Item1);
+				    targetComponent.AddConnection(targetFrom.Item2-targetComponent.rectBeginPosition, Component.Convert(-Component.Convert(targetFrom.Item1)));
 				    affectedComponents.Add(sourceComponent);
 				    affectedComponents.Add(targetComponent);
 			    }

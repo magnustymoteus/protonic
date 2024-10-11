@@ -18,6 +18,8 @@ public class Component
     // post rotation
     public Vector2I beginPosition;
     public Vector2I endPosition;
+    public Vector2I rectBeginPosition;
+    public Vector2I rectEndPosition;
     public float rotation;
     
     
@@ -42,6 +44,8 @@ public class Component
         this.path = path;
         this.beginPosition = GetBeginPosition(position, size);
         this.endPosition = GetEndPosition(position, size);
+        this.rectBeginPosition = position;
+        this.rectEndPosition = position + size;
         this.rotation = rotation;
         
         this.availableConnections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
@@ -157,7 +161,7 @@ public class Component
 
     public Vector2I GetTargetPosition(Vector2I position, ConnectiveDirection direction)
     {
-        return this.beginPosition + Matrix2x2.GetRotationMatrix(this.rotation).Multiply(position + Component.Convert(direction));
+        return this.rectBeginPosition + Matrix2x2.GetRotationMatrix(this.rotation).Multiply( position + Component.Convert(direction));
     }
     public static Vector2I Convert(ConnectiveDirection direction)
     {

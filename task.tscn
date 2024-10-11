@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwxbnt602gllp"]
+
+[ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://fonts/oxanium/Oxanium-Regular.ttf" id="1_50gpt"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 41.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.835294, 0, 0.878431)
+theme_override_fonts/font = ExtResource("1_50gpt")
+theme_override_font_sizes/font_size = 30
+text = "!"

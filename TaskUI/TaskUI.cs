@@ -6,26 +6,26 @@ using protonic.utils;
 public partial class TaskUI : Control
 {
 	// Called when the node enters the scene tree for the first time.
-	private Godot.Tree TaskTree;
+	private Godot.Tree _taskTree;
 
-	private Variant CurrentLevel;
+	private Variant _currentLevel;
 
-	[Export] private Control Tasks;
+	[Export] private Control _tasks;
 
 	public void DeselectAllTasks()
 	{
-		foreach (CircleControl TaskCircle in Tasks.GetChildren()) TaskCircle.SetSelect(false);
+		foreach (TaskControl TaskCircle in _tasks.GetChildren()) TaskCircle.SetSelect(false);
 	}
 	
 	public void SelectTask(int index)
 	{
 		DeselectAllTasks();
-		Tasks.GetChild<CircleControl>(index).SetSelect(true);
+		_tasks.GetChild<TaskControl>(index).SetSelect(true);
 	}
 	
 	private void SetUpTasks(TreeItem root)
 	{
-		foreach (var CurrentTask in CurrentLevel.AsGodotDictionary()["tasks"].AsGodotArray())
+		foreach (var CurrentTask in _currentLevel.AsGodotDictionary()["tasks"].AsGodotArray())
 		{
 			var CurrentTaskDict = CurrentTask.AsGodotDictionary();
 			TreeItem TaskItem = root.CreateChild();
@@ -35,8 +35,8 @@ public partial class TaskUI : Control
 				case "build":
 					Array<int> position = CurrentTaskDict["position"].AsGodotArray<int>();
 					Vector2 vectorPos = new Vector2(position[0], position[1]) * 32;
-					CircleControl circleControl = new CircleControl(vectorPos, CurrentTaskDict["type"].AsString());
-					Tasks.AddChild(circleControl);
+					TaskControl taskControl = new TaskControl(vectorPos, CurrentTaskDict["type"].AsString());
+					_tasks.AddChild(taskControl);
 					break;
 				default:
 					break;
@@ -45,10 +45,10 @@ public partial class TaskUI : Control
 	}
 	public override void _Ready()
 	{
-		TaskTree = GetChild<Godot.Tree>(0);
-		TreeItem root = TaskTree.CreateItem();
+		_taskTree = GetChild<Godot.Tree>(0);
+		TreeItem root = _taskTree.CreateItem();
 		root.SetText(0,"Tasks");
-		CurrentLevel = FileLoader.LoadJsonFromFile(FileLoader.GetFile(GetTree().GetRoot().GetChild<World>(0).CurrentLevelPath));
+		_currentLevel = FileLoader.LoadJsonFromFile(FileLoader.GetFile(GetTree().GetRoot().GetChild<World>(0).CurrentLevelPath));
 		SetUpTasks(root);
 	}
 

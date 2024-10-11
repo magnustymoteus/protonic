@@ -31,7 +31,7 @@ InfoUI = NodePath("CanvasLayer/infoUI")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
 
-[node name="taskUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("Tasks")]
+[node name="taskUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("_tasks")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 57.0
@@ -39,7 +39,7 @@ offset_top = 713.0
 offset_right = 97.0
 offset_bottom = 753.0
 script = ExtResource("2_dvk7q")
-Tasks = NodePath("../../Tasks")
+_tasks = NodePath("../../Tasks")
 metadata/_edit_use_anchors_ = true
 
 [node name="taskTree" type="Tree" parent="CanvasLayer/taskUI"]

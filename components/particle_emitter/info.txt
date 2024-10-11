@@ -1,0 +1,1 @@
+A particle emitter generates and releases particles to be used in processes like acceleration, detection, or experimentation.
