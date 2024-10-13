@@ -1,4 +1,6 @@
-﻿namespace protonic;
+﻿using System;
+
+namespace protonic;
 using protonic.utils;
 using System.Collections.Generic;
 using Godot;
@@ -86,9 +88,10 @@ public class MapManager
         {
 	        foreach (var direction in connection.Value)
 	        {
-		        Vector2I targetPos = component.beginPosition+connection.Key + Component.Convert(direction);
+		        Vector2I targetPos = component.rectBeginPosition+(connection.Key + new Vector2I(1,1))*Component.Convert(direction);
 		        Component targetComponent = GetComponent(targetPos);
-		        targetComponent.RemoveConnection(component.beginPosition+connection.Key+Component.Convert(direction)-targetComponent.beginPosition, Component.Convert(-Component.Convert(direction)));
+		        targetPos = targetComponent.ConvertTargetToConnection(targetPos-Component.Convert(direction), Component.Convert(-Component.Convert(direction)));
+		        targetComponent.RemoveConnection(targetPos, Component.Convert(-Component.Convert(direction)));
 		        targetComponent.ClearConnectionArrows(root);
 		        targetComponent.PlaceConnectionArrows(root.TileSize, root);
 		        UpdateTexture(targetComponent);
@@ -126,11 +129,10 @@ public class MapManager
 			    Vector2I sourceConnectPos = targetFrom.Item2 - Component.Convert(targetFrom.Item1);
 			    if (targetComponent.CanConnect(sourceConnectPos))
 			    {
-				    GD.Print("sourceComp add connection: ", sourceConnectPos, "-", sourceComponent.beginPosition, ",", targetFrom.Item1);
-				    GD.Print("targetComp add connection: ", targetFrom.Item2, "-", targetComponent.beginPosition, ",", Component.Convert(-Component.Convert(targetFrom.Item1)));
-				    // TODO: fix bug here
-				    sourceComponent.AddConnection(sourceConnectPos- sourceComponent.rectBeginPosition, targetFrom.Item1);
-				    targetComponent.AddConnection(targetFrom.Item2-targetComponent.rectBeginPosition, Component.Convert(-Component.Convert(targetFrom.Item1)));
+				    Vector2I sourcePos = sourceComponent.ConvertTargetToConnection(targetFrom.Item2, targetFrom.Item1);
+				    Vector2I targetPos = targetComponent.ConvertTargetToConnection(sourceConnectPos, Component.Convert(-Component.Convert(targetFrom.Item1)));
+				    sourceComponent.AddConnection(sourcePos, targetFrom.Item1);
+				    targetComponent.AddConnection(targetPos, Component.Convert(-Component.Convert(targetFrom.Item1)));
 				    affectedComponents.Add(sourceComponent);
 				    affectedComponents.Add(targetComponent);
 			    }

@@ -48,6 +48,7 @@ public class Component
         this.rectEndPosition = position + size;
         this.rotation = rotation;
         
+        // local (relative to rectbeginpos)
         this.availableConnections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
         this.connections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
         
@@ -86,6 +87,11 @@ public class Component
     {
         return Component.Convert(Matrix2x2.GetRotationMatrix(this.rotation).Transpose()
             .Multiply(Component.Convert(direction)));
+    }
+
+    public Vector2I UndoRotation(Vector2I position)
+    {
+        return Matrix2x2.GetRotationMatrix(this.rotation).Transpose().Multiply(position);
     }
 
     public void AddConnection(Vector2I position, ConnectiveDirection direction)
@@ -141,6 +147,12 @@ public class Component
 
         return false;
     }
+
+    public Vector2I ConvertTargetToConnection(Vector2I targetPos, ConnectiveDirection direction)
+    {
+            return UndoRotation(targetPos-rectBeginPosition)-UndoRotation(Component.Convert(direction)); 
+    }
+    // convert local target positions to global
     public SortedSet<Tuple<ConnectiveDirection, Vector2I>> GetAvailableConnectionTargets()
     {
         SortedSet<Tuple<ConnectiveDirection, Vector2I>> result = new SortedSet<Tuple<ConnectiveDirection, Vector2I>>();
