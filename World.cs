@@ -23,12 +23,13 @@ public partial class World : Node2D
 	public string CurrentComponentPath;
 	
 	[Export] public Control InfoUI;
+	[Export] public Node2D UpgradeUI;
 
 	public MapManager Map;
 	public ActionManager ActionManager = ActionManager.GetInstance();
 
 	public string CurrentLevelPath;
-
+	
 	public World(int Level)
 	{
 		CurrentLevelPath = "./levels/level_" + Level + ".json";
@@ -51,17 +52,23 @@ public partial class World : Node2D
 
 	public void UpdateComponentTexture()
 	{
-		string texturePath = CurrentComponentPath + "/disconnected.png";
-		Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
-		ComponentHoverRect.SetTexture(texture);
-		ColorHoverRect.SetSize(texture.GetSize());
+		if (IsBuilding)
+		{
+			string texturePath = CurrentComponentPath + "/disconnected.png";
+			Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
+			ComponentHoverRect.SetTexture(texture);
+			ColorHoverRect.SetSize(texture.GetSize());
+		}
+		else
+		{
+			ComponentHoverRect.SetTexture(null);
+			ColorHoverRect.SetSize(TileSize);
+		}
 	}
 	
 	public void OnTileChange()
 	{
-		if(IsBuilding) {
-			if(CurrentComponentPath != null) UpdateComponentTexture();
-		}
+		if(CurrentComponentPath != null) UpdateComponentTexture();
 	}
 	
 	public void SwitchBuildingMode()
@@ -86,10 +93,15 @@ public partial class World : Node2D
 	}
 	public void ClickedOnMap()
 	{
-		if (IsBuilding && CurrentComponentPath != null)
+		ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
+		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
+		if (!IsBuilding && Map.ComponentExists(position) && !UpgradeUI.IsVisible())
 		{
-			ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
-			Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
+			UpgradeUI.SetGlobalPosition(position*TileSize);
+			UpgradeUI.SetVisible(true);
+		}
+		else if (IsBuilding && CurrentComponentPath != null)
+		{
 			Vector2I size = VectorConverter.Convert(ComponentHoverRect.GetSize() / TileSize);
 			float rotation = parent.GetRotation();
 			size = Matrix2x2.GetRotationMatrix(rotation).Multiply(size);

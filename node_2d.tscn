@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c74atj8f1b45o"]
+[gd_scene load_steps=17 format=3 uid="uid://c74atj8f1b45o"]
 
 [ext_resource type="Script" path="res://movement.cs" id="1_bnikr"]
 [ext_resource type="Script" path="res://World.cs" id="1_rwg22"]
@@ -12,6 +12,7 @@
 [ext_resource type="FontFile" uid="uid://d21b5xackhtje" path="res://fonts/oxanium/Oxanium-Bold.ttf" id="6_1rmw4"]
 [ext_resource type="Script" path="res://InfoUI.cs" id="8_5u2q8"]
 [ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://images/info.png" id="8_uiuo6"]
+[ext_resource type="PackedScene" uid="uid://c7lt2i1ahebbb" path="res://component_upgrade.tscn" id="10_hb63n"]
 [ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://fonts/oxanium/Oxanium-Regular.ttf" id="10_k4i0r"]
 
 [sub_resource type="TileSet" id="TileSet_3d7cb"]
@@ -20,13 +21,14 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ComponentHoverRect", "ColorHoverRect", "TileMap", "InfoUI")]
+[node name="World" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ComponentHoverRect", "ColorHoverRect", "TileMap", "InfoUI", "UpgradeUI")]
 script = ExtResource("1_rwg22")
 BuildingUI = NodePath("CanvasLayer/buildUI")
 ComponentHoverRect = NodePath("ColorRect/componentRect")
 ColorHoverRect = NodePath("ColorRect/followRect")
 TileMap = NodePath("TileMapLayer")
 InfoUI = NodePath("CanvasLayer/infoUI")
+UpgradeUI = NodePath("CanvasLayer/UpgradeUI")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
@@ -103,6 +105,7 @@ script = ExtResource("8_5u2q8")
 currentInfoText = NodePath("ColorRect/InfoText")
 infoRect = NodePath("ColorRect")
 closeButton = NodePath("ColorRect/CloseButton")
+metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/infoUI"]
 z_index = 2
@@ -145,6 +148,9 @@ offset_bottom = 47.0
 theme_override_font_sizes/font_size = 40
 text = "X"
 flat = true
+
+[node name="UpgradeUI" parent="CanvasLayer" instance=ExtResource("10_hb63n")]
+visible = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
 tile_set = SubResource("TileSet_3d7cb")

@@ -229,9 +229,3 @@ public class Component
     }
     
 }
-public class BeamlineTube : Component
-{
-    public BeamlineTube(string path, Vector2I position, Vector2I size, float rotation) : base(path, position, size, rotation)
-    {
-    }
-}

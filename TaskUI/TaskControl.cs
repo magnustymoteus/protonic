@@ -19,7 +19,7 @@ public partial class TaskControl : Control
         SetSize(new Vector2(32,32));
 
         var task = GD.Load<PackedScene>("res://task.tscn");
-        Node instance = task.Instantiate();
+        Node2D instance = task.Instantiate<Node2D>();
         AddChild(instance);
     }
     
