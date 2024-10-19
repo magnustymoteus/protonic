@@ -167,7 +167,6 @@ public class Component
                 result.Add(new Tuple<ConnectiveDirection, Vector2I>(rotatedDirection, position));
             }
         }
-
         return result;
     }
 

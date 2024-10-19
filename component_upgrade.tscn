@@ -2,8 +2,11 @@
 
 [ext_resource type="Script" path="res://CloseButton.cs" id="1_dnpwk"]
 
-[node name="Node2D" type="Node2D"]
-position = Vector2(1, 0)
+[node name="Node2D" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.0
+offset_right = 1.0
 
 [node name="ItemList" type="ItemList" parent="."]
 offset_right = 162.0

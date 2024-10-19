@@ -23,7 +23,7 @@ public partial class World : Node2D
 	public string CurrentComponentPath;
 	
 	[Export] public Control InfoUI;
-	[Export] public Node2D UpgradeUI;
+	[Export] public Control UpgradeUI;
 
 	public MapManager Map;
 	public ActionManager ActionManager = ActionManager.GetInstance();

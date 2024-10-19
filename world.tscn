@@ -1,19 +1,19 @@
 [gd_scene load_steps=17 format=3 uid="uid://c74atj8f1b45o"]
 
-[ext_resource type="Script" path="res://movement.cs" id="1_bnikr"]
-[ext_resource type="Script" path="res://World.cs" id="1_rwg22"]
-[ext_resource type="Script" path="res://TaskUI/TaskUI.cs" id="2_dvk7q"]
-[ext_resource type="Script" path="res://FollowMouse.cs" id="2_o2urw"]
-[ext_resource type="Script" path="res://TaskUI/TaskTree.cs" id="3_510aq"]
-[ext_resource type="Script" path="res://TileMapLayer.cs" id="3_kh37h"]
-[ext_resource type="Script" path="res://Map.cs" id="4_lvv8j"]
-[ext_resource type="Script" path="res://BuildButton.cs" id="5_2lm7o"]
-[ext_resource type="Script" path="res://ComponentTree.cs" id="5_cyd18"]
-[ext_resource type="FontFile" uid="uid://d21b5xackhtje" path="res://fonts/oxanium/Oxanium-Bold.ttf" id="6_1rmw4"]
-[ext_resource type="Script" path="res://InfoUI.cs" id="8_5u2q8"]
-[ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://images/info.png" id="8_uiuo6"]
-[ext_resource type="PackedScene" uid="uid://c7lt2i1ahebbb" path="res://component_upgrade.tscn" id="10_hb63n"]
-[ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://fonts/oxanium/Oxanium-Regular.ttf" id="10_k4i0r"]
+[ext_resource type="Script" path="res://World.cs" id="1_qkv8j"]
+[ext_resource type="Script" path="res://TaskUI/TaskUI.cs" id="2_2dfni"]
+[ext_resource type="Script" path="res://TaskUI/TaskTree.cs" id="3_paeea"]
+[ext_resource type="FontFile" uid="uid://d21b5xackhtje" path="res://fonts/oxanium/Oxanium-Bold.ttf" id="4_7dvem"]
+[ext_resource type="Script" path="res://BuildButton.cs" id="5_1ryaw"]
+[ext_resource type="Script" path="res://ComponentTree.cs" id="6_ngu5g"]
+[ext_resource type="Script" path="res://InfoUI.cs" id="7_2apbb"]
+[ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://fonts/oxanium/Oxanium-Regular.ttf" id="8_rc65m"]
+[ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://images/info.png" id="9_c7ckr"]
+[ext_resource type="PackedScene" uid="uid://c7lt2i1ahebbb" path="res://component_upgrade.tscn" id="10_5wkfr"]
+[ext_resource type="Script" path="res://TileMapLayer.cs" id="11_yt8lg"]
+[ext_resource type="Script" path="res://Map.cs" id="12_x4ldy"]
+[ext_resource type="Script" path="res://FollowMouse.cs" id="13_omx3o"]
+[ext_resource type="Script" path="res://movement.cs" id="14_mosp1"]
 
 [sub_resource type="TileSet" id="TileSet_3d7cb"]
 tile_size = Vector2i(32, 32)
@@ -22,7 +22,7 @@ tile_size = Vector2i(32, 32)
 size = Vector2(41, 40)
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ComponentHoverRect", "ColorHoverRect", "TileMap", "InfoUI", "UpgradeUI")]
-script = ExtResource("1_rwg22")
+script = ExtResource("1_qkv8j")
 BuildingUI = NodePath("CanvasLayer/buildUI")
 ComponentHoverRect = NodePath("ColorRect/componentRect")
 ColorHoverRect = NodePath("ColorRect/followRect")
@@ -40,7 +40,7 @@ offset_left = 57.0
 offset_top = 713.0
 offset_right = 97.0
 offset_bottom = 753.0
-script = ExtResource("2_dvk7q")
+script = ExtResource("2_2dfni")
 _tasks = NodePath("../../Tasks")
 metadata/_edit_use_anchors_ = true
 
@@ -51,7 +51,7 @@ offset_bottom = 300.0
 focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 allow_search = false
-script = ExtResource("3_510aq")
+script = ExtResource("3_paeea")
 metadata/_edit_use_anchors_ = true
 
 [node name="components" type="Node2D" parent="CanvasLayer"]
@@ -62,11 +62,11 @@ offset_left = 1617.0
 offset_top = 981.0
 offset_right = 1884.0
 offset_bottom = 1044.0
-theme_override_fonts/font = ExtResource("6_1rmw4")
+theme_override_fonts/font = ExtResource("4_7dvem")
 theme_override_font_sizes/font_size = 40
 text = "Build Mode
 "
-script = ExtResource("5_2lm7o")
+script = ExtResource("5_1ryaw")
 buildUI = NodePath("../buildUI")
 world = NodePath("../..")
 metadata/_edit_use_anchors_ = true
@@ -87,9 +87,9 @@ offset_top = 29.0
 offset_right = 290.0
 offset_bottom = 237.0
 focus_mode = 0
-theme_override_fonts/font = ExtResource("6_1rmw4")
+theme_override_fonts/font = ExtResource("4_7dvem")
 allow_search = false
-script = ExtResource("5_cyd18")
+script = ExtResource("6_ngu5g")
 world = NodePath("../../..")
 
 [node name="infoUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("currentInfoText", "infoRect", "closeButton")]
@@ -101,7 +101,7 @@ offset_left = 1733.0
 offset_top = 21.0
 offset_right = 1773.0
 offset_bottom = 61.0
-script = ExtResource("8_5u2q8")
+script = ExtResource("7_2apbb")
 currentInfoText = NodePath("ColorRect/InfoText")
 infoRect = NodePath("ColorRect")
 closeButton = NodePath("ColorRect/CloseButton")
@@ -124,8 +124,8 @@ offset_top = 96.0
 offset_right = 321.0
 offset_bottom = 223.0
 theme_override_colors/default_color = Color(1, 1, 1, 0.6)
-theme_override_fonts/normal_font = ExtResource("10_k4i0r")
-theme_override_fonts/bold_font = ExtResource("6_1rmw4")
+theme_override_fonts/normal_font = ExtResource("8_rc65m")
+theme_override_fonts/bold_font = ExtResource("4_7dvem")
 
 [node name="InfoIcon" type="TextureRect" parent="CanvasLayer/infoUI/ColorRect"]
 modulate = Color(100, 100, 100, 0.6)
@@ -136,7 +136,7 @@ offset_top = 8.0
 offset_right = 536.0
 offset_bottom = 520.0
 scale = Vector2(0.135396, 0.139156)
-texture = ExtResource("8_uiuo6")
+texture = ExtResource("9_c7ckr")
 
 [node name="CloseButton" type="Button" parent="CanvasLayer/infoUI/ColorRect"]
 z_index = 2
@@ -149,12 +149,12 @@ theme_override_font_sizes/font_size = 40
 text = "X"
 flat = true
 
-[node name="UpgradeUI" parent="CanvasLayer" instance=ExtResource("10_hb63n")]
+[node name="UpgradeUI" parent="CanvasLayer" instance=ExtResource("10_5wkfr")]
 visible = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
 tile_set = SubResource("TileSet_3d7cb")
-script = ExtResource("3_kh37h")
+script = ExtResource("11_yt8lg")
 world = NodePath("..")
 
 [node name="map" type="ColorRect" parent="." node_paths=PackedStringArray("world", "followRect")]
@@ -164,7 +164,7 @@ offset_bottom = 1079.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 color = Color(0.544974, 0.544974, 0.544974, 1)
-script = ExtResource("4_lvv8j")
+script = ExtResource("12_x4ldy")
 world = NodePath("..")
 followRect = NodePath("../ColorRect")
 metadata/_edit_use_anchors_ = true
@@ -175,7 +175,7 @@ offset_bottom = 32.0
 pivot_offset = Vector2(16, 16)
 mouse_filter = 1
 color = Color(1, 1, 1, 0)
-script = ExtResource("2_o2urw")
+script = ExtResource("13_omx3o")
 tileMapLayer = NodePath("../TileMapLayer")
 world = NodePath("..")
 metadata/_edit_use_anchors_ = true
@@ -195,7 +195,7 @@ color = Color(1, 1, 1, 0.152941)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(960, 540)
-script = ExtResource("1_bnikr")
+script = ExtResource("14_mosp1")
 
 [node name="ColorRect" type="ColorRect" parent="CharacterBody2D"]
 z_index = 1

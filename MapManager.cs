@@ -88,9 +88,10 @@ public class MapManager
         {
 	        foreach (var direction in connection.Value)
 	        {
-		        Vector2I targetPos = component.rectBeginPosition+(connection.Key + new Vector2I(1,1))*Component.Convert(direction);
+		        Vector2I targetPos = component.rectBeginPosition+Matrix2x2.GetRotationMatrix(component.rotation).Multiply(connection.Key)+Component.Convert(direction);
 		        Component targetComponent = GetComponent(targetPos);
-		        targetPos = targetComponent.ConvertTargetToConnection(targetPos-Component.Convert(direction), Component.Convert(-Component.Convert(direction)));
+		        targetPos = targetComponent.ConvertTargetToConnection(targetPos-Component.Convert(direction), 
+			        Component.Convert(-Component.Convert(direction)));
 		        targetComponent.RemoveConnection(targetPos, Component.Convert(-Component.Convert(direction)));
 		        targetComponent.ClearConnectionArrows(root);
 		        targetComponent.PlaceConnectionArrows(root.TileSize, root);

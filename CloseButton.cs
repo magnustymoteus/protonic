@@ -16,6 +16,6 @@ public partial class CloseButton : Button
 
 	private void Close()
 	{
-		GetParent<Node2D>().SetVisible(false);		
+		GetParent<Control>().SetVisible(false);		
 	}
 }
