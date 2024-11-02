@@ -1,5 +1,5 @@
 ﻿using Godot;
-public struct Matrix2x2
+public class Matrix2x2
 {
     private readonly float[,] _matrix;
 

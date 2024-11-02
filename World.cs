@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using protonic.utils;
+using protonic.Particle;
 using Color = Godot.Color;
+using Vector2 = Godot.Vector2;
 
 
 public partial class World : Node2D
@@ -29,6 +32,8 @@ public partial class World : Node2D
 	public ActionManager ActionManager = ActionManager.GetInstance();
 
 	public string CurrentLevelPath;
+
+	private Electron electron;
 	
 	public World(int Level)
 	{
@@ -42,12 +47,14 @@ public partial class World : Node2D
 	{
 		TileSize = TileMap.GetTileSet().GetTileSize();
 		Map = new MapManager(this);
+		electron = new Electron(new Vector2(1, 1), new Vector2(1, 0));
+		AddChild(electron);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+		electron.UpdatePosition(delta);
 	}
 
 	public void UpdateComponentTexture()
@@ -93,6 +100,7 @@ public partial class World : Node2D
 	}
 	public void ClickedOnMap()
 	{
+		electron.ApplyTransferMatrix(TransferMatrix.DefocusingQuadrupole(1.0f, 1.0f));
 		ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
 		if (!IsBuilding && Map.ComponentExists(position) && !UpgradeUI.IsVisible())

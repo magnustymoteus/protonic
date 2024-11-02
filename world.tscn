@@ -22,6 +22,7 @@ tile_size = Vector2i(32, 32)
 size = Vector2(41, 40)
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ComponentHoverRect", "ColorHoverRect", "TileMap", "InfoUI", "UpgradeUI")]
+position = Vector2(-2, -1)
 script = ExtResource("1_qkv8j")
 BuildingUI = NodePath("CanvasLayer/buildUI")
 ComponentHoverRect = NodePath("ColorRect/componentRect")

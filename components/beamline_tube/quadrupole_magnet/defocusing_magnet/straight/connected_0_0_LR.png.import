@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcapbdrncg2mi"
-path="res://.godot/imported/connected_0_0_U.png-2a12e10cd497e0bb48ac30127a71166b.ctex"
+uid="uid://cjt2rvoq6163x"
+path="res://.godot/imported/connected_0_0_LR.png-8f520821aa8d701c9c8d87039368c666.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://components/beamline_tube/bending_magnet/curved/connected_0_0_U.png"
-dest_files=["res://.godot/imported/connected_0_0_U.png-2a12e10cd497e0bb48ac30127a71166b.ctex"]
+source_file="res://components/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_LR.png"
+dest_files=["res://.godot/imported/connected_0_0_LR.png-8f520821aa8d701c9c8d87039368c666.ctex"]
 
 [params]
 

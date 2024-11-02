@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://j6w2a1kai4pw"
-path="res://.godot/imported/connected_0_0_L.png-50b5b6a3bf3d060788997a3c7a254b07.ctex"
+uid="uid://t4agkuqq46pj"
+path="res://.godot/imported/connected_0_0_U.png-7cfd3aaf2eaf7d116566cd41ab32b291.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://components/beamline_tube/focusing_magnet/straight/connected_0_0_L.png"
-dest_files=["res://.godot/imported/connected_0_0_L.png-50b5b6a3bf3d060788997a3c7a254b07.ctex"]
+source_file="res://components/beamline_tube/drift_region/curved/connected_0_0_U.png"
+dest_files=["res://.godot/imported/connected_0_0_U.png-7cfd3aaf2eaf7d116566cd41ab32b291.ctex"]
 
 [params]
 

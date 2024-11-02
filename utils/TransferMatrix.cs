@@ -1,30 +1,62 @@
+using System;
+using System.Numerics;
+
 namespace protonic.utils;
 using Godot;
 
-public class TransferMatrix
+public static class TransferMatrix
 {
-    public static Transform2D DriftMatrix(float length)
+    public static Matrix4x4 Drift(float length)
     {
-        return new Transform2D(1, length, 0, 0, 1, 0);
+        return new Matrix4x4(
+            1, length, 0, 0,
+            0, 1, 0,0,
+            0,0,1,length,
+            0,0,0,1);
     }
 
-    public static Transform2D FocusingQuadrupole(float k, float length)
+    public static Matrix4x4 EdgeFocusing(float phi, float radius)
+    {
+        return new Matrix4x4(
+            1, 0,0,0,
+            Mathf.Tan(phi)/radius, 1,0,0,
+            0,0,1,0,
+            0,0,-Mathf.Tan(phi)/radius, 1
+        );
+    }
+    // Dipole transfer matrix
+    public static Matrix4x4 Dipole(float length, float radius)
+    {
+        float angle = length / radius;  // Calculate bending angle
+        return new Matrix4x4(
+            Mathf.Cos(angle), radius * Mathf.Sin(angle), 0,0,    
+            -1 / radius * Mathf.Sin(angle), Mathf.Cos(angle), 0,0,
+            0,0,1,length,
+            0,0,0,1
+        );
+    }
+
+    // Focusing quadrupole transfer matrix
+    public static Matrix4x4 FocusingQuadrupole(float k, float length)
     {
         float omega = Mathf.Sqrt(Mathf.Abs(k)) * length;
-        return new Transform2D(Mathf.Cos(omega), Mathf.Sin(omega) / Mathf.Sqrt(Mathf.Abs(k)), 
-            -Mathf.Sqrt(Mathf.Abs(k)) * Mathf.Sin(omega), Mathf.Cos(omega), 0, 0);
+        return new Matrix4x4(
+            Mathf.Cos(omega), (1/Mathf.Sqrt(Mathf.Abs(k)))*Mathf.Sin(omega), 0,0,
+            -Mathf.Sqrt(Mathf.Abs(k))*Mathf.Sin(omega),Mathf.Cos(omega), 0,0,
+            0,0,Mathf.Cosh(omega), (1/Mathf.Sqrt(Mathf.Abs(k)))*Mathf.Sinh(omega),
+            0,0,Mathf.Sqrt(Mathf.Abs(k))*Mathf.Sinh(omega), Mathf.Cosh(omega)
+        );
     }
 
-    public static Transform2D DefocusingQuadrupole(float k, float length)
+    // Defocusing quadrupole transfer matrix
+    public static Matrix4x4 DefocusingQuadrupole(float k, float length)
     {
         float omega = Mathf.Sqrt(Mathf.Abs(k)) * length;
-        return new Transform2D(Mathf.Cosh(omega), Mathf.Sinh(omega) / Mathf.Sqrt(Mathf.Abs(k)),
-            Mathf.Sqrt(Mathf.Abs(k)) * Mathf.Sinh(omega), Mathf.Cosh(omega), 0, 0);
-    }
-
-    public static Transform2D DipoleMatrix(float radius, float angle)
-    {
-        return new Transform2D(Mathf.Cos(angle), radius * Mathf.Sin(angle), 
-            -Mathf.Sin(angle) / radius, Mathf.Cos(angle), 0, 0);
+        return new Matrix4x4(
+            Mathf.Cosh(omega), (1/Mathf.Sqrt(k))*Mathf.Sinh(omega), 0,0,
+            Mathf.Sqrt(k)*Mathf.Sinh(omega),Mathf.Cosh(omega), 0,0,
+            0,0,Mathf.Cos(omega), (1/Mathf.Sqrt(k))*Mathf.Sin(omega),
+            0,0,-Mathf.Sqrt(k)*Mathf.Sin(omega), Mathf.Cos(omega)
+        );
     }
 }

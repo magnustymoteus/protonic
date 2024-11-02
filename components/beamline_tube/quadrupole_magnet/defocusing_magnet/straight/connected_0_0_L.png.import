@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ykvsgqo3psx"
-path="res://.godot/imported/disconnected.png-90aa1d8cc8873845818448b670ffb51b.ctex"
+uid="uid://dji1hadrm63x4"
+path="res://.godot/imported/connected_0_0_L.png-32cadf262da14f5359e7c4c1b0a17063.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://components/beamline_tube/focusing_magnet/straight/disconnected.png"
-dest_files=["res://.godot/imported/disconnected.png-90aa1d8cc8873845818448b670ffb51b.ctex"]
+source_file="res://components/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_L.png"
+dest_files=["res://.godot/imported/connected_0_0_L.png-32cadf262da14f5359e7c4c1b0a17063.ctex"]
 
 [params]
 
