@@ -6,44 +6,43 @@ using protonic.utils;
 
 public partial class Particle : Node2D
 {
-    public Godot.Vector2 Momentum { get; set; }
+    public PositionMomentum Trajectory;
     public double Mass { get; set; }  // In kilograms
     public double Charge { get; set; }  // In Coulombs
     
+    
+    
     public Particle(Vector2 initialPosition, Vector2 initialMomentum, double mass, double charge)
     {
-        Position = initialPosition;
-        Momentum = initialMomentum;
+        Trajectory = new PositionMomentum(initialPosition, initialMomentum);
         Mass = mass;
         Charge = charge;
     }
     public override void _Draw()
     {
-        DrawCircle(Position, 5, Colors.Yellow);
-        DrawLine(Position, Position+Momentum.Normalized()*50.0f, Colors.Red, 2.5f);
+        DrawCircle(Position, 2, Colors.Yellow);
     }
-
-    public void UpdatePosition(double deltaTime)
-    {
-        //Position += Momentum * (float)deltaTime;
-    }
+    
 
     public void ApplyTransferMatrix(Matrix4x4 matrix)
     {
-        GD.Print(matrix);
-        System.Numerics.Vector4 trajectoryVector = new System.Numerics.Vector4(Position.X, Momentum.X, Position.Y, Momentum.Y);
-        System.Numerics.Vector4 outTrajectoryVector = System.Numerics.Vector4.Transform(trajectoryVector, matrix);
+        Matrix4x4 trajectoryMatrix = new Matrix4x4(
+            Trajectory.Position.X, 0,0,0,
+            Trajectory.Momentum.X, 1,0,0,
+            Trajectory.Position.Y, 0,1,0,
+            Trajectory.Momentum.Y, 0,0,1
+            );
         
-        GD.Print("pre:",trajectoryVector);
-        GD.Print("position: " , trajectoryVector.X, " ", trajectoryVector.Z);
-        GD.Print("momentum: ", trajectoryVector.Y, " ", trajectoryVector.W);
+        Matrix4x4 outTrajectoryMatrix = Matrix4x4.Multiply(matrix, trajectoryMatrix);
+        GD.Print("before:");
+        GD.Print(trajectoryMatrix.M11+","+trajectoryMatrix.M21+","+trajectoryMatrix.M31+","+trajectoryMatrix.M41);
+        GD.Print("after:");
+        GD.Print(outTrajectoryMatrix.M11+","+outTrajectoryMatrix.M21+","+outTrajectoryMatrix.M31+","+outTrajectoryMatrix.M41);
         
-        GD.Print("post:",outTrajectoryVector);
-        GD.Print("position: " , outTrajectoryVector.X, " " , outTrajectoryVector.Z);
-        GD.Print("momentum: ", outTrajectoryVector.Y, " ", outTrajectoryVector.W);
-        
-        Position = new Vector2(outTrajectoryVector.X, outTrajectoryVector.Z);
-        Momentum = new Vector2(outTrajectoryVector.Y, outTrajectoryVector.W);
+        Trajectory.Momentum = new Vector2(outTrajectoryMatrix.M21, outTrajectoryMatrix.M41);
+        Trajectory.Position = new Vector2(outTrajectoryMatrix.M11, outTrajectoryMatrix.M31);
+        SetPosition(new Vector2(Trajectory.Position.X, Trajectory.Momentum.X));
+        QueueRedraw();
     }
 }
 

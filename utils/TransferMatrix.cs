@@ -30,7 +30,7 @@ public static class TransferMatrix
         float angle = length / radius;  // Calculate bending angle
         return new Matrix4x4(
             Mathf.Cos(angle), radius * Mathf.Sin(angle), 0,0,    
-            -1 / radius * Mathf.Sin(angle), Mathf.Cos(angle), 0,0,
+            (-1 / radius) * Mathf.Sin(angle), Mathf.Cos(angle), 0,0,
             0,0,1,length,
             0,0,0,1
         );

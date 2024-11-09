@@ -47,14 +47,13 @@ public partial class World : Node2D
 	{
 		TileSize = TileMap.GetTileSet().GetTileSize();
 		Map = new MapManager(this);
-		electron = new Electron(new Vector2(1, 1), new Vector2(1, 0));
+		electron = new Electron(new Vector2(1, 1), new Vector2(1,0));
 		AddChild(electron);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		electron.UpdatePosition(delta);
 	}
 
 	public void UpdateComponentTexture()
@@ -96,11 +95,10 @@ public partial class World : Node2D
 	{
 		Component component = Map.GetComponent(VectorConverter.Convert(ComponentHoverRect.GetParent<ColorRect>().GetPosition()/TileSize));
 		if(component != null) Map.DeleteComponent(component);
-		
 	}
 	public void ClickedOnMap()
 	{
-		electron.ApplyTransferMatrix(TransferMatrix.DefocusingQuadrupole(1.0f, 1.0f));
+		electron.ApplyTransferMatrix(TransferMatrix.Dipole(3.0f, 2.0f));
 		ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
 		if (!IsBuilding && Map.ComponentExists(position) && !UpgradeUI.IsVisible())
