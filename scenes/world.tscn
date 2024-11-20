@@ -1,0 +1,226 @@
+[gd_scene load_steps=17 format=3 uid="uid://c74atj8f1b45o"]
+
+[ext_resource type="Script" path="res://World.cs" id="1_t4wlv"]
+[ext_resource type="Script" path="res://components/task/TaskUI.cs" id="2_2ci46"]
+[ext_resource type="Script" path="res://components/task/TaskTree.cs" id="3_xcphr"]
+[ext_resource type="FontFile" uid="uid://d21b5xackhtje" path="res://assets/fonts/oxanium/Oxanium-Bold.ttf" id="4_0h4io"]
+[ext_resource type="Script" path="res://components/buildMode/BuildButton.cs" id="5_j2din"]
+[ext_resource type="Script" path="res://components/buildMode/ComponentTree.cs" id="6_1sbpa"]
+[ext_resource type="Script" path="res://components/elementInfo/InfoUI.cs" id="7_6dfyx"]
+[ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://assets/fonts/oxanium/Oxanium-Regular.ttf" id="8_xq76k"]
+[ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://assets/images/info.png" id="9_3dkcx"]
+[ext_resource type="PackedScene" uid="uid://c7lt2i1ahebbb" path="res://scenes/component_upgrade.tscn" id="10_xtgq2"]
+[ext_resource type="Script" path="res://components/map/TileMapLayer.cs" id="11_lg6sy"]
+[ext_resource type="Script" path="res://components/map/Map.cs" id="12_d3nfa"]
+[ext_resource type="Script" path="res://components/map/FollowMouse.cs" id="13_xy0cd"]
+[ext_resource type="Script" path="res://components/player/movement.cs" id="14_xyh4c"]
+
+[sub_resource type="TileSet" id="TileSet_3d7cb"]
+tile_size = Vector2i(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
+size = Vector2(41, 40)
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ComponentHoverRect", "ColorHoverRect", "TileMap", "InfoUI", "UpgradeUI")]
+position = Vector2(-2, -1)
+script = ExtResource("1_t4wlv")
+BuildingUI = NodePath("CanvasLayer/buildUI")
+ComponentHoverRect = NodePath("ColorRect/componentRect")
+ColorHoverRect = NodePath("ColorRect/followRect")
+TileMap = NodePath("TileMapLayer")
+InfoUI = NodePath("CanvasLayer/infoUI")
+UpgradeUI = NodePath("CanvasLayer/UpgradeUI")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="taskUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("_tasks")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 57.0
+offset_top = 713.0
+offset_right = 97.0
+offset_bottom = 753.0
+script = ExtResource("2_2ci46")
+_tasks = NodePath("../../Tasks")
+metadata/_edit_use_anchors_ = true
+
+[node name="taskTree" type="Tree" parent="CanvasLayer/taskUI"]
+layout_mode = 0
+offset_right = 420.0
+offset_bottom = 300.0
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+allow_search = false
+script = ExtResource("3_xcphr")
+metadata/_edit_use_anchors_ = true
+
+[node name="components" type="Node2D" parent="CanvasLayer"]
+
+[node name="BuildButton" type="CheckButton" parent="CanvasLayer" node_paths=PackedStringArray("buildUI", "world")]
+z_index = 2
+offset_left = 1617.0
+offset_top = 981.0
+offset_right = 1884.0
+offset_bottom = 1044.0
+theme_override_fonts/font = ExtResource("4_0h4io")
+theme_override_font_sizes/font_size = 40
+text = "Build Mode
+"
+script = ExtResource("5_j2din")
+buildUI = NodePath("../buildUI")
+world = NodePath("../..")
+metadata/_edit_use_anchors_ = true
+
+[node name="buildUI" type="Control" parent="CanvasLayer"]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Tree" type="Tree" parent="CanvasLayer/buildUI" node_paths=PackedStringArray("world")]
+z_index = 2
+layout_mode = 0
+offset_left = 50.0
+offset_top = 29.0
+offset_right = 290.0
+offset_bottom = 237.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("4_0h4io")
+allow_search = false
+script = ExtResource("6_1sbpa")
+world = NodePath("../../..")
+
+[node name="infoUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("currentInfoText", "infoRect", "closeButton")]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1733.0
+offset_top = 21.0
+offset_right = 1773.0
+offset_bottom = 61.0
+script = ExtResource("7_6dfyx")
+currentInfoText = NodePath("ColorRect/InfoText")
+infoRect = NodePath("ColorRect")
+closeButton = NodePath("ColorRect/CloseButton")
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/infoUI"]
+z_index = 2
+layout_mode = 0
+offset_left = -215.0
+offset_top = 36.0
+offset_right = 133.0
+offset_bottom = 292.0
+color = Color(0.346, 0.548, 1, 0.6)
+
+[node name="InfoText" type="RichTextLabel" parent="CanvasLayer/infoUI/ColorRect"]
+z_index = 2
+layout_mode = 0
+offset_left = 31.0
+offset_top = 96.0
+offset_right = 321.0
+offset_bottom = 223.0
+theme_override_colors/default_color = Color(1, 1, 1, 0.6)
+theme_override_fonts/normal_font = ExtResource("8_xq76k")
+theme_override_fonts/bold_font = ExtResource("4_0h4io")
+
+[node name="InfoIcon" type="TextureRect" parent="CanvasLayer/infoUI/ColorRect"]
+modulate = Color(100, 100, 100, 0.6)
+z_index = 2
+layout_mode = 0
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 536.0
+offset_bottom = 520.0
+scale = Vector2(0.135396, 0.139156)
+texture = ExtResource("9_3dkcx")
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/infoUI/ColorRect"]
+z_index = 2
+layout_mode = 0
+offset_left = 309.0
+offset_top = -2.0
+offset_right = 346.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 40
+text = "X"
+flat = true
+
+[node name="UpgradeUI" parent="CanvasLayer" instance=ExtResource("10_xtgq2")]
+visible = false
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
+tile_set = SubResource("TileSet_3d7cb")
+script = ExtResource("11_lg6sy")
+world = NodePath("..")
+
+[node name="map" type="ColorRect" parent="." node_paths=PackedStringArray("world", "followRect")]
+offset_top = -1.0
+offset_right = 1920.0
+offset_bottom = 1079.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0.544974, 0.544974, 0.544974, 1)
+script = ExtResource("12_d3nfa")
+world = NodePath("..")
+followRect = NodePath("../ColorRect")
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="." node_paths=PackedStringArray("tileMapLayer", "world")]
+offset_right = 32.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+mouse_filter = 1
+color = Color(1, 1, 1, 0)
+script = ExtResource("13_xy0cd")
+tileMapLayer = NodePath("../TileMapLayer")
+world = NodePath("..")
+metadata/_edit_use_anchors_ = true
+
+[node name="componentRect" type="TextureRect" parent="ColorRect"]
+modulate = Color(1, 1, 1, 0.52549)
+texture_filter = 1
+layout_mode = 0
+
+[node name="followRect" type="ColorRect" parent="ColorRect"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+mouse_filter = 1
+color = Color(1, 1, 1, 0.152941)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(960, 540)
+script = ExtResource("14_xyh4c")
+
+[node name="ColorRect" type="ColorRect" parent="CharacterBody2D"]
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_u688n")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+
+[node name="Tasks" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
