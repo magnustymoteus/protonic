@@ -3,6 +3,20 @@ public class Matrix2x2
 {
     private readonly float[,] _matrix;
 
+    public float this[int x, int y]
+    {
+        get
+        {
+            return _matrix[x, y];
+        } 
+          
+        // using set accessor 
+        set
+        { 
+            _matrix[x,y] = value; 
+        } 
+    }
+
     public Matrix2x2(float m11, float m12, float m21, float m22)
     {
         _matrix = new float[,]

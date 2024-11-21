@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using protonic.utils;
 using protonic.Particle;
+using protonic.utils.TransferMatrix;
 using Color = Godot.Color;
 using Vector2 = Godot.Vector2;
 
@@ -98,7 +99,7 @@ public partial class World : Node2D
 	}
 	public void ClickedOnMap()
 	{
-		electron.ApplyTransferMatrix(TransferMatrixFactory.Dipole(3.0f, 2.0f));
+		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.Dipole(3.0f, 2.0f));
 		ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
 		if (!IsBuilding && Map.ComponentExists(position) && !UpgradeUI.IsVisible())
