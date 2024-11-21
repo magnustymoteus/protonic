@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://components/elementInfo/InfoUI.cs" id="7_6dfyx"]
 [ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://assets/fonts/oxanium/Oxanium-Regular.ttf" id="8_xq76k"]
 [ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://assets/images/info.png" id="9_3dkcx"]
-[ext_resource type="PackedScene" uid="uid://c7lt2i1ahebbb" path="res://scenes/component_upgrade.tscn" id="10_xtgq2"]
+[ext_resource type="PackedScene" uid="uid://c7lt2i1ahebbb" path="res://components/particleAccelerator/component_upgrade.tscn" id="10_xtgq2"]
 [ext_resource type="Script" path="res://components/map/TileMapLayer.cs" id="11_lg6sy"]
 [ext_resource type="Script" path="res://components/map/Map.cs" id="12_d3nfa"]
 [ext_resource type="Script" path="res://components/map/FollowMouse.cs" id="13_xy0cd"]

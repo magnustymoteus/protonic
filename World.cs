@@ -98,7 +98,7 @@ public partial class World : Node2D
 	}
 	public void ClickedOnMap()
 	{
-		electron.ApplyTransferMatrix(TransferMatrix.Dipole(3.0f, 2.0f));
+		electron.ApplyTransferMatrix(TransferMatrixFactory.Dipole(3.0f, 2.0f));
 		ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
 		if (!IsBuilding && Map.ComponentExists(position) && !UpgradeUI.IsVisible())

@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "protonic", "protonic.csproj", "{04B8C5B9-D0E0-4363-8E45-3889A9F7527C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "protonic", "protonic.csproj", "{B50AC9AE-5075-4597-8CE4-CBD1E7B9E880}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{04B8C5B9-D0E0-4363-8E45-3889A9F7527C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04B8C5B9-D0E0-4363-8E45-3889A9F7527C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04B8C5B9-D0E0-4363-8E45-3889A9F7527C}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{04B8C5B9-D0E0-4363-8E45-3889A9F7527C}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{04B8C5B9-D0E0-4363-8E45-3889A9F7527C}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{04B8C5B9-D0E0-4363-8E45-3889A9F7527C}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{B50AC9AE-5075-4597-8CE4-CBD1E7B9E880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B50AC9AE-5075-4597-8CE4-CBD1E7B9E880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B50AC9AE-5075-4597-8CE4-CBD1E7B9E880}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{B50AC9AE-5075-4597-8CE4-CBD1E7B9E880}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{B50AC9AE-5075-4597-8CE4-CBD1E7B9E880}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{B50AC9AE-5075-4597-8CE4-CBD1E7B9E880}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal
