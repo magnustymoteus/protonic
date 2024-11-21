@@ -1,6 +1,5 @@
-namespace protonic.utils.Particle;
 using Godot;
-
+namespace protonic.utils;
 public class PositionMomentum
 {
     public Vector2 Position;

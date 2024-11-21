@@ -1,14 +1,7 @@
 using Godot;
 using protonic;
-using System.Collections.Generic;
-using System;
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
 using protonic.utils;
-using protonic.Particle;
 using protonic.utils.TransferMatrix;
-using Color = Godot.Color;
 using Vector2 = Godot.Vector2;
 
 

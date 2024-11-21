@@ -11,6 +11,11 @@ var index: int = 0
 var x_bounds: Vector2 = Vector2(0,0)
 var y_bounds: Vector2 = Vector2(0,0)
 
+var numOfParticlePlots: int = 50
+var particlePlots: Array[PlotItem] = []
+
+var rng = RandomNumberGenerator.new()
+
 func update_bounds(elem: float, bounds: Vector2) -> Vector2:
 	if elem < bounds.x:
 		bounds.x = elem
@@ -27,28 +32,33 @@ func set_graph_bounds():
 func _init() -> void:
 	envelope = ParticleBeam.new()
 	envelope.Alpha = 0
-	envelope.Beta = 2
-	envelope.Emittance = 100
+	envelope.Beta = 10
+	envelope.Emittance = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	envelopePlot1 = $Graph2D.add_plot_item("Envelope ", Color.RED)
+	envelopePlot1 = $Graph2D.add_plot_item("Envelope max", Color.RED)
 	envelopePlot2 = $Graph2D.add_plot_item("Envelope min", Color.RED)
-
+	for elem in numOfParticlePlots:
+		particlePlots.append($Graph2D.add_plot_item("", Color.GREEN, 0.5))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if x <= 100:
-		var y = envelope.GetEnvelope(x, FODOLattice[index])
+		var envelopeY = envelope.GetEnvelope(FODOLattice[index])
+		for particlePlot in particlePlots:
+			var particleY: float = envelope.GetEnvelope(FODOLattice[index]) * envelope.GetRandomFactor()
+			particlePlot.add_point(Vector2(x, particleY))
 		index += 1
 		index %= (len(FODOLattice))
-		envelopePlot1.add_point(Vector2(x, y))
-		envelopePlot2.add_point(Vector2(x, -y))
-		x += 10
+		envelopePlot1.add_point(Vector2(x, envelopeY))
+		envelopePlot2.add_point(Vector2(x, -envelopeY))
 		
+
 		x_bounds = update_bounds(x, x_bounds)
-		y_bounds = update_bounds(y, y_bounds)
-		y_bounds = update_bounds(-y, y_bounds)
+		y_bounds = update_bounds(envelopeY, y_bounds)
+		y_bounds = update_bounds(-envelopeY, y_bounds)
 		set_graph_bounds()
 		
+		x += 10
 		

@@ -1,52 +1,58 @@
 using Godot;
 using protonic.utils.TransferMatrix;
+using System;
 namespace protonic.utils;
 
 public partial class ParticleBeam : GodotObject
 {
     public float Alpha, Beta, Emittance;
-    
-    public float GetPosition(float length)
-    {
-        // to do
-        return 0;
-    }
+
+    private Random _random;
 
     public float GetGamma()
     {
         return (1 + Mathf.Pow(Alpha, 2)) / Beta;
     }
-    public float GetAlpha(float length)
+
+    public ParticleBeam()
     {
-        return Alpha - length * GetGamma();
+        _random = new Random();
     }
 
-    public float GetBeta(float length)
+    public Matrix2x2 GetTransferMatrix(string magnet, float length = 3.2f)
     {
-        return Beta - (2 * Alpha * length) + (GetGamma() * Mathf.Pow(length, 2));
+        Matrix2x2 transferMatrix = new Matrix2x2(0, 0, 0, 0);
+        switch (magnet)
+        {
+            case "defocusing_quadrupole":
+                transferMatrix = TransferMatrix2x2Factory.DefocusingQuadrupole(-1, length);
+                break;
+            case "focusing_quadrupole":
+                transferMatrix = TransferMatrix2x2Factory.FocusingQuadrupole(1, length);
+                break;
+            case "drift":
+                transferMatrix = TransferMatrix2x2Factory.Drift(length);
+                break;
+        }
+
+        return transferMatrix;
     }
 
-    public float GetEnvelope(float length, string magnet)
-    {
-        Matrix2x2 transferMatrix = new Matrix2x2(0,0,0,0);
-            switch (magnet)
-            {
-                case "defocusing_quadrupole":
-                    transferMatrix = TransferMatrix2x2Factory.DefocusingQuadrupole(-1, 3.2f);
-                    break;
-                case "focusing_quadrupole":
-                    transferMatrix = TransferMatrix2x2Factory.FocusingQuadrupole(1, 3.2f);
-                    break;
-                case "drift":
-                    transferMatrix = TransferMatrix2x2Factory.Drift(3.2f);
-                    break;
-            }
 
-        float C = transferMatrix[0, 0], S = transferMatrix[0,1], Cprime = transferMatrix[1,0], Sprime = transferMatrix[1,1];
-        GD.Print("C:", C);
-        GD.Print("S:", S);
+    public float GetEnvelope(string magnet)
+    {
+        Matrix2x2 transferMatrix = GetTransferMatrix(magnet);
+
+        float C = transferMatrix[0, 0],
+            S = transferMatrix[0, 1],
+            Cprime = transferMatrix[1, 0],
+            Sprime = transferMatrix[1, 1];
         float beta = (Mathf.Pow(C, 2) * this.Beta) - (2 * S * C * this.Alpha) + (Mathf.Pow(S, 2) * this.GetGamma());
-        GD.Print("Beta:", beta);
         return Mathf.Sqrt(Emittance) * Mathf.Sqrt(beta);
     }
+
+    public float GetRandomFactor()
+    {  return (float)(_random.NextDouble() * 2 - 1);
+    }
 }
+    

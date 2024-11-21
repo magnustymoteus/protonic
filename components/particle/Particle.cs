@@ -1,6 +1,5 @@
 using System.Numerics;
 
-namespace protonic.Particle;
 using Godot;
 using protonic.utils;
 
@@ -12,7 +11,7 @@ public partial class Particle : Node2D
     
     
     
-    public Particle(Vector2 initialPosition, Vector2 initialMomentum, double mass, double charge)
+    public Particle(Godot.Vector2 initialPosition, Godot.Vector2 initialMomentum, double mass, double charge)
     {
         Trajectory = new PositionMomentum(initialPosition, initialMomentum);
         Mass = mass;
@@ -39,33 +38,33 @@ public partial class Particle : Node2D
         GD.Print("after:");
         GD.Print(outTrajectoryMatrix.M11+","+outTrajectoryMatrix.M21+","+outTrajectoryMatrix.M31+","+outTrajectoryMatrix.M41);
         
-        Trajectory.Momentum = new Vector2(outTrajectoryMatrix.M21, outTrajectoryMatrix.M41);
-        Trajectory.Position = new Vector2(outTrajectoryMatrix.M11, outTrajectoryMatrix.M31);
-        SetPosition(new Vector2(Trajectory.Position.X, Trajectory.Momentum.X));
+        Trajectory.Momentum = new Godot.Vector2(outTrajectoryMatrix.M21, outTrajectoryMatrix.M41);
+        Trajectory.Position = new Godot.Vector2(outTrajectoryMatrix.M11, outTrajectoryMatrix.M31);
+        SetPosition(new Godot.Vector2(Trajectory.Position.X, Trajectory.Momentum.X));
         QueueRedraw();
     }
 }
 
 public partial class Proton : Particle
 {
-    public Proton(Vector2 initialPosition, Vector2 initialMomentum) 
+    public Proton(Godot.Vector2 initialPosition, Godot.Vector2 initialMomentum) 
         : base(initialPosition, initialMomentum, 938.27, 1) {}
 }
 
 public partial class Neutron : Particle
 {
-    public Neutron(Vector2 initialPosition, Vector2 initialMomentum)
+    public Neutron(Godot.Vector2 initialPosition, Godot.Vector2 initialMomentum)
         : base(initialPosition, initialMomentum, 939.57, 0) {}
 }
 
 public partial class Electron : Particle
 {
-    public Electron(Vector2 initialPosition, Vector2 initialMomentum)
+    public Electron(Godot.Vector2 initialPosition, Godot.Vector2 initialMomentum)
         : base(initialPosition, initialMomentum, 0.511, -1) {}
 }
 
 public partial class Positron : Particle
 {
-    public Positron(Vector2 initialPosition, Vector2 initialMomentum) 
+    public Positron(Godot.Vector2 initialPosition, Godot.Vector2 initialMomentum) 
         : base(initialPosition, initialMomentum, 0.511, 1) {}
 }
