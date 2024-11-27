@@ -41,6 +41,9 @@ public partial class ParticleBeam : GodotObject
             case "drift":
                 transferMatrix = TransferMatrix2x2Factory.Drift(length);
                 break;
+            case "dipole":
+                transferMatrix = TransferMatrix2x2Factory.Dipole(length, 0.2f);
+                break;
         }
 
         return transferMatrix;

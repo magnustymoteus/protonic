@@ -58,5 +58,5 @@ func _process(delta: float) -> void:
 		y_bounds = update_bounds(-envelopeY, y_bounds)
 		set_graph_bounds()
 		
-		x += 10
+		x += 5
 		

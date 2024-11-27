@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="74f00774-dfa8-4d6d-aea8-143a6f5d0e51" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particle/Particle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particle/Particle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/ParticleBeam.cs" beforeDir="false" afterPath="$PROJECT_DIR$/utils/ParticleBeam.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,12 +19,14 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/World.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/phaseEllipseVisualizer/PhaseEllipseVisualizer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/FileLoader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/Matrix2x2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/ParticleBeam.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/TransferMatrix/TransferMatrixFactory.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -100,12 +102,14 @@
       <workItem from="1732195494765" duration="21736000" />
       <workItem from="1732630423648" duration="625000" />
       <workItem from="1732656387000" duration="10179000" />
+      <workItem from="1732726498643" duration="7552000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

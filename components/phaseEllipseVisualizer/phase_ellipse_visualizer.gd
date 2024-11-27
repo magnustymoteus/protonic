@@ -38,7 +38,6 @@ func _process(delta: float) -> void:
 	if s <= 500:
 		var positionMomentum = beam.GetPhaseSpace(s, 500)
 		ellipsePlot.add_point(positionMomentum)
-		print(positionMomentum)
 
 		x_bounds = update_bounds(positionMomentum.x, x_bounds)
 		y_bounds = update_bounds(positionMomentum.y, y_bounds)
