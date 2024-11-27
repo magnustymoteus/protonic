@@ -20,6 +20,13 @@ public partial class ParticleBeam : GodotObject
         _random = new Random();
     }
 
+    public ParticleBeam(float alpha, float beta, float emittance) : this()
+    {
+        Alpha = alpha;
+        Beta = beta;
+        Emittance = emittance;
+    }
+ 
     public Matrix2x2 GetTransferMatrix(string magnet, float length = 3.2f)
     {
         Matrix2x2 transferMatrix = new Matrix2x2(0, 0, 0, 0);
@@ -39,21 +46,12 @@ public partial class ParticleBeam : GodotObject
         return transferMatrix;
     }
 
-    public Godot.Vector2 GetPhaseSpace(float s, string magnet, float sMax)
+    public Vector2 GetPhaseSpace(float s, float sMax)
     {
-        Matrix2x2 transferMatrix = GetTransferMatrix(magnet);
-
-        float C = transferMatrix[0, 0],
-            S = transferMatrix[0, 1],
-            Cprime = transferMatrix[1, 0],
-            Sprime = transferMatrix[1, 1];
-        float beta = (Mathf.Pow(C, 2) * this.Beta) - (2 * S * C * this.Alpha) + (Mathf.Pow(S, 2) * this.GetGamma());
-
-
-        float theta = s * 2.0f*Mathf.Pi / sMax;
-        float xPrime = -Mathf.Sqrt(Emittance / beta) * (Alpha * Mathf.Cos(theta) + Mathf.Sin(theta));
-        float x = Mathf.Sqrt(Emittance*beta)*Mathf.Cos(theta);
-        return new Godot.Vector2(x, xPrime);
+        float theta = s * 2.0f *Mathf.Pi / sMax;
+        float xPrime = -Mathf.Sqrt(Emittance / Beta) * (Alpha * Mathf.Cos(theta) + Mathf.Sin(theta));
+        float x = Mathf.Sqrt(Emittance*Beta)*Mathf.Cos(theta);
+        return new Vector2(x, xPrime);
     }
 
     public float GetEnvelope(string magnet)

@@ -14,8 +14,6 @@ var y_bounds: Vector2 = Vector2(0,0)
 var numOfParticlePlots: int = 50
 var particlePlots: Array[PlotItem] = []
 
-var rng = RandomNumberGenerator.new()
-
 func update_bounds(elem: float, bounds: Vector2) -> Vector2:
 	if elem < bounds.x:
 		bounds.x = elem
