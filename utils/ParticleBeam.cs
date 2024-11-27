@@ -1,6 +1,7 @@
 using Godot;
 using protonic.utils.TransferMatrix;
 using System;
+using protonic.utils.Particle;
 namespace protonic.utils;
 
 public partial class ParticleBeam : GodotObject
@@ -38,6 +39,22 @@ public partial class ParticleBeam : GodotObject
         return transferMatrix;
     }
 
+    public Godot.Vector2 GetPhaseSpace(float s, string magnet, float sMax)
+    {
+        Matrix2x2 transferMatrix = GetTransferMatrix(magnet);
+
+        float C = transferMatrix[0, 0],
+            S = transferMatrix[0, 1],
+            Cprime = transferMatrix[1, 0],
+            Sprime = transferMatrix[1, 1];
+        float beta = (Mathf.Pow(C, 2) * this.Beta) - (2 * S * C * this.Alpha) + (Mathf.Pow(S, 2) * this.GetGamma());
+
+
+        float theta = s * 2.0f*Mathf.Pi / sMax;
+        float xPrime = -Mathf.Sqrt(Emittance / beta) * (Alpha * Mathf.Cos(theta) + Mathf.Sin(theta));
+        float x = Mathf.Sqrt(Emittance*beta)*Mathf.Cos(theta);
+        return new Godot.Vector2(x, xPrime);
+    }
 
     public float GetEnvelope(string magnet)
     {

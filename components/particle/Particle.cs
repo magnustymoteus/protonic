@@ -10,18 +10,35 @@ public partial class Particle : Node2D
     public double Charge { get; set; }  // In Coulombs
     
     
-    
     public Particle(Godot.Vector2 initialPosition, Godot.Vector2 initialMomentum, double mass, double charge)
     {
         Trajectory = new PositionMomentum(initialPosition, initialMomentum);
         Mass = mass;
         Charge = charge;
     }
+
     public override void _Draw()
     {
         DrawCircle(Position, 2, Colors.Yellow);
     }
-    
+
+    public void ApplyTransferMatrix(Matrix2x2 matrix, string plane = "x")
+    {
+        Godot.Vector2 trajectoryVectorX = new Godot.Vector2(Trajectory.Position.X, Trajectory.Momentum.X),
+            trajectoryVectorY = new Godot.Vector2(Trajectory.Position.Y, Trajectory.Momentum.Y);
+        switch (plane)
+        {
+            case "y":
+                trajectoryVectorY = matrix.Multiply(trajectoryVectorY);
+                break;
+            default:
+                trajectoryVectorX = matrix.Multiply(trajectoryVectorX);
+                break;
+        }
+        Trajectory = new PositionMomentum(new Godot.Vector2(trajectoryVectorX.X, trajectoryVectorY.X), new Godot.Vector2(trajectoryVectorX.Y, trajectoryVectorY.Y));
+        SetPosition(new Godot.Vector2(Trajectory.Position.X, Trajectory.Momentum.X));
+        QueueRedraw();
+    }
 
     public void ApplyTransferMatrix(Matrix4x4 matrix)
     {
