@@ -51,13 +51,12 @@ public partial class Particle : Node2D
         
         Matrix4x4 outTrajectoryMatrix = Matrix4x4.Multiply(matrix, trajectoryMatrix);
         GD.Print("before:");
-        GD.Print(trajectoryMatrix.M11+","+trajectoryMatrix.M21+","+trajectoryMatrix.M31+","+trajectoryMatrix.M41);
+        GD.Print(Trajectory.Position, " ", Trajectory.Momentum);
         GD.Print("after:");
-        GD.Print(outTrajectoryMatrix.M11+","+outTrajectoryMatrix.M21+","+outTrajectoryMatrix.M31+","+outTrajectoryMatrix.M41);
-        
         Trajectory.Momentum = new Godot.Vector2(outTrajectoryMatrix.M21, outTrajectoryMatrix.M41);
         Trajectory.Position = new Godot.Vector2(outTrajectoryMatrix.M11, outTrajectoryMatrix.M31);
         SetPosition(new Godot.Vector2(Trajectory.Position.X, Trajectory.Momentum.X));
+        GD.Print(Trajectory.Position, " ", Trajectory.Momentum);
         QueueRedraw();
     }
 }

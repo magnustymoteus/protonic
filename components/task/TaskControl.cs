@@ -18,7 +18,7 @@ public partial class TaskControl : Control
         SetGlobalPosition(this._position);
         SetSize(new Vector2(32,32));
 
-        var task = GD.Load<PackedScene>("res://scenes/task.tscn");
+        var task = GD.Load<PackedScene>("res://components/task/task.tscn");
         Node2D instance = task.Instantiate<Node2D>();
         AddChild(instance);
     }

@@ -20,4 +20,3 @@ script = ExtResource("2_grgvi")
 x_max = 100.0
 y_min = -200.0
 y_max = 200.0
-background_color = Color(0.144063, 0.144063, 0.144063, 1)

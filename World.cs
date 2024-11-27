@@ -92,7 +92,10 @@ public partial class World : Node2D
 	}
 	public void ClickedOnMap()
 	{
-		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.Dipole(3.0f, 2.0f));
+		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.FocusingQuadrupole(0.01f, 1.0f));
+		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.Drift(5.0f));
+		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.DefocusingQuadrupole(0.01f, 1.0f));
+		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.Drift(5.0f));
 		ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
 		if (!IsBuilding && Map.ComponentExists(position) && !UpgradeUI.IsVisible())

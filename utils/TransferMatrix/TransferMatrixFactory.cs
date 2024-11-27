@@ -107,9 +107,9 @@ namespace protonic.utils.TransferMatrix
             float omega = Mathf.Sqrt(Mathf.Abs(k)) * length;
             return new Matrix4x4(
                 Mathf.Cosh(omega), (1 / Mathf.Sqrt(k)) * Mathf.Sinh(omega), 0, 0,
-                Mathf.Sqrt(k) * Mathf.Sinh(omega), Mathf.Cosh(omega), 0, 0,
-                0, 0, Mathf.Cos(omega), (1 / Mathf.Sqrt(k)) * Mathf.Sin(omega),
-                0, 0, -Mathf.Sqrt(k) * Mathf.Sin(omega), Mathf.Cos(omega)
+                Mathf.Sqrt(Mathf.Abs(k)) * Mathf.Sinh(omega), Mathf.Cosh(omega), 0, 0,
+                0, 0, Mathf.Cos(omega), (1 / Mathf.Sqrt(Mathf.Abs(k))) * Mathf.Sin(omega),
+                0, 0, -Mathf.Sqrt(Mathf.Abs(k)) * Mathf.Sin(omega), Mathf.Cos(omega)
             );
         }
     }
