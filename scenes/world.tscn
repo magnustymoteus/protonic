@@ -185,6 +185,7 @@ metadata/_edit_use_anchors_ = true
 modulate = Color(1, 1, 1, 0.52549)
 texture_filter = 1
 layout_mode = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="followRect" type="ColorRect" parent="ColorRect"]
 layout_mode = 0
@@ -193,6 +194,7 @@ offset_bottom = 32.0
 pivot_offset = Vector2(16, 16)
 mouse_filter = 1
 color = Color(1, 1, 1, 0.152941)
+metadata/_edit_use_anchors_ = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(960, 540)
@@ -224,3 +226,4 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
