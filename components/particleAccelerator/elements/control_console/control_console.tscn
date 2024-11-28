@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cl2k1vy36ipnn"]
+[gd_scene load_steps=6 format=3 uid="uid://cl2k1vy36ipnn"]
 
 [ext_resource type="FontFile" uid="uid://bivf8m01g3oej" path="res://assets/fonts/oxanium/Oxanium-Light.ttf" id="1_gqtoq"]
+[ext_resource type="Script" path="res://components/particleAccelerator/elements/control_console/ControlConsole.cs" id="1_h5u8l"]
 [ext_resource type="PackedScene" uid="uid://cn6crowg18yeq" path="res://components/envelopeVisualizer/envelopeVisualizer.tscn" id="2_lrld3"]
 [ext_resource type="PackedScene" uid="uid://cctx6x88fagfj" path="res://components/phaseEllipseVisualizer/phaseEllipseVisualizer.tscn" id="3_xf8ub"]
 
@@ -15,6 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_h5u8l")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 0
