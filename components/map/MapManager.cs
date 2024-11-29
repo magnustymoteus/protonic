@@ -7,168 +7,157 @@ using Godot;
 
 public class MapManager 
 {
-    public Dictionary<Vector2I, Component> Components = new Dictionary<Vector2I, Component>();
-    public Dictionary<Vector2I, Sprite2D> Textures = new Dictionary<Vector2I, Sprite2D>();
+    public Dictionary<Vector2I, Element> Elements = new Dictionary<Vector2I, Element>();
 
     public World root;
     public MapManager(World root)
     {
 	    this.root = root;
     }
-    public Component GetComponent(Vector2I tile)
+    public Element GetElement(Vector2I tile)
     {
-        Component result;
-        this.Components.TryGetValue(tile, out result);
+        Element result;
+        Elements.TryGetValue(tile, out result);
         return result;
     }
     
-    public Sprite2D GetTexture(Vector2I tile)
-    {
-	    Sprite2D result;
-	    this.Textures.TryGetValue(tile, out result);
-	    return result;
-    }
 
-    public bool ComponentExists(Vector2I tile)
+
+    public bool ElementExists(Vector2I tile)
     {
-        return GetComponent(tile) != null;
+        return GetElement(tile) != null;
     }
-    public void AddComponent(Component component, bool addToActions=true)
+    public void AddElement(Element element, bool addToActions=true)
     {
-	    if (!CanPlaceComponent(component)) return;
+	    if (!CanPlaceElement(element)) return;
 	    
-	    var affectedComponents = Connect(component);
-	    foreach (Component affectedComponent in affectedComponents)
+	    var affectedElements = Connect(element);
+	    foreach (Element affectedElement in affectedElements)
 	    {
-		    UpdateTexture(affectedComponent);
-		    affectedComponent.ClearConnectionArrows(root);
-		    affectedComponent.PlaceConnectionArrows(root.TileSize, root);
+		    UpdateTexture(affectedElement);
+		    affectedElement.ClearConnectionArrows(root);
+		    affectedElement.PlaceConnectionArrows(root.TileSize, root);
 	    }
-	    if (affectedComponents.Count == 0) UpdateTexture(component);
+	    if (affectedElements.Count == 0) UpdateTexture(element);
 		
-	    for (int i = component.beginPosition.X; i < component.endPosition.X; i++)
+	    for (int i = element.beginPosition.X; i < element.endPosition.X; i++)
 	    {
-		    for (int j = component.beginPosition.Y; j < component.endPosition.Y; j++)
+		    for (int j = element.beginPosition.Y; j < element.endPosition.Y; j++)
 		    {
-			    Components.Add(new Vector2I(i, j), component);
+			    Elements.Add(new Vector2I(i, j), element);
 		    }
 	    }
-		component.PlaceConnectionArrows(root.TileSize, root);
+		element.PlaceConnectionArrows(root.TileSize, root);
 
 	    if (addToActions)
 	    {
 		    Action action = new Action(
-			    "Add Component",
-			    () => AddComponent(component, false)
+			    "Add Element",
+			    () => AddElement(element, false)
 			    );
 		    action.UndoAction = new Action(
-			    "Remove Component",
-			    () => DeleteComponent(component, false)
+			    "Remove Element",
+			    () => DeleteElement(element, false)
 		    );
 		    root.ActionManager.AddAction(action);
 	    }
     }
 
-    public void DeleteComponent(Component component, bool addToActions=true)
+    public void DeleteElement(Element element, bool addToActions=true)
     {
-        Sprite2D rect = GetTexture(component.beginPosition);
-        Textures.Remove(component.beginPosition);
-        root.RemoveChild(rect);
-        component.ClearConnectionArrows(root);
+        root.RemoveChild(element);
+        element.ClearConnectionArrows(root);
         
-        for (int i = component.beginPosition.X; i < component.endPosition.X; i++)
+        for (int i = element.beginPosition.X; i < element.endPosition.X; i++)
         {
-	        for (int j = component.beginPosition.Y; j < component.endPosition.Y; j++)
+	        for (int j = element.beginPosition.Y; j < element.endPosition.Y; j++)
 	        {
-		        Components.Remove(new Vector2I(i, j));
+		        Elements.Remove(new Vector2I(i, j));
 	        }
         }
         
-        foreach (var connection in component.connections)
+        foreach (var connection in element.connections)
         {
 	        foreach (var direction in connection.Value)
 	        {
-		        Vector2I targetPos = component.rectBeginPosition+Matrix2x2.GetRotationMatrix(component.rotation).Multiply(connection.Key)+Component.Convert(direction);
-		        Component targetComponent = GetComponent(targetPos);
-		        targetPos = targetComponent.ConvertTargetToConnection(targetPos-Component.Convert(direction), 
-			        Component.Convert(-Component.Convert(direction)));
-		        targetComponent.RemoveConnection(targetPos, Component.Convert(-Component.Convert(direction)));
-		        targetComponent.ClearConnectionArrows(root);
-		        targetComponent.PlaceConnectionArrows(root.TileSize, root);
-		        UpdateTexture(targetComponent);
+		        Vector2I targetPos = element.rectBeginPosition+Matrix2x2.GetRotationMatrix(element.rotation).Multiply(connection.Key)+Element.Convert(direction);
+		        Element targetElement = GetElement(targetPos);
+		        targetPos = targetElement.ConvertTargetToConnection(targetPos-Element.Convert(direction), 
+			        Element.Convert(-Element.Convert(direction)));
+		        targetElement.RemoveConnection(targetPos, Element.Convert(-Element.Convert(direction)));
+		        targetElement.ClearConnectionArrows(root);
+		        targetElement.PlaceConnectionArrows(root.TileSize, root);
+		        UpdateTexture(targetElement);
 
-		        component.availableConnections[connection.Key].Add(component.UndoRotation(direction));
+		        element.availableConnections[connection.Key].Add(element.UndoRotation(direction));
 	        }
         }
         
-        component.connections.Clear();
+        element.connections.Clear();
 
         
         
         if (addToActions)
         {
 	        Action action = new Action(
-		        "Remove Component",
-		        () => DeleteComponent(component, false)
+		        "Remove Element",
+		        () => DeleteElement(element, false)
 	        );
 	        action.UndoAction = new Action(
-		        "Add Component",
-		        () => AddComponent(component, false)
+		        "Add Element",
+		        () => AddElement(element, false)
 	        );
 	        root.ActionManager.AddAction(action);
         }
     }
     
-    public HashSet<Component> Connect(Component sourceComponent)
+    public HashSet<Element> Connect(Element sourceElement)
     {
-	    HashSet<Component> affectedComponents = new HashSet<Component>();
-	    foreach (var targetFrom in sourceComponent.GetAvailableConnectionTargets())
+	    HashSet<Element> affectedElements = new HashSet<Element>();
+	    foreach (var targetFrom in sourceElement.GetAvailableConnectionTargets())
 	    {
-		    Component targetComponent = GetComponent(targetFrom.Item2);
-		    if (targetComponent != null)
+		    Element targetElement = GetElement(targetFrom.Item2);
+		    if (targetElement != null)
 		    {
-			    Vector2I sourceConnectPos = targetFrom.Item2 - Component.Convert(targetFrom.Item1);
-			    if (targetComponent.CanConnect(sourceConnectPos))
+			    Vector2I sourceConnectPos = targetFrom.Item2 - Element.Convert(targetFrom.Item1);
+			    if (targetElement.CanConnect(sourceConnectPos))
 			    {
-				    Vector2I sourcePos = sourceComponent.ConvertTargetToConnection(targetFrom.Item2, targetFrom.Item1);
-				    Vector2I targetPos = targetComponent.ConvertTargetToConnection(sourceConnectPos, Component.Convert(-Component.Convert(targetFrom.Item1)));
-				    sourceComponent.AddConnection(sourcePos, targetFrom.Item1);
-				    targetComponent.AddConnection(targetPos, Component.Convert(-Component.Convert(targetFrom.Item1)));
-				    affectedComponents.Add(sourceComponent);
-				    affectedComponents.Add(targetComponent);
+				    Vector2I sourcePos = sourceElement.ConvertTargetToConnection(targetFrom.Item2, targetFrom.Item1);
+				    Vector2I targetPos = targetElement.ConvertTargetToConnection(sourceConnectPos, Element.Convert(-Element.Convert(targetFrom.Item1)));
+				    sourceElement.AddConnection(sourcePos, targetFrom.Item1);
+				    targetElement.AddConnection(targetPos, Element.Convert(-Element.Convert(targetFrom.Item1)));
+				    affectedElements.Add(sourceElement);
+				    affectedElements.Add(targetElement);
 			    }
 		    }
 	    }
-	    return affectedComponents;
+	    return affectedElements;
     }
     
-    public void UpdateTexture(Component component)
+    public void UpdateTexture(Element element)
     {
-	    Sprite2D placedSprite = GetTexture(component.beginPosition);
-	    bool isNew = placedSprite == null;
+	    bool isNew = GetElement(element.beginPosition) == null;
 	    if (isNew)
 	    {
-		    placedSprite = new Sprite2D();
-		    placedSprite.SetTextureFilter(CanvasItem.TextureFilterEnum.Nearest);
-		    placedSprite.SetCentered(true);
-		    placedSprite.SetRotation(component.rotation);
-		    placedSprite.SetPosition((VectorConverter.Convert(component.beginPosition+component.endPosition)/2.0f)*root.TileSize);
+		    element.SetTextureFilter(CanvasItem.TextureFilterEnum.Nearest);
+		    element.SetCentered(true);
+		    element.SetRotation(element.rotation);
+		    element.SetPosition((VectorConverter.Convert(element.beginPosition+element.endPosition)/2.0f)*root.TileSize);
 	    }
-	    placedSprite.SetTexture(ResourceLoader.Load<Texture2D>(component.GetTexturePath()));
+	    element.SetTexture(ResourceLoader.Load<Texture2D>(element.GetTexturePath()));
 	    if (isNew)
 	    {
-		    root.AddChild(placedSprite);
-		    Textures.Add(component.beginPosition, placedSprite);
+		    root.AddChild(element);
 	    }
     }
 
-    public bool CanPlaceComponent(Component component)
+    public bool CanPlaceElement(Element element)
     {
-	    for (int i = component.beginPosition.X; i < component.endPosition.X; i++)
+	    for (int i = element.beginPosition.X; i < element.endPosition.X; i++)
 		{
-			for (int j = component.beginPosition.Y; j < component.endPosition.Y; j++)
+			for (int j = element.beginPosition.Y; j < element.endPosition.Y; j++)
 			{
-				if (ComponentExists(new Vector2I(i, j))) return false;
+				if (ElementExists(new Vector2I(i, j))) return false;
 			}
 		}
 		return true;

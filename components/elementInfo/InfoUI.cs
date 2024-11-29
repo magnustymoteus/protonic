@@ -13,10 +13,10 @@ public partial class InfoUI : Control
 
 	[Export] private Button closeButton; 
 	// Called when the node enters the scene tree for the first time.
-	public void PopupInfo(string componentPath)
+	public void PopupInfo(string elementPath)
 	{
 		SetOpacity(infoRect, 0.0f);
-		currentInfoText.SetText(FileLoader.LoadTextFromFile(FileLoader.SearchFile(componentPath, "info.txt")));
+		currentInfoText.SetText(FileLoader.LoadTextFromFile(FileLoader.SearchFile(elementPath, "info.txt")));
 		infoRect.GetParent<Control>().SetVisible(true);
 		fadeInInfo = true;
 	}

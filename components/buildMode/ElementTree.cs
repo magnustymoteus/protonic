@@ -4,9 +4,9 @@ using System.Linq;
 using protonic.utils;
 
 
-public partial class ComponentTree : Godot.Tree
+public partial class ElementTree : Godot.Tree
 {
-	[Export] private Node2D world;
+	[Export] private World world;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -48,7 +48,7 @@ public partial class ComponentTree : Godot.Tree
 		TreeItem selected = GetSelected();
 		if (selected.GetChildCount() == 0)
 		{
-			world.Call("SwitchComponent", "./components/particleAccelerator/elements"+GetPath(selected));
+			world.SwitchElement(GetPath(selected));
 		}
 		else DeselectAll();
 	}

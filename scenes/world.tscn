@@ -1,15 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://c74atj8f1b45o"]
+[gd_scene load_steps=16 format=3 uid="uid://c74atj8f1b45o"]
 
 [ext_resource type="Script" path="res://World.cs" id="1_t4wlv"]
 [ext_resource type="Script" path="res://components/task/TaskUI.cs" id="2_2ci46"]
 [ext_resource type="Script" path="res://components/task/TaskTree.cs" id="3_xcphr"]
 [ext_resource type="FontFile" uid="uid://d21b5xackhtje" path="res://assets/fonts/oxanium/Oxanium-Bold.ttf" id="4_0h4io"]
 [ext_resource type="Script" path="res://components/buildMode/BuildButton.cs" id="5_j2din"]
-[ext_resource type="Script" path="res://components/buildMode/ComponentTree.cs" id="6_1sbpa"]
+[ext_resource type="Script" path="res://components/buildMode/ElementTree.cs" id="6_4ybec"]
 [ext_resource type="Script" path="res://components/elementInfo/InfoUI.cs" id="7_6dfyx"]
 [ext_resource type="FontFile" uid="uid://g1nf6ialkgtv" path="res://assets/fonts/oxanium/Oxanium-Regular.ttf" id="8_xq76k"]
 [ext_resource type="Texture2D" uid="uid://cvuspweyehqoa" path="res://assets/images/info.png" id="9_3dkcx"]
-[ext_resource type="PackedScene" uid="uid://c7lt2i1ahebbb" path="res://components/particleAccelerator/component_upgrade.tscn" id="10_xtgq2"]
 [ext_resource type="Script" path="res://components/map/TileMapLayer.cs" id="11_lg6sy"]
 [ext_resource type="Script" path="res://components/map/Map.cs" id="12_d3nfa"]
 [ext_resource type="Script" path="res://components/map/FollowMouse.cs" id="13_xy0cd"]
@@ -21,15 +20,15 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="Node2D" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ComponentHoverRect", "ColorHoverRect", "TileMap", "InfoUI", "UpgradeUI")]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ElementHoverRect", "ColorHoverRect", "TileMap", "InfoUI", "UpgradeUI")]
 position = Vector2(-2, -1)
 script = ExtResource("1_t4wlv")
 BuildingUI = NodePath("CanvasLayer/buildUI")
-ComponentHoverRect = NodePath("ColorRect/componentRect")
+ElementHoverRect = NodePath("ColorRect/componentRect")
 ColorHoverRect = NodePath("ColorRect/followRect")
 TileMap = NodePath("TileMapLayer")
 InfoUI = NodePath("CanvasLayer/infoUI")
-UpgradeUI = NodePath("CanvasLayer/UpgradeUI")
+UpgradeUI = NodePath("")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
@@ -37,10 +36,9 @@ layer = 3
 [node name="taskUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("_tasks")]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 57.0
-offset_top = 713.0
-offset_right = 97.0
-offset_bottom = 753.0
+offset_top = 775.0
+offset_right = 40.0
+offset_bottom = 815.0
 script = ExtResource("2_2ci46")
 _tasks = NodePath("../../Tasks")
 metadata/_edit_use_anchors_ = true
@@ -90,7 +88,7 @@ offset_bottom = 237.0
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_0h4io")
 allow_search = false
-script = ExtResource("6_1sbpa")
+script = ExtResource("6_4ybec")
 world = NodePath("../../..")
 
 [node name="infoUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("currentInfoText", "infoRect", "closeButton")]
@@ -149,9 +147,6 @@ offset_bottom = 47.0
 theme_override_font_sizes/font_size = 40
 text = "X"
 flat = true
-
-[node name="UpgradeUI" parent="CanvasLayer" instance=ExtResource("10_xtgq2")]
-visible = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." node_paths=PackedStringArray("world")]
 tile_set = SubResource("TileSet_3d7cb")

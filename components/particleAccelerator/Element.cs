@@ -11,9 +11,9 @@ public enum ConnectiveDirection
     Left=0, Up=1, Right=2, Down=3
 }
 
-public class Component 
+public partial class Element : Sprite2D
 {
-    public string path;
+    public string name, path;
     
     // post rotation
     public Vector2I beginPosition;
@@ -39,9 +39,10 @@ public class Component
 
     public Array<Sprite2D> arrows = new Array<Sprite2D>();
     
-    public Component(string path, Vector2I position, Vector2I size, float rotation)
+    public Element(string name, Vector2I position, Vector2I size, float rotation)
     {
-        this.path = path;
+        this.name = name;
+        this.path = "./components/particleAccelerator/elements" + name;
         this.beginPosition = GetBeginPosition(position, size);
         this.endPosition = GetEndPosition(position, size);
         this.rectBeginPosition = position;
@@ -69,7 +70,7 @@ public class Component
     {
         foreach (var connection in this.GetAvailableConnectionTargets())
         {
-            Vector2 position = (connection.Item2-Component.Convert(connection.Item1)/new Vector2(2.0f, 2.0f)) * tileSize;
+            Vector2 position = (connection.Item2-Element.Convert(connection.Item1)/new Vector2(2.0f, 2.0f)) * tileSize;
             Texture2D texture = ResourceLoader.Load<Texture2D>("./assets/images/connectionArrow.png");
             float rotation = ((int)connection.Item1 + 3) % 4 * Mathf.Pi / 2;
             Sprite2D arrowRect = new Sprite2D();
@@ -85,8 +86,8 @@ public class Component
 
     public ConnectiveDirection UndoRotation(ConnectiveDirection direction)
     {
-        return Component.Convert(Matrix2x2.GetRotationMatrix(this.rotation).Transpose()
-            .Multiply(Component.Convert(direction)));
+        return Element.Convert(Matrix2x2.GetRotationMatrix(this.rotation).Transpose()
+            .Multiply(Element.Convert(direction)));
     }
 
     public Vector2I UndoRotation(Vector2I position)
@@ -150,7 +151,7 @@ public class Component
 
     public Vector2I ConvertTargetToConnection(Vector2I targetPos, ConnectiveDirection direction)
     {
-            return UndoRotation(targetPos-rectBeginPosition)-UndoRotation(Component.Convert(direction)); 
+            return UndoRotation(targetPos-rectBeginPosition)-UndoRotation(Element.Convert(direction)); 
     }
     // convert local target positions to global
     public SortedSet<Tuple<ConnectiveDirection, Vector2I>> GetAvailableConnectionTargets()
@@ -163,7 +164,7 @@ public class Component
             {
                 Matrix2x2 rotationMatrix = Matrix2x2.GetRotationMatrix(this.rotation);
                 Vector2I position = GetTargetPosition(availableConnectionFrom.Key, direction);
-                ConnectiveDirection rotatedDirection = Component.Convert(rotationMatrix.Multiply(Component.Convert(direction)));
+                ConnectiveDirection rotatedDirection = Element.Convert(rotationMatrix.Multiply(Element.Convert(direction)));
                 result.Add(new Tuple<ConnectiveDirection, Vector2I>(rotatedDirection, position));
             }
         }
@@ -172,7 +173,7 @@ public class Component
 
     public Vector2I GetTargetPosition(Vector2I position, ConnectiveDirection direction)
     {
-        return this.rectBeginPosition + Matrix2x2.GetRotationMatrix(this.rotation).Multiply( position + Component.Convert(direction));
+        return this.rectBeginPosition + Matrix2x2.GetRotationMatrix(this.rotation).Multiply( position + Element.Convert(direction));
     }
     public static Vector2I Convert(ConnectiveDirection direction)
     {
@@ -227,4 +228,8 @@ public class Component
         }
     }
     
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        
+    }
 }

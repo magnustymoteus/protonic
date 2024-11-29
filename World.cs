@@ -9,7 +9,7 @@ public partial class World : Node2D
 {
 	[Export] public Control BuildingUI;
 	
-	[Export] public TextureRect ComponentHoverRect;
+	[Export] public TextureRect ElementHoverRect;
 	[Export] public ColorRect ColorHoverRect;
 	
 	[Export] public TileMapLayer TileMap;
@@ -17,13 +17,16 @@ public partial class World : Node2D
 
 	public bool IsBuilding = false;
 
-	public string CurrentComponentPath;
+	public string CurrentElementPath;
+	public string CurrentElementName;
 	
 	[Export] public Control InfoUI;
 	[Export] public Control UpgradeUI;
 
 	public MapManager Map;
 	public ActionManager ActionManager = ActionManager.GetInstance();
+	
+	private ElementFactory _elementFactory = new ElementFactory();
 
 	public string CurrentLevelPath;
 
@@ -50,25 +53,25 @@ public partial class World : Node2D
 	{
 	}
 
-	public void UpdateComponentTexture()
+	public void UpdateElementTexture()
 	{
 		if (IsBuilding)
 		{
-			string texturePath = CurrentComponentPath + "/disconnected.png";
+			string texturePath = CurrentElementPath + "/disconnected.png";
 			Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
-			ComponentHoverRect.SetTexture(texture);
+			ElementHoverRect.SetTexture(texture);
 			ColorHoverRect.SetSize(texture.GetSize());
 		}
 		else
 		{
-			ComponentHoverRect.SetTexture(null);
+			ElementHoverRect.SetTexture(null);
 			ColorHoverRect.SetSize(TileSize);
 		}
 	}
 	
 	public void OnTileChange()
 	{
-		if(CurrentComponentPath != null) UpdateComponentTexture();
+		if(CurrentElementPath != null) UpdateElementTexture();
 	}
 	
 	public void SwitchBuildingMode()
@@ -77,40 +80,37 @@ public partial class World : Node2D
 		BuildingUI.SetVisible(IsBuilding);
 	}
 	
-	public void SwitchComponent(string componentPath)
+	public void SwitchElement(string elementName)
 	{
-		CurrentComponentPath = componentPath;
-		UpdateComponentTexture();
-		InfoUI.Call("PopupInfo", CurrentComponentPath);
+		CurrentElementPath = "./components/particleAccelerator/elements"+elementName;
+		CurrentElementName = elementName;
+		UpdateElementTexture();
+		InfoUI.Call("PopupInfo", CurrentElementPath);
 	}
 
 
-	public void DeleteComponent()
+	public void DeleteElement()
 	{
-		Component component = Map.GetComponent(VectorConverter.Convert(ComponentHoverRect.GetParent<ColorRect>().GetPosition()/TileSize));
-		if(component != null) Map.DeleteComponent(component);
+		Element element = Map.GetElement(VectorConverter.Convert(ElementHoverRect.GetParent<ColorRect>().GetPosition()/TileSize));
+		if(element != null) Map.DeleteElement(element);
 	}
 	public void ClickedOnMap()
 	{
-		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.FocusingQuadrupole(0.01f, 1.0f));
-		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.Drift(5.0f));
-		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.DefocusingQuadrupole(0.01f, 1.0f));
-		electron.ApplyTransferMatrix(TransferMatrix4x4Factory.Drift(5.0f));
-		ColorRect parent = ComponentHoverRect.GetParent<ColorRect>();
+		ColorRect parent = ElementHoverRect.GetParent<ColorRect>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
-		if (!IsBuilding && Map.ComponentExists(position) && !UpgradeUI.IsVisible())
+		if (!IsBuilding && Map.ElementExists(position) && !UpgradeUI.IsVisible())
 		{
 			UpgradeUI.SetGlobalPosition(position*TileSize);
 			UpgradeUI.SetVisible(true);
 		}
-		else if (IsBuilding && CurrentComponentPath != null)
+		else if (IsBuilding && CurrentElementPath != null)
 		{
-			Vector2I size = VectorConverter.Convert(ComponentHoverRect.GetSize() / TileSize);
+			Vector2I size = VectorConverter.Convert(ElementHoverRect.GetSize() / TileSize);
 			float rotation = parent.GetRotation();
 			size = Matrix2x2.GetRotationMatrix(rotation).Multiply(size);
-			
-			Component newComponent = new Component(CurrentComponentPath, position, size, rotation);
-			Map.AddComponent(newComponent);
+
+			Element newElement = _elementFactory.CreateElement(CurrentElementName, position, size, rotation);
+			Map.AddElement(newElement);
 		}
 	}
 

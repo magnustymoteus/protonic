@@ -24,7 +24,7 @@ public partial class Map : ColorRect
 		}
 		else if (Input.IsActionPressed("delete"))
 		{
-			world.DeleteComponent();
+			world.DeleteElement();
 		}
 	}
 }
