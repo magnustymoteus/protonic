@@ -21,7 +21,6 @@ public partial class World : Node2D
 	public string CurrentElementName;
 	
 	[Export] public Control InfoUI;
-	[Export] public Control UpgradeUI;
 
 	public MapManager Map;
 	public ActionManager ActionManager = ActionManager.GetInstance();
@@ -98,12 +97,7 @@ public partial class World : Node2D
 	{
 		ColorRect parent = ElementHoverRect.GetParent<ColorRect>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
-		if (!IsBuilding && Map.ElementExists(position) && !UpgradeUI.IsVisible())
-		{
-			UpgradeUI.SetGlobalPosition(position*TileSize);
-			UpgradeUI.SetVisible(true);
-		}
-		else if (IsBuilding && CurrentElementPath != null)
+		if (IsBuilding && CurrentElementPath != null)
 		{
 			Vector2I size = VectorConverter.Convert(ElementHoverRect.GetSize() / TileSize);
 			float rotation = parent.GetRotation();

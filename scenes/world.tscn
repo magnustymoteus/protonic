@@ -20,7 +20,7 @@ tile_size = Vector2i(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u688n"]
 size = Vector2(41, 40)
 
-[node name="Node2D" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ElementHoverRect", "ColorHoverRect", "TileMap", "InfoUI", "UpgradeUI")]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("BuildingUI", "ElementHoverRect", "ColorHoverRect", "TileMap", "InfoUI")]
 position = Vector2(-2, -1)
 script = ExtResource("1_t4wlv")
 BuildingUI = NodePath("CanvasLayer/buildUI")
@@ -28,10 +28,16 @@ ElementHoverRect = NodePath("ColorRect/componentRect")
 ColorHoverRect = NodePath("ColorRect/followRect")
 TileMap = NodePath("TileMapLayer")
 InfoUI = NodePath("CanvasLayer/infoUI")
-UpgradeUI = NodePath("")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
+
+[node name="mainUI" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="taskUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("_tasks")]
 layout_mode = 3

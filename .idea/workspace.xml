@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="74f00774-dfa8-4d6d-aea8-143a6f5d0e51" name="Changes" comment="" />
+    <list default="true" id="74f00774-dfa8-4d6d-aea8-143a6f5d0e51" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/world.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/world.tscn" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +19,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/World.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/Element.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/phaseEllipseVisualizer/PhaseEllipseVisualizer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/FileLoader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/Matrix2x2.cs" root0="SKIP_HIGHLIGHTING" />
@@ -100,6 +105,8 @@
       <workItem from="1732656387000" duration="10179000" />
       <workItem from="1732726498643" duration="7552000" />
       <workItem from="1732808399312" duration="1353000" />
+      <workItem from="1732906392548" duration="2845000" />
+      <workItem from="1733350247084" duration="197000" />
     </task>
     <servers />
   </component>

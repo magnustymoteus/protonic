@@ -6,7 +6,7 @@
 
 [sub_resource type="Theme" id="Theme_tb5ty"]
 default_font = ExtResource("1_gqtoq")
-default_font_size = 75
+default_font_size = 40
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -17,9 +17,18 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TabContainer" type="TabContainer" parent="."]
-layout_mode = 0
-offset_right = 1922.0
-offset_bottom = 108.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -393.5
+offset_right = 640.0
+offset_bottom = 393.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 50
 current_tab = 0
 
@@ -34,10 +43,10 @@ metadata/_tab_index = 1
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 1018.0
-offset_right = 1901.0
-offset_bottom = 1102.0
+offset_left = 390.0
+offset_top = 802.0
+offset_right = 1579.0
+offset_bottom = 886.0
 theme_override_constants/separation = 100
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4"]
@@ -46,7 +55,7 @@ theme_override_constants/separation = 25
 
 [node name="Label" type="Label" parent="HBoxContainer4/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 75
+theme_override_font_sizes/font_size = 40
 text = "Emittance"
 
 [node name="SpinBox" type="SpinBox" parent="HBoxContainer4/HBoxContainer"]
@@ -60,7 +69,7 @@ theme_override_constants/separation = 25
 
 [node name="Label2" type="Label" parent="HBoxContainer4/HBoxContainer2"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 75
+theme_override_font_sizes/font_size = 40
 text = "Alpha"
 
 [node name="SpinBox2" type="SpinBox" parent="HBoxContainer4/HBoxContainer2"]
@@ -74,7 +83,7 @@ theme_override_constants/separation = 25
 
 [node name="Label3" type="Label" parent="HBoxContainer4/HBoxContainer3"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 75
+theme_override_font_sizes/font_size = 40
 text = "Beta"
 
 [node name="SpinBox3" type="SpinBox" parent="HBoxContainer4/HBoxContainer3"]
