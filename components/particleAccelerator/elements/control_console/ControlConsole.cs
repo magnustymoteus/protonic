@@ -15,9 +15,7 @@ public partial class ControlConsole : Element
 		_canvasChild.SetAnchorsPreset(Control.LayoutPreset.Center);
 	}
 	public ControlConsole(string path, Vector2I position, Vector2I size, float rotation) : base(path, position, size,
-		rotation)
-	{
-	}
+		rotation) { }
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed("element_click"))
@@ -25,12 +23,10 @@ public partial class ControlConsole : Element
 			if (!_canvasChild.Visible)
 			{
 				_canvasChild.SetVisible(true);
-				//_canvasChild.GrabFocus();
 			}
 			else
 			{
 				_canvasChild.SetVisible(false);
-				//_canvasChild.ReleaseFocus();
 			}
 		}
 	}

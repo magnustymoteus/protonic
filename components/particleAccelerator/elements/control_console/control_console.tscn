@@ -9,6 +9,7 @@ default_font = ExtResource("1_gqtoq")
 default_font_size = 40
 
 [node name="Control" type="Control"]
+modulate = Color(1, 1, 1, 0.588235)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
