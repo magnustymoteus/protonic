@@ -3,8 +3,9 @@
 namespace protonic.utils;
 using Godot;
 
-static class FileLoader
+static class FileManager
 {
+
     public static bool HasFile(string path, string fileName)
     {
         using var file = FileAccess.Open(path+"/"+fileName,FileAccess.ModeFlags.Read);

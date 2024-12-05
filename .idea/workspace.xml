@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="74f00774-dfa8-4d6d-aea8-143a6f5d0e51" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/world.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/world.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/bending_magnet/curved/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/bending_magnet/curved/connections.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/drift_region/straight/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/drift_region/straight/connections.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connections.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connections.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/rf_cavity/straight/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/rf_cavity/straight/connections.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +22,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/World.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/map/MapManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/Element.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" root0="SKIP_HIGHLIGHTING" />
@@ -26,6 +31,7 @@
     <setting file="file://$PROJECT_DIR$/utils/Matrix2x2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/ParticleBeam.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/TransferMatrix/TransferMatrixFactory.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/utils/VectorConverter.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -107,6 +113,7 @@
       <workItem from="1732808399312" duration="1353000" />
       <workItem from="1732906392548" duration="2845000" />
       <workItem from="1733350247084" duration="197000" />
+      <workItem from="1733428668326" duration="2361000" />
     </task>
     <servers />
   </component>

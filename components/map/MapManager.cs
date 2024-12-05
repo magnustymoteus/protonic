@@ -120,7 +120,7 @@ public class MapManager
 		    if (targetElement != null)
 		    {
 			    Vector2I sourceConnectPos = targetFrom.Item2 - Element.Convert(targetFrom.Item1);
-			    if (targetElement.CanConnect(sourceConnectPos))
+			    if (targetElement.CanConnect(sourceConnectPos, sourceElement.path))
 			    {
 				    Vector2I sourcePos = sourceElement.ConvertTargetToConnection(targetFrom.Item2, targetFrom.Item1);
 				    Vector2I targetPos = targetElement.ConvertTargetToConnection(sourceConnectPos, Element.Convert(-Element.Convert(targetFrom.Item1)));

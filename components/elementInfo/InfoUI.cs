@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 using protonic.utils;
-using static protonic.utils.FileLoader;
+using static protonic.utils.FileManager;
 
 public partial class InfoUI : Control
 {
@@ -16,7 +16,7 @@ public partial class InfoUI : Control
 	public void PopupInfo(string elementPath)
 	{
 		SetOpacity(infoRect, 0.0f);
-		currentInfoText.SetText(FileLoader.LoadTextFromFile(FileLoader.SearchFile(elementPath, "info.txt")));
+		currentInfoText.SetText(FileManager.LoadTextFromFile(FileManager.SearchFile(elementPath, "info.txt")));
 		infoRect.GetParent<Control>().SetVisible(true);
 		fadeInInfo = true;
 	}

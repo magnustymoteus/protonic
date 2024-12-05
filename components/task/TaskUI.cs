@@ -48,7 +48,7 @@ public partial class TaskUI : Control
 		_taskTree = GetChild<Godot.Tree>(0);
 		TreeItem root = _taskTree.CreateItem();
 		root.SetText(0,"Tasks");
-		_currentLevel = FileLoader.LoadJsonFromFile(FileLoader.GetFile(GetTree().GetRoot().GetChild<World>(0).CurrentLevelPath));
+		_currentLevel = FileManager.LoadJsonFromFile(FileManager.GetFile(GetTree().GetRoot().GetChild<World>(0).CurrentLevelPath));
 		SetUpTasks(root);
 	}
 

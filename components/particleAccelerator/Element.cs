@@ -27,6 +27,7 @@ public partial class Element : Sprite2D
 
     public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> availableConnections;
     public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> connections;
+    public Dictionary<Tuple<Vector2I, ConnectiveDirection>, SortedSet<string>> allowedConnections; // (pos, connectiveDirection) -> {elementPaths} 
     
     public static Dictionary<ConnectiveDirection, Vector2I> TransformMap = new Dictionary<ConnectiveDirection, Vector2I>
     {
@@ -52,9 +53,11 @@ public partial class Element : Sprite2D
         // local (relative to rectbeginpos)
         this.availableConnections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
         this.connections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
+        this.allowedConnections = new Dictionary<Tuple<Vector2I, ConnectiveDirection>, SortedSet<string>>();
         
         ImportPossibleConnections();
     }
+    
 
     public void ClearConnectionArrows(Node2D parent)
     {
@@ -138,17 +141,32 @@ public partial class Element : Sprite2D
         }
         return result + ".png";
     }
-
+    
+    // doesn't check element type
     public bool CanConnect(Vector2I position)
     {
         foreach (var target in GetAvailableConnectionTargets())
         {
             if (target.Item2 == position) return true;
         }
-
         return false;
     }
 
+    // checks element type
+    public bool CanConnect(Vector2I position, string elementPath)
+    {
+        foreach (var target in GetAvailableConnectionTargets())
+        {
+            if (target.Item2 == position)
+            {
+                SortedSet<string> allowedElements;
+                allowedConnections.TryGetValue(new Tuple<Vector2I, ConnectiveDirection>(ConvertTargetToConnection(target.Item2, target.Item1), UndoRotation(target.Item1)),
+                    out allowedElements);
+                return allowedElements != null && allowedElements.Any(elementPath.Contains);
+            }
+        }
+        return false;
+    }
     public Vector2I ConvertTargetToConnection(Vector2I targetPos, ConnectiveDirection direction)
     {
             return UndoRotation(targetPos-rectBeginPosition)-UndoRotation(Element.Convert(direction)); 
@@ -209,21 +227,27 @@ public partial class Element : Sprite2D
 
     public void ImportPossibleConnections()
     {
-        Variant contents = FileLoader.LoadJsonFromFile(FileLoader.SearchFile(this.path, "connections.json"));
+        Variant contents = FileManager.LoadJsonFromFile(FileManager.SearchFile(this.path, "connections.json"))
+            .AsGodotDictionary()["connections"];
         Dictionary<char, int> directionMapper = new Dictionary<char, int>
             { { 'L', 0 }, { 'U', 1 }, { 'R', 2 }, { 'D', 3 } };
-        foreach (var d in contents.AsGodotDictionary())
+        foreach (Dictionary connection in contents.AsGodotArray())
         {
-            string currentDirections = d.Key.ToString();
+            string currentDirections = connection["connection"].AsString();
             SortedSet<ConnectiveDirection> directions = new SortedSet<ConnectiveDirection>();
             foreach (char c in currentDirections)
             {
                 ConnectiveDirection direction = (ConnectiveDirection)directionMapper[c];
                 directions.Add(direction);
             }
-            foreach (Array<int> arr in d.Value.AsGodotArray())
+            foreach (Array<int> arr in connection["positions"].AsGodotArray())
             {
                 this.availableConnections.Add(new Vector2I(arr[0], arr[1]), directions);
+                foreach (var direction in directions)
+                {
+                    this.allowedConnections.Add(new Tuple<Vector2I, ConnectiveDirection>(new Vector2I(arr[0], arr[1]), direction), 
+                        new SortedSet<string>(connection["allowed"].AsGodotArray<string>()));
+                }
             }
         }
     }

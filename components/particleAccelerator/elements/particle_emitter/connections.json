@@ -1,3 +1,7 @@
 {
-	"R": [[1,0]]
+	 "connections": [{
+		"connection": "R",
+		"positions": [[1,0]],
+		"allowed": ["beamline_tube"]
+		}]
 }
