@@ -26,8 +26,10 @@ public partial class Element : Sprite2D
     // relative position (pre-rotation) -> direction
 
     public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> availableConnections;
-    public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> connections;
+    public Dictionary<Vector2I, SortedSet<ConnectiveDirection>> occupiedConnections;
     public Dictionary<Tuple<Vector2I, ConnectiveDirection>, SortedSet<string>> allowedConnections; // (pos, connectiveDirection) -> {elementPaths} 
+    
+    public Dictionary<Vector2I, Element> occupiedElementConnections; // targetPos -> Element
     
     public static Dictionary<ConnectiveDirection, Vector2I> TransformMap = new Dictionary<ConnectiveDirection, Vector2I>
     {
@@ -52,8 +54,9 @@ public partial class Element : Sprite2D
         
         // local (relative to rectbeginpos)
         this.availableConnections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
-        this.connections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
+        this.occupiedConnections = new Dictionary<Vector2I, SortedSet<ConnectiveDirection>>();
         this.allowedConnections = new Dictionary<Tuple<Vector2I, ConnectiveDirection>, SortedSet<string>>();
+        this.occupiedElementConnections = new Dictionary<Vector2I, Element>();
         
         ImportPossibleConnections();
     }
@@ -98,34 +101,40 @@ public partial class Element : Sprite2D
         return Matrix2x2.GetRotationMatrix(this.rotation).Transpose().Multiply(position);
     }
 
-    public void AddConnection(Vector2I position, ConnectiveDirection direction)
+    public void AddConnection(Vector2I targetPos, ConnectiveDirection direction)
     {
         SortedSet<ConnectiveDirection> existingConnections;
-        this.connections.TryGetValue(position, out existingConnections);
+        this.occupiedConnections.TryGetValue(targetPos, out existingConnections);
         if (existingConnections == null)
         {
             existingConnections = new SortedSet<ConnectiveDirection>();
             existingConnections.Add(direction);
-            connections.Add(position, existingConnections);
+            occupiedConnections.Add(targetPos, existingConnections);
         }
-        else connections[position].Add(direction);
+        else occupiedConnections[targetPos].Add(direction);
+        
+        availableConnections[targetPos].Remove(UndoRotation(direction));
+    }
 
-        availableConnections[position].Remove(UndoRotation(direction));
+    public void AddElementConnection(Vector2I targetPos, Element element)
+    {
+        occupiedElementConnections.Add(targetPos, element);
     }
 
     public void RemoveConnection(Vector2I position, ConnectiveDirection direction)
     {
-        this.connections[position].Remove(direction);
-        if (this.connections[position].Count == 0) this.connections.Remove(position);
+        this.occupiedConnections[position].Remove(direction);
+        if (this.occupiedConnections[position].Count == 0) this.occupiedConnections.Remove(position);
         availableConnections[position].Add(UndoRotation(direction));
+        occupiedElementConnections.Remove(GetTargetPosition(position, UndoRotation(direction)));
     }
     
     public string GetTexturePath()
     {
         string result = this.path + "/";
-        if (connections.Count == 0) result += "disconnected";
+        if (occupiedConnections.Count == 0) result += "disconnected";
         else result += "connected";
-        foreach (var connection in connections)
+        foreach (var connection in occupiedConnections)
         {
             result += "_" + connection.Key.X + "_" + connection.Key.Y + "_";
             SortedSet<ConnectiveDirection> newConnections = new SortedSet<ConnectiveDirection>();
@@ -169,7 +178,7 @@ public partial class Element : Sprite2D
     }
     public Vector2I ConvertTargetToConnection(Vector2I targetPos, ConnectiveDirection direction)
     {
-            return UndoRotation(targetPos-rectBeginPosition)-UndoRotation(Element.Convert(direction)); 
+        return UndoRotation(targetPos-rectBeginPosition)-UndoRotation(Element.Convert(direction)); 
     }
     // convert local target positions to global
     public SortedSet<Tuple<ConnectiveDirection, Vector2I>> GetAvailableConnectionTargets()
@@ -188,7 +197,6 @@ public partial class Element : Sprite2D
         }
         return result;
     }
-
     public Vector2I GetTargetPosition(Vector2I position, ConnectiveDirection direction)
     {
         return this.rectBeginPosition + Matrix2x2.GetRotationMatrix(this.rotation).Multiply( position + Element.Convert(direction));

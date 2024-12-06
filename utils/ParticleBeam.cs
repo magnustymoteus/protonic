@@ -26,28 +26,7 @@ public partial class ParticleBeam : GodotObject
         Beta = beta;
         Emittance = emittance;
     }
- 
-    public Matrix2x2 GetTransferMatrix(string magnet, float length = 3.2f)
-    {
-        Matrix2x2 transferMatrix = new Matrix2x2(0, 0, 0, 0);
-        switch (magnet)
-        {
-            case "defocusing_quadrupole":
-                transferMatrix = TransferMatrix2x2Factory.DefocusingQuadrupole(-1, length);
-                break;
-            case "focusing_quadrupole":
-                transferMatrix = TransferMatrix2x2Factory.FocusingQuadrupole(1, length);
-                break;
-            case "drift":
-                transferMatrix = TransferMatrix2x2Factory.Drift(length);
-                break;
-            case "dipole":
-                transferMatrix = TransferMatrix2x2Factory.Dipole(length, 0.2f);
-                break;
-        }
-
-        return transferMatrix;
-    }
+    
 
     public Vector2 GetPhaseSpace(float s, float sMax)
     {
@@ -57,9 +36,9 @@ public partial class ParticleBeam : GodotObject
         return new Vector2(x, xPrime);
     }
 
-    public float GetEnvelope(string magnet)
+    public float GetEnvelope(BeamlineTube tube)
     {
-        Matrix2x2 transferMatrix = GetTransferMatrix(magnet);
+        Matrix2x2 transferMatrix = tube.GetTransferMatrix2x2();
 
         float C = transferMatrix[0, 0],
             S = transferMatrix[0, 1],

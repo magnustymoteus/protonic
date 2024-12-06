@@ -1,11 +1,17 @@
 extends Control
 
 const ParticleBeam := preload("res://utils/ParticleBeam.cs")
+const BeamlineTube := preload("res://components/particleAccelerator/elements/beamline_tube/BeamlineTube.cs")
+
 var envelope : ParticleBeam
+
 var x : float = 0.0
-var envelopePlot1
-var envelopePlot2
-var FODOLattice: Array[String] = ["focusing_quadrupole", "drift", "defocusing_quadrupole", "drift"]
+var xLimit: float = 0.0
+
+var envelopePlot1: PlotItem
+var envelopePlot2: PlotItem
+
+var tubeArray: Array = []
 var index: int = 0
 
 var x_bounds: Vector2 = Vector2(0,0)
@@ -29,26 +35,42 @@ func set_graph_bounds():
 
 func _init() -> void:
 	envelope = ParticleBeam.new()
-	envelope.Alpha = 0
+	envelope.Alpha = 5
 	envelope.Beta = 10
 	envelope.Emittance = 1
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+	
+func reset_plot() -> void:
+	$Graph2D.remove_all()
+	x = 0.0
+	index = 0
+	x_bounds = Vector2(0,0)
+	y_bounds = Vector2(0,0)
+	particlePlots.clear()
+	
+func set_tubeArray(tubeArrayArg: Array) -> void:
+	tubeArray = tubeArrayArg
+	reset_plot()
+	initialize_plot()
+	xLimit = len(tubeArray)*5
+	
+func initialize_plot() -> void:
 	envelopePlot1 = $Graph2D.add_plot_item("Envelope max", Color.RED)
 	envelopePlot2 = $Graph2D.add_plot_item("Envelope min", Color.RED)
 	for elem in numOfParticlePlots:
-		particlePlots.append($Graph2D.add_plot_item("", Color.GREEN, 0.5))
+		particlePlots.append($Graph2D.add_plot_item(" ", Color.GREEN, 0.5))
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	initialize_plot()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if x <= 100:
-		var envelopeY = envelope.GetEnvelope(FODOLattice[index])
+func _process(_delta: float) -> void:
+	if index < len(tubeArray):
+		var envelopeY = envelope.GetEnvelope(tubeArray[index])
 		for particlePlot in particlePlots:
-			var particleY: float = envelope.GetEnvelope(FODOLattice[index]) * envelope.GetRandomFactor()
+			var particleY: float = envelope.GetEnvelope(tubeArray[index]) * envelope.GetRandomFactor()
 			particlePlot.add_point(Vector2(x, particleY))
 		index += 1
-		index %= (len(FODOLattice))
 		envelopePlot1.add_point(Vector2(x, envelopeY))
 		envelopePlot2.add_point(Vector2(x, -envelopeY))
 		
@@ -58,5 +80,5 @@ func _process(delta: float) -> void:
 		y_bounds = update_bounds(-envelopeY, y_bounds)
 		set_graph_bounds()
 		
-		x += 5
+		x += 1
 		

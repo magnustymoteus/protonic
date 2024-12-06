@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2p0xy80ugypf"
-path="res://.godot/imported/easy_charts.svg-5963eccbc8d55a9c4bb3a7a394bde2c4.ctex"
+uid="uid://x466k68gljv1"
+path="res://.godot/imported/connected_0_0_R.png-c2252900a42ab102f0ab6c1504265202.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://easy_charts.svg"
-dest_files=["res://.godot/imported/easy_charts.svg-5963eccbc8d55a9c4bb3a7a394bde2c4.ctex"]
+source_file="res://components/particleAccelerator/elements/beamline_tube/defocusing_magnet/straight/connected_0_0_R.png"
+dest_files=["res://.godot/imported/connected_0_0_R.png-c2252900a42ab102f0ab6c1504265202.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

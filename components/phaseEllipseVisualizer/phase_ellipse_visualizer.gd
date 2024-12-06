@@ -34,7 +34,7 @@ func _ready() -> void:
 	ellipsePlot = $Graph2D.add_plot_item("Ellipse", Color.GREEN)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if s <= 500:
 		var positionMomentum = beam.GetPhaseSpace(s, 500)
 		ellipsePlot.add_point(positionMomentum)

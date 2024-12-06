@@ -76,7 +76,7 @@ public class MapManager
 	        }
         }
         
-        foreach (var connection in element.connections)
+        foreach (var connection in element.occupiedConnections)
         {
 	        foreach (var direction in connection.Value)
 	        {
@@ -93,7 +93,7 @@ public class MapManager
 	        }
         }
         
-        element.connections.Clear();
+        element.occupiedConnections.Clear();
 
         
         
@@ -122,10 +122,15 @@ public class MapManager
 			    Vector2I sourceConnectPos = targetFrom.Item2 - Element.Convert(targetFrom.Item1);
 			    if (targetElement.CanConnect(sourceConnectPos, sourceElement.path))
 			    {
+				    sourceElement.AddElementConnection(targetFrom.Item2, targetElement);
+				    targetElement.AddElementConnection(sourceConnectPos, sourceElement);
+				    
 				    Vector2I sourcePos = sourceElement.ConvertTargetToConnection(targetFrom.Item2, targetFrom.Item1);
 				    Vector2I targetPos = targetElement.ConvertTargetToConnection(sourceConnectPos, Element.Convert(-Element.Convert(targetFrom.Item1)));
+				    
 				    sourceElement.AddConnection(sourcePos, targetFrom.Item1);
 				    targetElement.AddConnection(targetPos, Element.Convert(-Element.Convert(targetFrom.Item1)));
+				    
 				    affectedElements.Add(sourceElement);
 				    affectedElements.Add(targetElement);
 			    }
@@ -144,7 +149,8 @@ public class MapManager
 		    element.SetRotation(element.rotation);
 		    element.SetPosition((VectorConverter.Convert(element.beginPosition+element.endPosition)/2.0f)*root.TileSize);
 	    }
-	    element.SetTexture(ResourceLoader.Load<Texture2D>(element.GetTexturePath()));
+	    Texture2D newTexture = ResourceLoader.Load<Texture2D>(element.GetTexturePath()) ?? element.GetTexture();
+	    element.SetTexture(newTexture);
 	    if (isNew)
 	    {
 		    root.AddChild(element);

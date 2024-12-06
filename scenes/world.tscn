@@ -30,7 +30,7 @@ TileMap = NodePath("TileMapLayer")
 InfoUI = NodePath("CanvasLayer/infoUI")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 3
+layer = 4
 
 [node name="mainUI" type="Control" parent="CanvasLayer"]
 visible = false
