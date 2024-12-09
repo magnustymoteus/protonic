@@ -28,8 +28,6 @@ public partial class World : Node2D
 	private ElementFactory _elementFactory = new ElementFactory();
 
 	public string CurrentLevelPath;
-
-	private Electron electron;
 	
 	public World(int Level)
 	{
@@ -43,8 +41,6 @@ public partial class World : Node2D
 	{
 		TileSize = TileMap.GetTileSet().GetTileSize();
 		Map = new MapManager(this);
-		electron = new Electron(new Vector2(1, 1), new Vector2(1,0));
-		AddChild(electron);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

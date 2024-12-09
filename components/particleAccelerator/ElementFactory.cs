@@ -14,6 +14,8 @@ public class ElementFactory
                 return new ControlConsole(path, position, size, rotation);
             case "beamline_tube":
                 return new BeamlineTube(path, position, size, rotation);
+            case "particle_emitter":
+                return new ParticleEmitter(path, position, size, rotation);
             default:
                 return new Element(path, position, size, rotation);
         }

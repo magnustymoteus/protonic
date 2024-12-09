@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cl2k1vy36ipnn"]
+[gd_scene load_steps=6 format=3 uid="uid://cl2k1vy36ipnn"]
 
 [ext_resource type="FontFile" uid="uid://bivf8m01g3oej" path="res://assets/fonts/oxanium/Oxanium-Light.ttf" id="1_gqtoq"]
+[ext_resource type="Script" path="res://components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" id="1_ynjhl"]
 [ext_resource type="PackedScene" uid="uid://cn6crowg18yeq" path="res://components/envelopeVisualizer/envelopeVisualizer.tscn" id="2_lrld3"]
 [ext_resource type="PackedScene" uid="uid://cctx6x88fagfj" path="res://components/phaseEllipseVisualizer/phaseEllipseVisualizer.tscn" id="3_xf8ub"]
 
@@ -8,7 +9,7 @@
 default_font = ExtResource("1_gqtoq")
 default_font_size = 40
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" node_paths=PackedStringArray("AlphaBox", "BetaBox", "EmittanceBox", "EnvelopeVisualizer", "PhaseEllipseVisualizer", "ApplyButton", "CloseButton")]
 modulate = Color(1, 1, 1, 0.588235)
 layout_mode = 3
 anchors_preset = 15
@@ -16,6 +17,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ynjhl")
+AlphaBox = NodePath("HBoxContainer4/HBoxContainer2/SpinBox2")
+BetaBox = NodePath("HBoxContainer4/HBoxContainer3/SpinBox3")
+EmittanceBox = NodePath("HBoxContainer4/HBoxContainer/SpinBox")
+EnvelopeVisualizer = NodePath("TabContainer/EnvelopeVisualizer")
+PhaseEllipseVisualizer = NodePath("TabContainer/PhaseEllipseVisualizer")
+ApplyButton = NodePath("ApplyButton")
+CloseButton = NodePath("CloseButton")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1
@@ -63,6 +72,8 @@ text = "Emittance"
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_tb5ty")
+value = 1.0
+update_on_text_changed = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4"]
 layout_mode = 2
@@ -77,6 +88,7 @@ text = "Alpha"
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_tb5ty")
+update_on_text_changed = true
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer4"]
 layout_mode = 2
@@ -91,3 +103,24 @@ text = "Beta"
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_tb5ty")
+value = 5.0
+update_on_text_changed = true
+
+[node name="ApplyButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 389.0
+offset_top = 757.0
+offset_right = 543.0
+offset_bottom = 806.0
+theme_override_font_sizes/font_size = 40
+text = "Apply"
+alignment = 0
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1549.0
+offset_top = 207.0
+offset_right = 1600.0
+offset_bottom = 266.0
+theme_override_font_sizes/font_size = 50
+text = "X"

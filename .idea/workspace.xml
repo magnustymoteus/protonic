@@ -6,41 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="74f00774-dfa8-4d6d-aea8-143a6f5d0e51" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/World.cs" beforeDir="false" afterPath="$PROJECT_DIR$/World.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/map/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/map/MapManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/Element.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/Element.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/particleAccelerator/ElementFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/ElementFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/bending_magnet/curved/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/bending_magnet/curved/connections.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/drift_region/straight/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/drift_region/straight/connections.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_L.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_L.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_LR.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_LR.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_R.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connected_0_0_R.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/connections.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/disconnected.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/defocusing_magnet/straight/disconnected.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connected_0_0_L.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connected_0_0_L.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connected_0_0_LR.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connected_0_0_LR.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connected_0_0_R.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connected_0_0_R.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/connections.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/disconnected.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/quadrupole_magnet/focusing_magnet/straight/disconnected.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/rf_cavity/straight/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/rf_cavity/straight/connections.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/connections.json" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/connections.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/disconnected.png" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/disconnected.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/control_console.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/control_console.tscn" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/easy_charts.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/easy_charts.svg.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/project.godot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/world.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/world.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/ParticleBeam.cs" beforeDir="false" afterPath="$PROJECT_DIR$/utils/ParticleBeam.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,10 +27,11 @@
     <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/Element.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/BeamlineTube.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/phaseEllipseVisualizer/PhaseEllipseVisualizer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/Matrix2x2.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/utils/ParticleBeam.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/utils/ParticleBeam.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/TransferMatrix/TransferMatrixFactory.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/VectorConverter.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -144,7 +116,8 @@
       <workItem from="1732906392548" duration="2845000" />
       <workItem from="1733350247084" duration="197000" />
       <workItem from="1733428668326" duration="2361000" />
-      <workItem from="1733515156774" duration="9297000" />
+      <workItem from="1733515156774" duration="9812000" />
+      <workItem from="1733763396756" duration="11114000" />
     </task>
     <servers />
   </component>

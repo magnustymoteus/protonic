@@ -6,7 +6,7 @@ using protonic.utils;
 
 public partial class ControlConsole : Element
 {
-	private Control _canvasChild, _envelopeVisualizer;
+	private Control _canvasChild, _envelopeVisualizer, _instance;
 	public Array<BeamlineTube> GetBeamline()
 	{
 		Array<BeamlineTube> result = new Array<BeamlineTube>();
@@ -27,27 +27,26 @@ public partial class ControlConsole : Element
 	public override void _Ready()
 	{
 		var task = GD.Load<PackedScene>("res://components/particleAccelerator/elements/control_console/control_console.tscn");
-		Control instance = task.Instantiate<Control>();
+		_instance = task.Instantiate<Control>();
 		_canvasChild = GetNode<Control>("/root/Node2D/CanvasLayer/mainUI");
-		_canvasChild.AddChild(instance);
 		_canvasChild.SetAnchorsPreset(Control.LayoutPreset.Center);
-		_envelopeVisualizer = instance.GetNode<Control>("./TabContainer/EnvelopeVisualizer");
+		_envelopeVisualizer = _instance.GetNode<Control>("./TabContainer/EnvelopeVisualizer");
 	}
 	public ControlConsole(string path, Vector2I position, Vector2I size, float rotation) : base(path, position, size,
 		rotation) { }
-	public override void _UnhandledInput(InputEvent @event)
+	public override void _Input(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("element_click"))
+		if(Input.IsActionJustPressed("element_click") && new Rect2(rectBeginPosition*32, rectEndPosition*32).HasPoint(GetGlobalMousePosition()))
 		{
 			if (!_canvasChild.Visible)
 			{
-				// TODO: control console window sometimes not appearing after click
+				foreach (var child in _canvasChild.GetChildren())
+				{
+					_canvasChild.RemoveChild(child);
+				}	
 				_canvasChild.SetVisible(true);
+				_canvasChild.AddChild(_instance);
 				_envelopeVisualizer.Call("set_tubeArray", GetBeamline());
-			}
-			else
-			{
-				_canvasChild.SetVisible(false);
 			}
 		}
 	}

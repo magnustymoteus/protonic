@@ -35,7 +35,7 @@ func set_graph_bounds():
 
 func _init() -> void:
 	envelope = ParticleBeam.new()
-	envelope.Alpha = 5
+	envelope.Alpha = 0
 	envelope.Beta = 10
 	envelope.Emittance = 1
 	
@@ -62,6 +62,13 @@ func initialize_plot() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	initialize_plot()
+	
+func replot(alpha: float, beta: float, emittance: float) -> void:
+	envelope.Alpha = alpha
+	envelope.Beta = beta
+	envelope.Emittance = emittance
+	reset_plot()
+	initialize_plot()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -74,7 +81,6 @@ func _process(_delta: float) -> void:
 		envelopePlot1.add_point(Vector2(x, envelopeY))
 		envelopePlot2.add_point(Vector2(x, -envelopeY))
 		
-
 		x_bounds = update_bounds(x, x_bounds)
 		y_bounds = update_bounds(envelopeY, y_bounds)
 		y_bounds = update_bounds(-envelopeY, y_bounds)
