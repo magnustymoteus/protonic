@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="74f00774-dfa8-4d6d-aea8-143a6f5d0e51" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/World.cs" beforeDir="false" afterPath="$PROJECT_DIR$/World.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/ElementFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/ElementFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/control_console.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/control_console.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/particle_emitter/ParticleEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/particle_emitter/ParticleEmitter.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,11 +19,12 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/World.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/map/MapManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/Element.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/BeamlineTube.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/particle_emitter/ParticleEmitter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/phaseEllipseVisualizer/PhaseEllipseVisualizer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/Matrix2x2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/ParticleBeam.cs" root0="FORCE_HIGHLIGHTING" />
@@ -118,6 +114,11 @@
       <workItem from="1733428668326" duration="2361000" />
       <workItem from="1733515156774" duration="9812000" />
       <workItem from="1733763396756" duration="11114000" />
+      <workItem from="1733861129226" duration="3221000" />
+      <workItem from="1733922427570" duration="10000" />
+      <workItem from="1733922452648" duration="609000" />
+      <workItem from="1733959052754" duration="1296000" />
+      <workItem from="1734004035038" duration="2071000" />
     </task>
     <servers />
   </component>

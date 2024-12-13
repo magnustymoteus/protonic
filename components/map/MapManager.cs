@@ -30,7 +30,6 @@ public class MapManager
     public void AddElement(Element element, bool addToActions=true)
     {
 	    if (!CanPlaceElement(element)) return;
-	    
 	    var affectedElements = Connect(element);
 	    foreach (Element affectedElement in affectedElements)
 	    {
@@ -149,7 +148,8 @@ public class MapManager
 		    element.SetRotation(element.rotation);
 		    element.SetPosition((VectorConverter.Convert(element.beginPosition+element.endPosition)/2.0f)*root.TileSize);
 	    }
-	    Texture2D newTexture = ResourceLoader.Load<Texture2D>(element.GetTexturePath()) ?? element.GetTexture();
+	    Texture2D newTexture = ResourceLoader.Load<Texture2D>(ResourceLoader.Exists(element.GetTexturePath()) ? 
+		    element.GetTexturePath() : element.GetDefaultTexturePath());
 	    element.SetTexture(newTexture);
 	    if (isNew)
 	    {

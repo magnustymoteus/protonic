@@ -1,64 +1,43 @@
-using System.Numerics;
-
 using Godot;
 using protonic.utils;
+using System.Numerics;
+using Godot.Collections;
+using protonic;
 
-public partial class Particle : Node2D
+public partial class Particle : PathFollow2D
 {
     public PositionMomentum Trajectory;
+
     public double Mass { get; set; }  // In kilograms
     public double Charge { get; set; }  // In Coulombs
-    
+
+    private bool _interpolating = false;
+    private PositionMomentum _trajectoryDest;
     
     public Particle(Godot.Vector2 initialPosition, Godot.Vector2 initialMomentum, double mass, double charge)
     {
-        Trajectory = new PositionMomentum(initialPosition, initialMomentum);
+        _trajectoryDest = Trajectory = new PositionMomentum(initialPosition, initialMomentum);
         Mass = mass;
         Charge = charge;
     }
 
+
     public override void _Draw()
     {
-        DrawCircle(Position, 2, Colors.Yellow);
+        DrawCircle(new(0,0), 2, Colors.Yellow);
+    }
+    
+    public override void _Ready()
+    {
+        SetGlobalPosition(Trajectory.Position);
+        SetZIndex(50);
     }
 
-    public void ApplyTransferMatrix(Matrix2x2 matrix, string plane = "x")
+    public override void _PhysicsProcess(double delta)
     {
-        Godot.Vector2 trajectoryVectorX = new Godot.Vector2(Trajectory.Position.X, Trajectory.Momentum.X),
-            trajectoryVectorY = new Godot.Vector2(Trajectory.Position.Y, Trajectory.Momentum.Y);
-        switch (plane)
-        {
-            case "y":
-                trajectoryVectorY = matrix.Multiply(trajectoryVectorY);
-                break;
-            default:
-                trajectoryVectorX = matrix.Multiply(trajectoryVectorX);
-                break;
-        }
-        Trajectory = new PositionMomentum(new Godot.Vector2(trajectoryVectorX.X, trajectoryVectorY.X), new Godot.Vector2(trajectoryVectorX.Y, trajectoryVectorY.Y));
-        SetPosition(new Godot.Vector2(Trajectory.Position.X, Trajectory.Momentum.X));
-        QueueRedraw();
+        SetProgress(GetProgress() + 64.0f*(float)delta);
     }
-
-    public void ApplyTransferMatrix(Matrix4x4 matrix)
-    {
-        Matrix4x4 trajectoryMatrix = new Matrix4x4(
-            Trajectory.Position.X, 0,0,0,
-            Trajectory.Momentum.X, 1,0,0,
-            Trajectory.Position.Y, 0,1,0,
-            Trajectory.Momentum.Y, 0,0,1
-            );
-        
-        Matrix4x4 outTrajectoryMatrix = Matrix4x4.Multiply(matrix, trajectoryMatrix);
-        GD.Print("before:");
-        GD.Print(Trajectory.Position, " ", Trajectory.Momentum);
-        GD.Print("after:");
-        Trajectory.Momentum = new Godot.Vector2(outTrajectoryMatrix.M21, outTrajectoryMatrix.M41);
-        Trajectory.Position = new Godot.Vector2(outTrajectoryMatrix.M11, outTrajectoryMatrix.M31);
-        SetPosition(new Godot.Vector2(Trajectory.Position.X, Trajectory.Momentum.X));
-        GD.Print(Trajectory.Position, " ", Trajectory.Momentum);
-        QueueRedraw();
-    }
+    
 }
 
 public partial class Proton : Particle

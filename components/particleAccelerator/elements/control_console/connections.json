@@ -2,6 +2,6 @@
 	 "connections": [{
 		"connection": "U",
 		"positions": [[1,0]],
-		"allowed": ["beamline_tube"]
+		"allowed": ["beamline_tube", "particle_emitter"]
 		}]
 }

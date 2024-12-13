@@ -2,6 +2,6 @@
 	 "connections": [{
 		"connection": "LR",
 		"positions": [[0,0]],
-		"allowed": ["beamline_tube", "control_console"]
+		"allowed": ["beamline_tube", "control_console", "particle_emitter"]
 		}]
 }

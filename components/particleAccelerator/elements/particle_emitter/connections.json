@@ -2,6 +2,6 @@
 	 "connections": [{
 		"connection": "R",
 		"positions": [[1,0]],
-		"allowed": ["beamline_tube"]
+		"allowed": ["beamline_tube", "control_console"]
 		}]
 }

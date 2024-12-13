@@ -9,7 +9,7 @@
 default_font = ExtResource("1_gqtoq")
 default_font_size = 40
 
-[node name="Control" type="Control" node_paths=PackedStringArray("AlphaBox", "BetaBox", "EmittanceBox", "EnvelopeVisualizer", "PhaseEllipseVisualizer", "ApplyButton", "CloseButton")]
+[node name="Control" type="Control" node_paths=PackedStringArray("AlphaBox", "BetaBox", "EmittanceBox", "EnvelopeVisualizer", "PhaseEllipseVisualizer", "ApplyButton", "CloseButton", "EmitterStatus")]
 modulate = Color(1, 1, 1, 0.588235)
 layout_mode = 3
 anchors_preset = 15
@@ -25,6 +25,7 @@ EnvelopeVisualizer = NodePath("TabContainer/EnvelopeVisualizer")
 PhaseEllipseVisualizer = NodePath("TabContainer/PhaseEllipseVisualizer")
 ApplyButton = NodePath("ApplyButton")
 CloseButton = NodePath("CloseButton")
+EmitterStatus = NodePath("EmitterStatus/Status")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1
@@ -124,3 +125,20 @@ offset_right = 1600.0
 offset_bottom = 266.0
 theme_override_font_sizes/font_size = 50
 text = "X"
+
+[node name="EmitterStatus" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1249.0
+offset_top = 757.0
+offset_right = 1527.0
+offset_bottom = 798.0
+
+[node name="Emitter" type="Label" parent="EmitterStatus"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Emitter:"
+
+[node name="Status" type="Label" parent="EmitterStatus"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Offline"

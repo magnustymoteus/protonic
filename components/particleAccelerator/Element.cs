@@ -150,6 +150,11 @@ public partial class Element : Sprite2D
         }
         return result + ".png";
     }
+
+    public string GetDefaultTexturePath()
+    {
+        return this.path + "/disconnected.png";
+    }
     
     // doesn't check element type
     public bool CanConnect(Vector2I position)
@@ -258,6 +263,31 @@ public partial class Element : Sprite2D
                 }
             }
         }
+    }
+    
+    public Array<Element> GetFilteredConnectedElements<TElement>(bool getOnlyConsecutive = false)
+    {
+        Array<Element> elementArr = new Array<Element>();
+        Element currentElem = this;
+        elementArr.Add(currentElem);
+        while(currentElem.occupiedElementConnections.Count > 0 && (!getOnlyConsecutive || currentElem is TElement))
+        {
+            bool foundCandidate = false;
+            foreach (var candidateElem in currentElem.occupiedElementConnections.Values.ToArray())
+            {
+                if (!elementArr.Contains(candidateElem))
+                {
+                    currentElem = candidateElem;
+                    foundCandidate = true;
+                    break;
+                }
+            }
+
+            if (!foundCandidate) break;
+            elementArr.Add(currentElem);
+        }
+        var result = new Array<Element>(elementArr.Where(element => element is TElement).ToArray());
+        return result;
     }
     
     public override void _UnhandledInput(InputEvent @event)

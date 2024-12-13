@@ -9,8 +9,13 @@ public partial class ControlConsoleWindow : Control
 
 	[Export] private Button ApplyButton, CloseButton;
 
+	[Export] private Label EmitterStatus;
+	
 	private float _alpha, _beta, _emittance;
+
+	public ControlConsole ControlConsole;
 	// Called when the node enters the scene tree for the first time.
+	
 	public override void _Ready()
 	{
 		SetAlpha(AlphaBox.Value);
@@ -24,6 +29,28 @@ public partial class ControlConsoleWindow : Control
 		CloseButton.Pressed += Close;
 	}
 
+	public void UpdateVisualization()
+	{
+		EnvelopeVisualizer.Call("set_tubeArray", ControlConsole.GetFilteredConnectedElements<BeamlineTube>());
+		ApplyChange();
+		SetEmitterStatus();
+	}
+
+	public void SetEmitterStatus()
+	{
+		ParticleEmitter emitter = ControlConsole.GetEmitter();
+		if (emitter != null)
+		{
+			EmitterStatus.Text = "Online";
+			EmitterStatus.SetModulate(Colors.Green);
+			emitter.Emit();
+		}
+		else
+		{
+			EmitterStatus.Text = "Offline";
+			EmitterStatus.SetModulate(Colors.Red);
+		}
+	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

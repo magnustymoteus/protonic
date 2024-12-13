@@ -16,15 +16,15 @@ public partial class BeamlineTube : Element
 		switch (pathArr[1])
 		{
 			case "bending_magnet":
-				return TransferMatrix2x2Factory.Dipole(3.2f, 0.2f);
+				return TransferMatrix2x2Factory.Dipole(32f, 0.2f);
 			case "focusing_magnet":
-				return TransferMatrix2x2Factory.FocusingQuadrupole(1, 3.2f);
+				return TransferMatrix2x2Factory.FocusingQuadrupole(1, 32f);
 			case "defocusing_magnet":
-				return TransferMatrix2x2Factory.DefocusingQuadrupole(-1, 3.2f);
+				return TransferMatrix2x2Factory.DefocusingQuadrupole(-1, 32f);
 			case "rf_cavity":
-				return TransferMatrix2x2Factory.Drift(3.2f); // to do
+				return TransferMatrix2x2Factory.Drift(32f); // to do
 			default:
-				return TransferMatrix2x2Factory.Drift(3.2f);
+				return TransferMatrix2x2Factory.Drift(32f);
 		}
 	}
 
@@ -34,15 +34,15 @@ public partial class BeamlineTube : Element
 		switch (pathArr[1])
 		{
 			case "bending_magnet":
-				return TransferMatrix4x4Factory.Dipole(3.2f, 0.2f);
+				return TransferMatrix4x4Factory.Dipole(32f, 0.2f);
 			case "focusing_magnet":
-				return TransferMatrix4x4Factory.FocusingQuadrupole(1, 3.2f);
+				return TransferMatrix4x4Factory.FocusingQuadrupole(1, 32f);
 			case "defocusing_magnet":
-				return TransferMatrix4x4Factory.DefocusingQuadrupole(-1, 3.2f);
+				return TransferMatrix4x4Factory.DefocusingQuadrupole(-1, 32f);
 			case "rf_cavity":
-				return TransferMatrix4x4Factory.Drift(3.2f); // to do
+				return TransferMatrix4x4Factory.Drift(32f); // to do
 			default:
-				return TransferMatrix4x4Factory.Drift(3.2f);
+				return TransferMatrix4x4Factory.Drift(32f);
 		}
 		
 	}
