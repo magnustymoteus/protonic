@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpdumfsnvudvt"]
+
+[ext_resource type="FontFile" uid="uid://g3phk114811w" path="res://assets/fonts/13misa/13_Misa.TTF" id="1_cxn23"]
+[ext_resource type="FontFile" uid="uid://b0dvoqrjx8sl2" path="res://assets/fonts/oxanium/Oxanium-SemiBold.ttf" id="1_slju6"]
+[ext_resource type="Script" path="res://mainMenu/MenuButton.cs" id="3_4qhxc"]
+[ext_resource type="PackedScene" uid="uid://cohttjbtsytea" path="res://mainMenu/levels/menu.tscn" id="4_71bs4"]
+[ext_resource type="PackedScene" uid="uid://c74atj8f1b45o" path="res://scenes/world.tscn" id="5_cko8e"]
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.0941176, 0.34902, 0.690196, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -335.0
+offset_top = 140.0
+offset_right = 334.0
+offset_bottom = 308.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_cxn23")
+theme_override_font_sizes/font_size = 144
+text = "Protonic
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -253.0
+offset_top = -168.0
+offset_right = 253.0
+offset_bottom = 168.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Levels" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_slju6")
+theme_override_font_sizes/font_size = 72
+text = "Levels"
+script = ExtResource("3_4qhxc")
+Scene = ExtResource("4_71bs4")
+
+[node name="Sandbox Mode" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_slju6")
+theme_override_font_sizes/font_size = 72
+text = "Sandbox Mode
+"
+script = ExtResource("3_4qhxc")
+Scene = ExtResource("5_cko8e")
+
+[node name="Settings" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_slju6")
+theme_override_font_sizes/font_size = 72
+text = "Settings
+"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_slju6")
+theme_override_font_sizes/font_size = 72
+text = "Quit
+"
+script = ExtResource("3_4qhxc")
+QuitOnPress = true

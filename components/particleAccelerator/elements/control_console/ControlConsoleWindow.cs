@@ -31,7 +31,9 @@ public partial class ControlConsoleWindow : Control
 
 	public void UpdateVisualization()
 	{
-		EnvelopeVisualizer.Call("set_tubeArray", ControlConsole.GetFilteredConnectedElements<BeamlineTube>());
+		var arr = ControlConsole.GetFilteredConnectedElements<BeamlineTube>();
+		arr.Reverse();
+		EnvelopeVisualizer.Call("set_tubeArray", arr);
 		ApplyChange();
 		SetEmitterStatus();
 	}
@@ -43,7 +45,7 @@ public partial class ControlConsoleWindow : Control
 		{
 			EmitterStatus.Text = "Online";
 			EmitterStatus.SetModulate(Colors.Green);
-			emitter.Emit();
+			//emitter.Emit();
 		}
 		else
 		{
