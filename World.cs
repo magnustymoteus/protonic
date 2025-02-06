@@ -8,8 +8,8 @@ using Vector2 = Godot.Vector2;
 public partial class World : Node2D
 {
 	[Export] public Control BuildingUI;
-	
-	[Export] public TextureRect ElementHoverRect;
+
+	[Export] public Sprite2D ElementHoverSprite;
 	[Export] public ColorRect ColorHoverRect;
 	
 	[Export] public TileMapLayer TileMap;
@@ -54,12 +54,13 @@ public partial class World : Node2D
 		{
 			string texturePath = CurrentElementPath + "/disconnected.png";
 			Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
-			ElementHoverRect.SetTexture(texture);
+			ElementHoverSprite.SetTexture(texture);
+			ElementHoverSprite.SetGlobalPosition(ColorHoverRect.GlobalPosition+ElementHoverSprite.GetTexture().GetSize()/2.0f);
 			ColorHoverRect.SetSize(texture.GetSize());
 		}
 		else
 		{
-			ElementHoverRect.SetTexture(null);
+			ElementHoverSprite.SetTexture(null);
 			ColorHoverRect.SetSize(TileSize);
 		}
 	}
@@ -86,17 +87,17 @@ public partial class World : Node2D
 
 	public void DeleteElement()
 	{
-		Element element = Map.GetElement(VectorConverter.Convert(ElementHoverRect.GetParent<ColorRect>().GetPosition()/TileSize));
+		Element element = Map.GetElement(VectorConverter.Convert(ElementHoverSprite.GetParent<ColorRect>().GetPosition()/TileSize));
 		if(element != null) Map.DeleteElement(element);
 	}
 	public void ClickedOnMap()
 	{
-		ColorRect parent = ElementHoverRect.GetParent<ColorRect>();
+		FollowMouse parent = ElementHoverSprite.GetParent<FollowMouse>();
 		Vector2I position = VectorConverter.Convert(parent.GetPosition() / TileSize);
 		if (IsBuilding && CurrentElementPath != null)
 		{
-			Vector2I size = VectorConverter.Convert(ElementHoverRect.GetSize() / TileSize);
-			float rotation = parent.GetRotation();
+			Vector2I size = VectorConverter.Convert(ElementHoverSprite.GetRect().Size / TileSize);
+			float rotation = parent.elementRotation;
 			size = Matrix2x2.GetRotationMatrix(rotation).Multiply(size);
 
 			Element newElement = _elementFactory.CreateElement(CurrentElementName, position, size, rotation);
