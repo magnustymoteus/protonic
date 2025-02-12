@@ -38,7 +38,6 @@ public class MapManager
 		    affectedElement.PlaceConnectionArrows(root.TileSize, root);
 	    }
 	    if (affectedElements.Count == 0) UpdateTexture(element);
-		
 	    for (int i = element.beginPosition.X; i < element.endPosition.X; i++)
 	    {
 		    for (int j = element.beginPosition.Y; j < element.endPosition.Y; j++)

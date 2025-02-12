@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 public class Matrix2x2
 {
     private readonly float[,] _matrix;
@@ -29,8 +30,8 @@ public class Matrix2x2
     public static Matrix2x2 GetRotationMatrix(float angle)
     {
         return new Matrix2x2(
-            (int)Mathf.Cos(angle), (int)-Mathf.Sin(angle),
-            (int)Mathf.Sin(angle),  (int)Mathf.Cos(angle)
+            MathF.Round(Mathf.Cos(angle), 6), MathF.Round(-Mathf.Sin(angle), 6),
+            MathF.Round(Mathf.Sin(angle), 6),  MathF.Round(Mathf.Cos(angle), 6)
         );
     }
     public Matrix2x2(double m11, double m12, double m21, double m22) : this((float) m11, (float) m12, (float) m21, (float) m22) {}
@@ -44,7 +45,7 @@ public class Matrix2x2
     public Vector2I Multiply(Vector2I vector)
     {
         Vector2 result = Multiply(new Vector2(vector.X, vector.Y));
-        return new Vector2I((int)result.X, (int)result.Y);
+        return new Vector2I(Mathf.RoundToInt(result.X), Mathf.RoundToInt(result.Y));
     }
     public Matrix2x2 Transpose()
     {

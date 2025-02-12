@@ -8,7 +8,7 @@ using Godot;
 using System.Collections.Generic;
 public enum ConnectiveDirection
 {
-    Left=0, Up=1, Right=2, Down=3
+    Left=0, Diagonal_UL=1, Up=2, Diagonal_UR=3, Right=4, Diagonal_BR=5, Down=6, Diagonal_BL=7
 }
 
 public partial class Element : Sprite2D
@@ -36,8 +36,11 @@ public partial class Element : Sprite2D
         { ConnectiveDirection.Left, new Vector2I(-1, 0) },
         { ConnectiveDirection.Up, new Vector2I(0, -1) },
         { ConnectiveDirection.Down, new Vector2I(0, 1) },
-        { ConnectiveDirection.Right, new Vector2I(1, 0) }
-
+        { ConnectiveDirection.Right, new Vector2I(1, 0) },
+        { ConnectiveDirection.Diagonal_UR, new Vector2I(1,-1) },
+        { ConnectiveDirection.Diagonal_UL, new Vector2I(-1,-1)},
+        { ConnectiveDirection.Diagonal_BR, new Vector2I(1,1) },
+        { ConnectiveDirection.Diagonal_BL, new Vector2I(-1,1)},
     };
 
     public Array<Sprite2D> arrows = new Array<Sprite2D>();
@@ -78,7 +81,7 @@ public partial class Element : Sprite2D
         {
             Vector2 position = (connection.Item2-Element.Convert(connection.Item1)/new Vector2(2.0f, 2.0f)) * tileSize;
             Texture2D texture = ResourceLoader.Load<Texture2D>("./assets/images/connectionArrow.png");
-            float rotation = ((int)connection.Item1 + 3) % 4 * Mathf.Pi / 2;
+            float rotation = ((int)connection.Item1 + 6) % 8 * (Mathf.Pi / 4);
             Sprite2D arrowRect = new Sprite2D();
             arrowRect.SetZIndex(2);
             arrowRect.SetTexture(texture);
@@ -89,7 +92,7 @@ public partial class Element : Sprite2D
             parent.AddChild(arrowRect);
         }
     }
-
+    
     public ConnectiveDirection UndoRotation(ConnectiveDirection direction)
     {
         return Element.Convert(Matrix2x2.GetRotationMatrix(this.rotation).Transpose()
@@ -243,7 +246,7 @@ public partial class Element : Sprite2D
         Variant contents = FileManager.LoadJsonFromFile(FileManager.SearchFile(this.path, "connections.json"))
             .AsGodotDictionary()["connections"];
         Dictionary<char, int> directionMapper = new Dictionary<char, int>
-            { { 'L', 0 }, { 'U', 1 }, { 'R', 2 }, { 'D', 3 } };
+            { { 'L', 0 }, { 'U', 2 }, { 'R', 4 }, { 'D', 6 } };
         foreach (Dictionary connection in contents.AsGodotArray())
         {
             string currentDirections = connection["connection"].AsString();
