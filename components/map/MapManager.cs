@@ -147,8 +147,7 @@ public class MapManager
 		    element.SetRotation(element.rotation);
 		    element.SetPosition((VectorConverter.Convert(element.beginPosition+element.endPosition)/2.0f)*root.TileSize);
 	    }
-	    Texture2D newTexture = ResourceLoader.Load<Texture2D>(ResourceLoader.Exists(element.GetTexturePath()) ? 
-		    element.GetTexturePath() : element.GetDefaultTexturePath());
+	    Texture2D newTexture = ResourceLoader.Load<Texture2D>(element.GetTexturePath());
 	    element.SetTexture(newTexture);
 	    if (isNew)
 	    {

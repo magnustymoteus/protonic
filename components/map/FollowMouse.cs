@@ -6,7 +6,6 @@ public partial class FollowMouse : ColorRect
     private Vector2I tileSize;
     [Export] private TileMapLayer tileMapLayer;
     [Export] private Node2D world;
-    public float elementRotation;
 
     public override void _Ready()
     {
@@ -32,8 +31,7 @@ public partial class FollowMouse : ColorRect
     {
         if (@event.IsActionPressed("rotate"))
         {
-            elementRotation += Mathf.Pi / 4.0f;
-            GetChild<Sprite2D>(1).SetRotation(elementRotation);
+            SetRotation(GetRotation()+Mathf.Pi / 2.0f);
         }
     }
 }

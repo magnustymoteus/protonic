@@ -52,10 +52,10 @@ public partial class World : Node2D
 	{
 		if (IsBuilding)
 		{
-			string texturePath = CurrentElementPath + "/disconnected.png";
+			string texturePath = CurrentElementPath + "/texture.png";
 			Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
 			ElementHoverSprite.SetTexture(texture);
-			ElementHoverSprite.SetGlobalPosition(ColorHoverRect.GlobalPosition+ElementHoverSprite.GetTexture().GetSize()/2.0f);
+			ElementHoverSprite.SetPosition(ElementHoverSprite.GetTexture().GetSize()/2.0f);
 			ColorHoverRect.SetSize(texture.GetSize());
 		}
 		else
@@ -97,7 +97,7 @@ public partial class World : Node2D
 		if (IsBuilding && CurrentElementPath != null)
 		{
 			Vector2I size = VectorConverter.Convert(ElementHoverSprite.GetRect().Size / TileSize);
-			float rotation = parent.elementRotation;
+			float rotation = parent.GetRotation();
 			size = Matrix2x2.GetRotationMatrix(rotation).Multiply(size);
 
 			Element newElement = _elementFactory.CreateElement(CurrentElementName, position, size, rotation);

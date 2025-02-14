@@ -8,7 +8,7 @@ using Godot;
 using System.Collections.Generic;
 public enum ConnectiveDirection
 {
-    Left=0, Diagonal_UL=1, Up=2, Diagonal_UR=3, Right=4, Diagonal_BR=5, Down=6, Diagonal_BL=7
+    Left=0, Up=1, Right=2, Down=3
 }
 
 public partial class Element : Sprite2D
@@ -36,11 +36,7 @@ public partial class Element : Sprite2D
         { ConnectiveDirection.Left, new Vector2I(-1, 0) },
         { ConnectiveDirection.Up, new Vector2I(0, -1) },
         { ConnectiveDirection.Down, new Vector2I(0, 1) },
-        { ConnectiveDirection.Right, new Vector2I(1, 0) },
-        { ConnectiveDirection.Diagonal_UR, new Vector2I(1,-1) },
-        { ConnectiveDirection.Diagonal_UL, new Vector2I(-1,-1)},
-        { ConnectiveDirection.Diagonal_BR, new Vector2I(1,1) },
-        { ConnectiveDirection.Diagonal_BL, new Vector2I(-1,1)},
+        { ConnectiveDirection.Right, new Vector2I(1, 0) }
     };
 
     public Array<Sprite2D> arrows = new Array<Sprite2D>();
@@ -81,10 +77,12 @@ public partial class Element : Sprite2D
         {
             Vector2 position = (connection.Item2-Element.Convert(connection.Item1)/new Vector2(2.0f, 2.0f)) * tileSize;
             Texture2D texture = ResourceLoader.Load<Texture2D>("./assets/images/connectionArrow.png");
-            float rotation = ((int)connection.Item1 + 6) % 8 * (Mathf.Pi / 4);
+            float rotation = ((int)connection.Item1+3) % 4 * Mathf.Pi / 2;
             Sprite2D arrowRect = new Sprite2D();
             arrowRect.SetZIndex(2);
             arrowRect.SetTexture(texture);
+            GD.Print(connection.Item1);
+            GD.Print(rotation/(Mathf.Pi/2.0f)*90);
             arrowRect.SetRotation(rotation);
             arrowRect.SetGlobalPosition(position+tileSize/2);
             arrowRect.SetModulate(new Color(0.0f, 1.0f, 0.0f, 0.8f));
@@ -134,29 +132,7 @@ public partial class Element : Sprite2D
     
     public string GetTexturePath()
     {
-        string result = this.path + "/";
-        if (occupiedConnections.Count == 0) result += "disconnected";
-        else result += "connected";
-        foreach (var connection in occupiedConnections)
-        {
-            result += "_" + connection.Key.X + "_" + connection.Key.Y + "_";
-            SortedSet<ConnectiveDirection> newConnections = new SortedSet<ConnectiveDirection>();
-            foreach (ConnectiveDirection direction in connection.Value)
-            {
-                newConnections.Add(UndoRotation(direction));
-            }
-
-            foreach (ConnectiveDirection newDirection in newConnections)
-            {
-                result += newDirection.ToString()[0];
-            }
-        }
-        return result + ".png";
-    }
-
-    public string GetDefaultTexturePath()
-    {
-        return this.path + "/disconnected.png";
+        return this.path + "/texture.png";
     }
     
     // doesn't check element type
@@ -211,6 +187,7 @@ public partial class Element : Sprite2D
     }
     public static Vector2I Convert(ConnectiveDirection direction)
     {
+        GD.Print(direction);
         return TransformMap[direction];
     }
 
@@ -246,7 +223,7 @@ public partial class Element : Sprite2D
         Variant contents = FileManager.LoadJsonFromFile(FileManager.SearchFile(this.path, "connections.json"))
             .AsGodotDictionary()["connections"];
         Dictionary<char, int> directionMapper = new Dictionary<char, int>
-            { { 'L', 0 }, { 'U', 2 }, { 'R', 4 }, { 'D', 6 } };
+            { { 'L', 0 }, { 'U', 1 }, { 'R', 2 }, { 'D', 3 } };
         foreach (Dictionary connection in contents.AsGodotArray())
         {
             string currentDirections = connection["connection"].AsString();
@@ -258,7 +235,10 @@ public partial class Element : Sprite2D
             }
             foreach (Array<int> arr in connection["positions"].AsGodotArray())
             {
-                this.availableConnections.Add(new Vector2I(arr[0], arr[1]), directions);
+                Vector2I pos = new Vector2I(arr[0], arr[1]);
+                this.availableConnections.TryGetValue(pos, out var dirs);
+                if (dirs != null) availableConnections[pos].UnionWith(directions);
+                else availableConnections.Add(pos, directions);
                 foreach (var direction in directions)
                 {
                     this.allowedConnections.Add(new Tuple<Vector2I, ConnectiveDirection>(new Vector2I(arr[0], arr[1]), direction), 
