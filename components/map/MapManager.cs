@@ -16,12 +16,9 @@ public class MapManager
     }
     public Element GetElement(Vector2I tile)
     {
-        Element result;
-        Elements.TryGetValue(tile, out result);
+	    Elements.TryGetValue(tile, out var result);
         return result;
     }
-    
-
 
     public bool ElementExists(Vector2I tile)
     {

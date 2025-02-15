@@ -81,8 +81,6 @@ public partial class Element : Sprite2D
             Sprite2D arrowRect = new Sprite2D();
             arrowRect.SetZIndex(2);
             arrowRect.SetTexture(texture);
-            GD.Print(connection.Item1);
-            GD.Print(rotation/(Mathf.Pi/2.0f)*90);
             arrowRect.SetRotation(rotation);
             arrowRect.SetGlobalPosition(position+tileSize/2);
             arrowRect.SetModulate(new Color(0.0f, 1.0f, 0.0f, 0.8f));
@@ -187,7 +185,6 @@ public partial class Element : Sprite2D
     }
     public static Vector2I Convert(ConnectiveDirection direction)
     {
-        GD.Print(direction);
         return TransformMap[direction];
     }
 
