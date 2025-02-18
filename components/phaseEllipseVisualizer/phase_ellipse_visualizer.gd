@@ -26,19 +26,21 @@ func set_graph_bounds():
 
 func _init() -> void:
 	beam = ParticleBeam.new()
-	beam.Alpha = 1.0
-	beam.Beta = 5
-	beam.Emittance = 1
+	beam.Alpha = 1
+	beam.Beta = 0.55
+	beam.Emittance = 3.75
 	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ellipsePlot = $Graph2D.add_plot_item("Ellipse", Color.GREEN)
 	
-func replot(alpha: float, beta: float, emittance: float) -> void:
+func set_params(alpha: float, beta: float, emittance: float) -> void:
 	beam.Alpha = alpha
 	beam.Beta = beta
 	beam.Emittance = emittance
+	
+func replot() -> void:
 	$Graph2D.remove_all()
 	ellipsePlot = $Graph2D.add_plot_item("Ellipse", Color.GREEN)
 	s = 0
@@ -54,6 +56,7 @@ func _process(_delta: float) -> void:
 
 		x_bounds = update_bounds(positionMomentum.x, x_bounds)
 		y_bounds = update_bounds(positionMomentum.y, y_bounds)
+
 		set_graph_bounds()
 
 		s += 5

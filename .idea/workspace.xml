@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="74f00774-dfa8-4d6d-aea8-143a6f5d0e51" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/envelopeVisualizer/envelope_visualizer.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/configuration.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/configuration.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/control_console.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/components/particleAccelerator/elements/control_console/control_console.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" beforeDir="false" afterPath="$PROJECT_DIR$/components/phaseEllipseVisualizer/phase_ellipse_visualizer.gd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/world.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/world.tscn" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,16 +23,20 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/World.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/buildMode/ElementTree.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/map/MapManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particle/Particle.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particle/PositionMomentum.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/Element.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/beamline_tube/BeamlineTube.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsole.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/particle_emitter/ParticleEmitter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/particleAccelerator/elements/particle_emitter/ParticleEmitter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/components/phaseEllipseVisualizer/PhaseEllipseVisualizer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/utils/FileManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/Matrix2x2.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/utils/ParticleBeam.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/utils/ParticleBeam.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/utils/Singleton.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/TransferMatrix/TransferMatrixFactory.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/VectorConverter.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -123,6 +132,7 @@
       <workItem from="1739554625812" duration="4000" />
       <workItem from="1739883387884" duration="797000" />
       <workItem from="1739889800225" duration="25000" />
+      <workItem from="1739904897186" duration="5990000" />
     </task>
     <servers />
   </component>

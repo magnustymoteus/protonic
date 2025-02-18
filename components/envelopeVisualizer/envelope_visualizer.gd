@@ -40,9 +40,9 @@ func set_graph_bounds():
 
 func _init() -> void:
 	envelope = ParticleBeam.new()
-	envelope.Alpha = 0
-	envelope.Beta = 10
-	envelope.Emittance = 1
+	envelope.Alpha = 1
+	envelope.Beta = 0.55
+	envelope.Emittance = 3.75
 	
 func reset_plot() -> void:
 	$Graph2D.remove_all()

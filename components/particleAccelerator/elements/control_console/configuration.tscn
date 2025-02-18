@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjjsbjgqk63tb"]
+[gd_scene load_steps=2 format=3 uid="uid://cjjsbjgqk63tb"]
 
-[ext_resource type="FontFile" uid="uid://bivf8m01g3oej" path="res://assets/fonts/oxanium/Oxanium-Light.ttf" id="1_4we0d"]
-
-[sub_resource type="Theme" id="Theme_g2r2y"]
-default_font = ExtResource("1_4we0d")
-default_font_size = 40
+[ext_resource type="Script" path="res://components/LineEdit/FloatLineEdit.cs" id="2_510pv"]
 
 [node name="Configuration" type="Control"]
 layout_mode = 3
@@ -53,12 +49,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Emittance (μm-rad)"
 
-[node name="Emittance2" type="SpinBox" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
+[node name="Emittance2" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_g2r2y")
-value = 4.0
-update_on_text_changed = true
+theme_override_font_sizes/font_size = 40
+text = "3.75"
+max_length = 5
+script = ExtResource("2_510pv")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
@@ -69,11 +65,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Alpha"
 
-[node name="Alpha2" type="SpinBox" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer2"]
+[node name="Alpha2" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_g2r2y")
-update_on_text_changed = true
+theme_override_font_sizes/font_size = 40
+text = "1"
+max_length = 5
+script = ExtResource("2_510pv")
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
@@ -84,12 +81,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Beta (m)"
 
-[node name="Beta2" type="SpinBox" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer3"]
+[node name="Beta2" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer3"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_g2r2y")
-value = 1.0
-update_on_text_changed = true
+theme_override_font_sizes/font_size = 40
+text = "0.55"
+max_length = 5
+script = ExtResource("2_510pv")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -115,12 +112,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Bunch Spacing (ns)"
 
-[node name="Spacing2" type="SpinBox" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer"]
+[node name="Spacing2" type="LineEdit" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_g2r2y")
-value = 4.0
-update_on_text_changed = true
+theme_override_font_sizes/font_size = 40
+text = "25"
+max_length = 5
+script = ExtResource("2_510pv")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer5"]
 layout_mode = 2
@@ -131,11 +128,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Particles/Bunch"
 
-[node name="Particles2" type="SpinBox" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer2"]
+[node name="Particles2" type="LineEdit" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_g2r2y")
-update_on_text_changed = true
+theme_override_font_sizes/font_size = 40
+text = "100"
+max_length = 5
+script = ExtResource("2_510pv")
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -161,12 +159,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Radio Frequency (MHz)"
 
-[node name="Frequency2" type="SpinBox" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer"]
+[node name="Frequency2" type="LineEdit" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_g2r2y")
-value = 4.0
-update_on_text_changed = true
+theme_override_font_sizes/font_size = 40
+text = "400.8"
+max_length = 5
+script = ExtResource("2_510pv")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3/HBoxContainer6"]
 layout_mode = 2
@@ -177,11 +175,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Voltage/Cavity (MV)"
 
-[node name="Voltage2" type="SpinBox" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer2"]
+[node name="Voltage2" type="LineEdit" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_g2r2y")
-update_on_text_changed = true
+theme_override_font_sizes/font_size = 40
+text = "16"
+max_length = 5
+script = ExtResource("2_510pv")
 
 [node name="Apply" type="Button" parent="VBoxContainer"]
 layout_mode = 2

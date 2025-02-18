@@ -3,7 +3,7 @@ using System;
 
 public partial class ControlConsoleWindow : Control
 {
-	[Export] private SpinBox AlphaBox, BetaBox, EmittanceBox;
+	[Export] private FloatLineEdit AlphaBox, BetaBox, EmittanceBox;
 
 	[Export] private Control EnvelopeVisualizer, PhaseEllipseVisualizer;
 
@@ -26,7 +26,7 @@ public partial class ControlConsoleWindow : Control
 		EmittanceBox.ValueChanged += SetEmittance;
 
 		ApplyButton.Pressed += Apply;
-		StreamButton.Pressed += Stream;
+		StreamButton.Pressed += StreamSwitch;
 		CloseButton.Pressed += Close;
 	}
 
@@ -45,12 +45,13 @@ public partial class ControlConsoleWindow : Control
 		{
 			EmitterStatus.Text = "Online";
 			EmitterStatus.SetModulate(Colors.Green);
-			//emitter.Emit();
+			StreamButton.SetDisabled(false);
 		}
 		else
 		{
 			EmitterStatus.Text = "Offline";
 			EmitterStatus.SetModulate(Colors.Red);
+			StreamButton.SetDisabled(true);
 		}
 	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,29 +69,42 @@ public partial class ControlConsoleWindow : Control
 	{
 		EnvelopeVisualizer.Call("set_params", _alpha, _beta, _emittance);
 		EnvelopeVisualizer.Call("replot");
-		PhaseEllipseVisualizer.Call("replot", _alpha, _beta, _emittance);
+		
+		PhaseEllipseVisualizer.Call("set_params", _alpha, _beta, _emittance);
+		PhaseEllipseVisualizer.Call("replot");
 	}
-	private void Stream()
+	private void StreamSwitch()
 	{
 		if (EmitterStatus.Text == "Online")
 		{
 			EnvelopeVisualizer.Call("switch_emitter");
 			EnvelopeVisualizer.Call("replot");
+			
+			EmitterStatus.Text = "Emitting";
+			EmitterStatus.SetModulate(Colors.Yellow);
+			
+			StreamButton.Text = "Stop";
+		}
+		else if (EmitterStatus.Text == "Emitting")
+		{
+			SetEmitterStatus();
+			StreamButton.Text = "Stream";
 		}
 	}
-	public void SetAlpha(double alpha)
+	
+	public void SetAlpha(float alpha)
 	{
-		_alpha = (float)alpha;
+		_alpha = alpha;
 	}
 
-	public void SetBeta(double beta)
+	public void SetBeta(float beta)
 	{
-		_beta = (float)beta;
+		_beta = beta;
 	}
 
-	public void SetEmittance(double emittance)
+	public void SetEmittance(float emittance)
 	{
-		_emittance = (float)emittance;
+		_emittance = emittance;
 	}
 	
 }
