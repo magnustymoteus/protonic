@@ -20,6 +20,11 @@ var y_bounds: Vector2 = Vector2(0,0)
 var numOfParticlePlots: int = 50
 var particlePlots: Array[PlotItem] = []
 
+var stream: bool = false
+
+func switch_emitter():
+	stream = !stream
+
 func update_bounds(elem: float, bounds: Vector2) -> Vector2:
 	if elem < bounds.x:
 		bounds.x = elem
@@ -63,10 +68,12 @@ func initialize_plot() -> void:
 func _ready() -> void:
 	initialize_plot()
 	
-func replot(alpha: float, beta: float, emittance: float) -> void:
+func set_params(alpha: float, beta: float, emittance: float) -> void:
 	envelope.Alpha = alpha
 	envelope.Beta = beta
 	envelope.Emittance = emittance
+	
+func replot() -> void:
 	reset_plot()
 	initialize_plot()
 
@@ -74,9 +81,16 @@ func replot(alpha: float, beta: float, emittance: float) -> void:
 func _process(_delta: float) -> void:
 	if index < len(tubeArray):
 		var envelopeY = envelope.GetEnvelope(tubeArray[index])
-		for particlePlot in particlePlots:
-			var particleY: float = envelope.GetEnvelope(tubeArray[index]) * envelope.GetRandomFactor()
-			particlePlot.add_point(Vector2(x, particleY))
+		if stream:
+			for particlePlot in particlePlots:
+				if particlePlot._points.size() > 0:
+					print(particlePlot._points[-1])
+					print(envelopeY)
+					print()
+					if abs(particlePlot._points[-1].y) == abs(envelopeY):
+						continue
+				var particleY: float = envelope.GetEnvelope(tubeArray[index]) * envelope.GetRandomFactor()
+				particlePlot.add_point(Vector2(x, particleY))
 		index += 1
 		envelopePlot1.add_point(Vector2(x, envelopeY))
 		envelopePlot2.add_point(Vector2(x, -envelopeY))

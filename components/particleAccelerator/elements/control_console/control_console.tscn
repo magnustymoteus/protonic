@@ -1,15 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cl2k1vy36ipnn"]
+[gd_scene load_steps=5 format=3 uid="uid://cl2k1vy36ipnn"]
 
-[ext_resource type="FontFile" uid="uid://bivf8m01g3oej" path="res://assets/fonts/oxanium/Oxanium-Light.ttf" id="1_gqtoq"]
 [ext_resource type="Script" path="res://components/particleAccelerator/elements/control_console/ControlConsoleWindow.cs" id="1_ynjhl"]
 [ext_resource type="PackedScene" uid="uid://cn6crowg18yeq" path="res://components/envelopeVisualizer/envelopeVisualizer.tscn" id="2_lrld3"]
 [ext_resource type="PackedScene" uid="uid://cctx6x88fagfj" path="res://components/phaseEllipseVisualizer/phaseEllipseVisualizer.tscn" id="3_xf8ub"]
+[ext_resource type="PackedScene" uid="uid://cjjsbjgqk63tb" path="res://components/particleAccelerator/elements/control_console/configuration.tscn" id="4_3dlkl"]
 
-[sub_resource type="Theme" id="Theme_tb5ty"]
-default_font = ExtResource("1_gqtoq")
-default_font_size = 40
-
-[node name="Control" type="Control" node_paths=PackedStringArray("AlphaBox", "BetaBox", "EmittanceBox", "EnvelopeVisualizer", "PhaseEllipseVisualizer", "ApplyButton", "CloseButton", "EmitterStatus")]
+[node name="Control" type="Control" node_paths=PackedStringArray("AlphaBox", "BetaBox", "EmittanceBox", "EnvelopeVisualizer", "PhaseEllipseVisualizer", "ApplyButton", "StreamButton", "CloseButton", "EmitterStatus")]
 modulate = Color(1, 1, 1, 0.588235)
 layout_mode = 3
 anchors_preset = 15
@@ -18,14 +14,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ynjhl")
-AlphaBox = NodePath("HBoxContainer4/HBoxContainer2/SpinBox2")
-BetaBox = NodePath("HBoxContainer4/HBoxContainer3/SpinBox3")
-EmittanceBox = NodePath("HBoxContainer4/HBoxContainer/SpinBox")
-EnvelopeVisualizer = NodePath("TabContainer/EnvelopeVisualizer")
-PhaseEllipseVisualizer = NodePath("TabContainer/PhaseEllipseVisualizer")
-ApplyButton = NodePath("ApplyButton")
+AlphaBox = NodePath("TabContainer/Configuration/VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer2/Alpha2")
+BetaBox = NodePath("TabContainer/Configuration/VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer3/Beta2")
+EmittanceBox = NodePath("TabContainer/Configuration/VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Emittance2")
+EnvelopeVisualizer = NodePath("TabContainer/Beam Envelope")
+PhaseEllipseVisualizer = NodePath("TabContainer/Phase Space")
+ApplyButton = NodePath("TabContainer/Configuration/VBoxContainer/Apply")
+StreamButton = NodePath("HBoxContainer/StreamButton")
 CloseButton = NodePath("CloseButton")
-EmitterStatus = NodePath("EmitterStatus/Status")
+EmitterStatus = NodePath("HBoxContainer/EmitterStatus/Status")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1
@@ -35,87 +32,78 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -640.0
-offset_top = -393.5
-offset_right = 640.0
-offset_bottom = 393.5
+offset_top = -393.0
+offset_right = 645.0
+offset_bottom = -338.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 50
-current_tab = 0
+theme_override_font_sizes/font_size = 45
+current_tab = 1
 
-[node name="EnvelopeVisualizer" parent="TabContainer" instance=ExtResource("2_lrld3")]
+[node name="Beam Envelope" parent="TabContainer" instance=ExtResource("2_lrld3")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="PhaseEllipseVisualizer" parent="TabContainer" instance=ExtResource("3_xf8ub")]
-visible = false
+[node name="Phase Space" parent="TabContainer" instance=ExtResource("3_xf8ub")]
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+[node name="Configuration" parent="TabContainer" instance=ExtResource("4_3dlkl")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 390.0
-offset_top = 802.0
-offset_right = 1579.0
-offset_bottom = 886.0
-theme_override_constants/separation = 100
+offset_top = 800.0
+offset_right = 1564.0
+offset_bottom = 882.0
+theme_override_constants/separation = 50
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4"]
-layout_mode = 2
-theme_override_constants/separation = 25
-
-[node name="Label" type="Label" parent="HBoxContainer4/HBoxContainer"]
+[node name="StreamButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "Emittance"
-
-[node name="SpinBox" type="SpinBox" parent="HBoxContainer4/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_tb5ty")
-value = 1.0
-update_on_text_changed = true
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4"]
-layout_mode = 2
-theme_override_constants/separation = 25
-
-[node name="Label2" type="Label" parent="HBoxContainer4/HBoxContainer2"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Alpha"
-
-[node name="SpinBox2" type="SpinBox" parent="HBoxContainer4/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_tb5ty")
-update_on_text_changed = true
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer4"]
-layout_mode = 2
-theme_override_constants/separation = 25
-
-[node name="Label3" type="Label" parent="HBoxContainer4/HBoxContainer3"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Beta"
-
-[node name="SpinBox3" type="SpinBox" parent="HBoxContainer4/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_tb5ty")
-value = 5.0
-update_on_text_changed = true
-
-[node name="ApplyButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 389.0
-offset_top = 757.0
-offset_right = 543.0
-offset_bottom = 806.0
-theme_override_font_sizes/font_size = 40
-text = "Apply"
+text = "Stream"
 alignment = 0
+
+[node name="EmitterStatus" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Emitter" type="Label" parent="HBoxContainer/EmitterStatus"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Status: "
+
+[node name="Status" type="Label" parent="HBoxContainer/EmitterStatus"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Offline"
+
+[node name="Beam Loss" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Beam Loss"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Beam Loss: "
+
+[node name="Status" type="Label" parent="HBoxContainer/Beam Loss"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+
+[node name="Beam Stability" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Beam Stability"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Beam Stability: "
+
+[node name="Status" type="Label" parent="HBoxContainer/Beam Stability"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
 
 [node name="CloseButton" type="Button" parent="."]
 layout_mode = 0
@@ -126,19 +114,4 @@ offset_bottom = 266.0
 theme_override_font_sizes/font_size = 50
 text = "X"
 
-[node name="EmitterStatus" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 1249.0
-offset_top = 757.0
-offset_right = 1527.0
-offset_bottom = 798.0
-
-[node name="Emitter" type="Label" parent="EmitterStatus"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Emitter:"
-
-[node name="Status" type="Label" parent="EmitterStatus"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Offline"
+[editable path="TabContainer/Configuration"]

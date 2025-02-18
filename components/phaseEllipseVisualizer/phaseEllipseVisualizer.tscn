@@ -19,3 +19,5 @@ anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 script = ExtResource("2_fgahj")
+x_label = "Position"
+y_label = "Momentum"

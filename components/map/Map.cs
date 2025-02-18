@@ -60,7 +60,10 @@ public partial class Map : ColorRect
 		{
 			AddPoint();
 		}
-		else if (Input.IsActionPressed("place"))
+	}
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (Input.IsActionPressed("place") && !Input.IsActionPressed("draw"))
 		{
 			world.ClickedOnMap();
 		}

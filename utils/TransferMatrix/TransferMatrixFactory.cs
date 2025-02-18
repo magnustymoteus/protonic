@@ -14,6 +14,14 @@ namespace protonic.utils.TransferMatrix
             );
         }
 
+        public static Matrix2x2 RFCavity(float length, float acceleration)
+        {
+            return new Matrix2x2(
+                1, length*acceleration,
+                0, acceleration
+            );
+        }
+
         /*public static Matrix2x2 EdgeFocusing(float phi, float radius)
         {
             return new Matrix4x4(

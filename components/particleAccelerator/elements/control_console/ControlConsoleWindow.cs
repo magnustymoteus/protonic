@@ -7,7 +7,7 @@ public partial class ControlConsoleWindow : Control
 
 	[Export] private Control EnvelopeVisualizer, PhaseEllipseVisualizer;
 
-	[Export] private Button ApplyButton, CloseButton;
+	[Export] private Button ApplyButton, StreamButton, CloseButton;
 
 	[Export] private Label EmitterStatus;
 	
@@ -25,7 +25,8 @@ public partial class ControlConsoleWindow : Control
 		BetaBox.ValueChanged += SetBeta;
 		EmittanceBox.ValueChanged += SetEmittance;
 
-		ApplyButton.Pressed += ApplyChange;
+		ApplyButton.Pressed += Apply;
+		StreamButton.Pressed += Stream;
 		CloseButton.Pressed += Close;
 	}
 
@@ -34,7 +35,6 @@ public partial class ControlConsoleWindow : Control
 		var arr = ControlConsole.GetFilteredConnectedElements<BeamlineTube>();
 		arr.Reverse();
 		EnvelopeVisualizer.Call("set_tubeArray", arr);
-		ApplyChange();
 		SetEmitterStatus();
 	}
 
@@ -63,10 +63,20 @@ public partial class ControlConsoleWindow : Control
 		GetParent<Control>().SetVisible(false);
 		GetParent<Control>().ReleaseFocus();
 	}
-	private void ApplyChange()
+
+	private void Apply()
 	{
-		EnvelopeVisualizer.Call("replot", _alpha, _beta, _emittance);
+		EnvelopeVisualizer.Call("set_params", _alpha, _beta, _emittance);
+		EnvelopeVisualizer.Call("replot");
 		PhaseEllipseVisualizer.Call("replot", _alpha, _beta, _emittance);
+	}
+	private void Stream()
+	{
+		if (EmitterStatus.Text == "Online")
+		{
+			EnvelopeVisualizer.Call("switch_emitter");
+			EnvelopeVisualizer.Call("replot");
+		}
 	}
 	public void SetAlpha(double alpha)
 	{

@@ -1,0 +1,189 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjjsbjgqk63tb"]
+
+[ext_resource type="FontFile" uid="uid://bivf8m01g3oej" path="res://assets/fonts/oxanium/Oxanium-Light.ttf" id="1_4we0d"]
+
+[sub_resource type="Theme" id="Theme_g2r2y"]
+default_font = ExtResource("1_4we0d")
+default_font_size = 40
+
+[node name="Configuration" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -640.0
+offset_bottom = -360.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_top = 25.0
+offset_right = 1280.0
+offset_bottom = 745.0
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "CS Parameters"
+horizontal_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Emittance" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Emittance (μm-rad)"
+
+[node name="Emittance2" type="SpinBox" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g2r2y")
+value = 4.0
+update_on_text_changed = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Alpha" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Alpha"
+
+[node name="Alpha2" type="SpinBox" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g2r2y")
+update_on_text_changed = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Beta" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Beta (m)"
+
+[node name="Beta2" type="SpinBox" parent="VBoxContainer/VBoxContainer/HBoxContainer4/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g2r2y")
+value = 1.0
+update_on_text_changed = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Particle Bunches"
+horizontal_alignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer5"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Spacing" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Bunch Spacing (ns)"
+
+[node name="Spacing2" type="SpinBox" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g2r2y")
+value = 4.0
+update_on_text_changed = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer5"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Particles" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Particles/Bunch"
+
+[node name="Particles2" type="SpinBox" parent="VBoxContainer/VBoxContainer2/HBoxContainer5/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g2r2y")
+update_on_text_changed = true
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label3" type="Label" parent="VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Acceleration"
+horizontal_alignment = 1
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3/HBoxContainer6"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Frequency" type="Label" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Radio Frequency (MHz)"
+
+[node name="Frequency2" type="SpinBox" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g2r2y")
+value = 4.0
+update_on_text_changed = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3/HBoxContainer6"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Voltage" type="Label" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Voltage/Cavity (MV)"
+
+[node name="Voltage2" type="SpinBox" parent="VBoxContainer/VBoxContainer3/HBoxContainer6/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g2r2y")
+update_on_text_changed = true
+
+[node name="Apply" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Apply"
