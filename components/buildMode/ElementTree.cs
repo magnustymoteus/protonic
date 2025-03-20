@@ -11,7 +11,6 @@ public partial class ElementTree : Godot.Tree
 	public override void _Ready()
 	{
 		ConstructTreeFromFileStructure("./components/particleAccelerator/elements");
-
 		Connect("item_selected", new Callable(this, nameof(OnItemSelected)));
 	}
     private void ConstructTreeFromFileStructure(string rootPath)  {

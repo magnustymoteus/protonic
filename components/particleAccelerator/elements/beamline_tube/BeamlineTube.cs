@@ -2,17 +2,67 @@ using Godot;
 using System;
 using System.Linq;
 using System.Numerics;
+using Godot.Collections;
 using protonic;
 using protonic.utils.TransferMatrix;
 
-public partial class BeamlineTube : Element
+public partial class BeamlineTube : Node2D
 {
-	public BeamlineTube(string path, Vector2I position, Vector2I size, float rotation) : base(path, position, size,
-		rotation) { }
 
-	public Matrix2x2 GetTransferMatrix2x2()
+	public Path2D Path;
+	public Array<string> BeamlineType = new Array<string>(); // index : type
+	private Gradient _color;
+	
+
+	public override void _Ready()
 	{
-		string[] pathArr = name.Split("/").Where(x => x != "").ToArray();
+		Path = new Path2D();
+		Path.SetCurve(new Curve2D());
+		_color = new Gradient();
+	}
+	
+	public void AddPoint(Godot.Vector2 point, string type)
+	{
+		Path.GetCurve().AddPoint(point);
+		QueueRedraw();
+		BeamlineType.Add(type);
+		_color.AddPoint(32.0f, GetColor(type));
+	}
+	public override void _Draw()
+	{
+			Curve2D curve = Path.GetCurve();
+			curve.Tessellate();
+			DrawPolylineColors(curve.GetBakedPoints(), _color.GetColors(), 20.0f, true);
+			for (int i = 0; i < curve.GetPointCount(); i++)
+			{
+				Godot.Vector2 point = curve.GetPointPosition(i);
+				DrawCircle(point, 5.0f, Colors.White);
+				DrawLine(point, point + curve.GetPointIn(i), Colors.Red, 2.5f);
+				DrawLine(point, point + curve.GetPointOut(i), Colors.Red, 2.5f);
+			}
+	}
+
+	private Color GetColor(string type)
+	{
+		string[] pathArr = type.Split("/").Where(x => x != "").ToArray();
+		switch (pathArr[1])
+		{
+			case "bending_magnet":
+				return Colors.DarkGreen;
+			case "focusing_magnet":
+				return Colors.DarkBlue;
+			case "defocusing_magnet":
+				return Colors.DarkRed;
+			case "rf_cavity":
+				return Colors.Orange;
+			default:
+				return Colors.White;
+		}
+	}
+
+	public Matrix2x2 GetTransferMatrix2x2(string type)
+	{
+		string[] pathArr = type.Split("/").Where(x => x != "").ToArray();
 		switch (pathArr[1])
 		{
 			case "bending_magnet":
@@ -28,9 +78,9 @@ public partial class BeamlineTube : Element
 		}
 	}
 
-	public Matrix4x4 GetTransferMatrix4x4()
+	public Matrix4x4 GetTransferMatrix4x4(string type)
 	{
-		string[] pathArr = name.Split("/").Where(x => x != "").ToArray();
+		string[] pathArr = type.Split("/").Where(x => x != "").ToArray();
 		switch (pathArr[1])
 		{
 			case "bending_magnet":

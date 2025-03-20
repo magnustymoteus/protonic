@@ -7,11 +7,7 @@ public partial class ControlConsole : Element
 	private Control _canvasChild, _instance;
 	
 	public ParticleEmitter ConnectedEmitter;
-
-	public ParticleEmitter GetEmitter()
-	{
-		return (ParticleEmitter)GetFilteredConnectedElements<ParticleEmitter>().FirstOrDefault();
-	}
+	
 
 	public override void _Ready()
 	{

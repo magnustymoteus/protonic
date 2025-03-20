@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using Godot.Collections;
+using protonic;
+using System.Collections.Generic;
 
 public partial class Map : ColorRect
 {
@@ -8,57 +10,75 @@ public partial class Map : ColorRect
 
 	[Export] private ColorRect followRect;
 
+	private HashSet<BeamlineTube> _beamlines = new HashSet<BeamlineTube>();
+	private HashSet<Wire> _wires = new HashSet<Wire>();
+
+	private BeamlineTube _currentBeamline = null;
+	private Wire _currentWire = null;
+
+	public void CreateNewBeamline()
+	{
+		_currentBeamline = new BeamlineTube();
+		_beamlines.Add(_currentBeamline);
+		AddChild(_currentBeamline);
+	}
+
+	public void CreateNewWire()
+	{
+		_currentWire = new Wire();
+		_wires.Add(_currentWire);
+		AddChild(_currentWire);
+	}
+
+	public BeamlineTube GetCurrentBeamline()
+	{
+		return _currentBeamline;
+	}
+
+	public Wire GetCurrentWire()
+	{
+		return _currentWire;
+	}
 	public override void _Ready()
 	{
-		_paths.Add(new Path2D());
-		_paths[_currentPathIndex].SetCurve(new Curve2D());
 	}
 
 	public override void _Process(double delta)
 	{
 		
 	}
-	/* drawing section */
-	private Array<Path2D> _paths = new Array<Path2D>();
-	private int _currentPathIndex = 0;
 	
-	public override void _Draw()
+	public Vector2 GetTiledMousePos()
 	{
-		foreach (var path in _paths)
-		{
-			Curve2D curve = path.GetCurve();
-			curve.Tessellate();
-			DrawPolyline(curve.GetBakedPoints(), Colors.LightBlue, 20.0f, true);
-			for (int i = 0; i < curve.GetPointCount(); i++)
-			{
-				Vector2 point = curve.GetPointPosition(i);
-				DrawCircle(point, 5.0f, Colors.White);
-				DrawLine(point, point + curve.GetPointIn(i), Colors.Red, 2.5f);
-				DrawLine(point, point + curve.GetPointOut(i), Colors.Red, 2.5f);
-			}
-		}
+		Vector2 mousePos = GetGlobalMousePosition(); 
+		Vector2 tilePos = new Vector2(world.TileSize.X * Mathf.Floor(mousePos.X / world.TileSize.X),
+			world.TileSize.Y * Mathf.Floor(mousePos.Y / world.TileSize.Y));
+		return tilePos;
 	}
-	
-	public void AddPoint()
+	public void AddBeamline(string type)
 	{
-		Vector2 pos = GetGlobalMousePosition() / 32.0f;
-		pos = new Vector2(Mathf.FloorToInt(pos.X)*32.0f, Mathf.FloorToInt(pos.Y)*32.0f+16.0f);
-		_paths[_currentPathIndex].GetCurve().AddPoint(pos);
-		QueueRedraw();
+		if(GetCurrentBeamline() == null) CreateNewBeamline();
+		Vector2 pos = GetTiledMousePos() + new Vector2(16.0f, 16.0f);
+		GetCurrentBeamline().AddPoint(pos, type);
 	}
 
+	public void AddWire()
+	{
+		if(GetCurrentWire() == null) CreateNewWire();
+		Vector2 pos = GetTiledMousePos() + new Vector2(16.0f, 16.0f);
+		GetCurrentWire().AddPoint(pos);
+	}
 	public void ResetDraw()
 	{
-		_currentPathIndex++;
-		_paths.Add(new Path2D());
-		_paths[_currentPathIndex].SetCurve(new Curve2D());
+		_currentBeamline = null;
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (Input.IsActionJustPressed("place") && Input.IsActionPressed("draw"))
+		if (Input.IsActionJustPressed("place") && Input.IsActionPressed("draw") && world.CurrentElementName != null)
 		{
-			AddPoint();
+			if(world.CurrentElementName.Contains("beamline")) AddBeamline(world.CurrentElementName);
+			else if(world.CurrentElementName.Contains("wire")) AddWire();
 		}
 	}
 	public override void _UnhandledInput(InputEvent @event)

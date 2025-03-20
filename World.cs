@@ -1,3 +1,4 @@
+using System.IO;
 using Godot;
 using protonic;
 using protonic.utils;
@@ -41,6 +42,7 @@ public partial class World : Node2D
 	{
 		TileSize = TileMap.GetTileSet().GetTileSize();
 		Map = new MapManager(this);
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -53,10 +55,13 @@ public partial class World : Node2D
 		if (IsBuilding)
 		{
 			string texturePath = CurrentElementPath + "/texture.png";
-			Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
-			ElementHoverSprite.SetTexture(texture);
-			ElementHoverSprite.SetPosition(ElementHoverSprite.GetTexture().GetSize()/2.0f);
-			ColorHoverRect.SetSize(texture.GetSize());
+			if (File.Exists(texturePath))
+			{
+				Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
+				ElementHoverSprite.SetTexture(texture);
+				ElementHoverSprite.SetPosition(ElementHoverSprite.GetTexture().GetSize() / 2.0f);
+				ColorHoverRect.SetSize(texture.GetSize());
+			}
 		}
 		else
 		{

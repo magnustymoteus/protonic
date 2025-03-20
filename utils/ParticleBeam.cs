@@ -36,9 +36,9 @@ public partial class ParticleBeam : GodotObject
         return new Vector2(x, xPrime);
     }
 
-    public float GetEnvelope(BeamlineTube tube)
+    public float GetEnvelope(BeamlineTube tube, int index)
     {
-        Matrix2x2 transferMatrix = tube.GetTransferMatrix2x2();
+        Matrix2x2 transferMatrix = tube.GetTransferMatrix2x2(tube.BeamlineType[index]);
 
         float C = transferMatrix[0, 0],
             S = transferMatrix[0, 1],

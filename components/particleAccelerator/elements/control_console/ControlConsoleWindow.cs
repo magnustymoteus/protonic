@@ -32,7 +32,7 @@ public partial class ControlConsoleWindow : Control
 
 	public void UpdateVisualization()
 	{
-		var arr = ControlConsole.GetFilteredConnectedElements<BeamlineTube>();
+		var arr = ControlConsole.ConnectedEmitter.connectedBeamline.BeamlineType;
 		arr.Reverse();
 		EnvelopeVisualizer.Call("set_tubeArray", arr);
 		SetEmitterStatus();
@@ -40,7 +40,7 @@ public partial class ControlConsoleWindow : Control
 
 	public void SetEmitterStatus()
 	{
-		ParticleEmitter emitter = ControlConsole.GetEmitter();
+		ParticleEmitter emitter = ControlConsole.ConnectedEmitter;
 		if (emitter != null)
 		{
 			EmitterStatus.Text = "Online";
@@ -87,7 +87,7 @@ public partial class ControlConsoleWindow : Control
 		}
 		else if (EmitterStatus.Text == "Emitting")
 		{
-			SetEmitterStatus();
+			//SetEmitterStatus();
 			StreamButton.Text = "Stream";
 		}
 	}
