@@ -72,28 +72,21 @@ public partial class Map : ColorRect
 	{
 		_currentBeamline = null;
 	}
-
-	public override void _Input(InputEvent @event)
-	{
-		if (Input.IsActionJustPressed("place") && Input.IsActionPressed("draw") && world.CurrentElementName != null)
-		{
-			if(world.CurrentElementName.Contains("beamline")) AddBeamline(world.CurrentElementName);
-			else if(world.CurrentElementName.Contains("wire")) AddWire();
-		}
-	}
+	
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (Input.IsActionPressed("place") && !Input.IsActionPressed("draw"))
 		{
-			world.ClickedOnMap();
+			if(world.CurrentElementName.Contains("beamline")) AddBeamline(world.CurrentElementName);
+			else world.ClickedOnMap();
+		}
+		else if (Input.IsActionPressed("draw"))
+		{
+			ResetDraw();
 		}
 		else if (Input.IsActionPressed("delete"))
 		{
 			world.DeleteElement();
-		}
-		else if (Input.IsActionJustReleased("draw"))
-		{
-			ResetDraw();
 		}
 	}
 }
