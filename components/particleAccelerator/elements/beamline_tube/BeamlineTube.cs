@@ -11,14 +11,13 @@ public partial class BeamlineTube : Node2D
 
 	public Path2D Path;
 	public Array<string> BeamlineType = new Array<string>(); // index : type
-	private Gradient _color;
-	
+	private Array<Color> _colors;
 
 	public override void _Ready()
 	{
 		Path = new Path2D();
 		Path.SetCurve(new Curve2D());
-		_color = new Gradient();
+		_colors = new Array<Color>();
 	}
 	
 	public void AddPoint(Godot.Vector2 point, string type)
@@ -26,19 +25,20 @@ public partial class BeamlineTube : Node2D
 		Path.GetCurve().AddPoint(point);
 		QueueRedraw();
 		BeamlineType.Add(type);
-		_color.AddPoint(32.0f, GetColor(type));
+		_colors.Add(GetColor(type));
 	}
 	public override void _Draw()
 	{
 			Curve2D curve = Path.GetCurve();
 			curve.Tessellate();
-			DrawPolylineColors(curve.GetBakedPoints(), _color.GetColors(), 20.0f, true);
 			for (int i = 0; i < curve.GetPointCount(); i++)
 			{
 				Godot.Vector2 point = curve.GetPointPosition(i);
 				DrawCircle(point, 5.0f, Colors.White);
-				DrawLine(point, point + curve.GetPointIn(i), Colors.Red, 2.5f);
-				DrawLine(point, point + curve.GetPointOut(i), Colors.Red, 2.5f);
+				if (i != curve.GetPointCount() - 1)
+				{
+					DrawLine(curve.GetPointPosition(i), curve.GetPointPosition(i+1), _colors[i+1], 20.0f);
+				}
 			}
 	}
 

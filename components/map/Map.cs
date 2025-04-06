@@ -11,10 +11,8 @@ public partial class Map : ColorRect
 	[Export] private ColorRect followRect;
 
 	private HashSet<BeamlineTube> _beamlines = new HashSet<BeamlineTube>();
-	private HashSet<Wire> _wires = new HashSet<Wire>();
 
 	private BeamlineTube _currentBeamline = null;
-	private Wire _currentWire = null;
 
 	public void CreateNewBeamline()
 	{
@@ -22,23 +20,12 @@ public partial class Map : ColorRect
 		_beamlines.Add(_currentBeamline);
 		AddChild(_currentBeamline);
 	}
-
-	public void CreateNewWire()
-	{
-		_currentWire = new Wire();
-		_wires.Add(_currentWire);
-		AddChild(_currentWire);
-	}
-
+	
 	public BeamlineTube GetCurrentBeamline()
 	{
 		return _currentBeamline;
 	}
-
-	public Wire GetCurrentWire()
-	{
-		return _currentWire;
-	}
+	
 	public override void _Ready()
 	{
 	}
@@ -62,12 +49,6 @@ public partial class Map : ColorRect
 		GetCurrentBeamline().AddPoint(pos, type);
 	}
 
-	public void AddWire()
-	{
-		if(GetCurrentWire() == null) CreateNewWire();
-		Vector2 pos = GetTiledMousePos() + new Vector2(16.0f, 16.0f);
-		GetCurrentWire().AddPoint(pos);
-	}
 	public void ResetDraw()
 	{
 		_currentBeamline = null;

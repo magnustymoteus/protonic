@@ -87,6 +87,7 @@ public partial class World : Node2D
 		CurrentElementName = elementName;
 		UpdateElementTexture();
 		InfoUI.Call("PopupInfo", CurrentElementPath);
+		
 	}
 
 
