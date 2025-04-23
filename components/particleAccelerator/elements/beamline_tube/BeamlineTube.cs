@@ -1,9 +1,7 @@
 using Godot;
-using System;
 using System.Linq;
 using System.Numerics;
 using Godot.Collections;
-using protonic;
 using protonic.utils.TransferMatrix;
 
 public partial class BeamlineTube : Node2D

@@ -13,7 +13,8 @@ public partial class Map : ColorRect
 	private HashSet<BeamlineTube> _beamlines = new HashSet<BeamlineTube>();
 
 	private BeamlineTube _currentBeamline = null;
-
+	
+	
 	public void CreateNewBeamline()
 	{
 		_currentBeamline = new BeamlineTube();
@@ -68,6 +69,10 @@ public partial class Map : ColorRect
 		else if (Input.IsActionPressed("delete"))
 		{
 			world.DeleteElement();
+		}
+		else if (Input.IsActionPressed("connect_mode"))
+		{
+			
 		}
 	}
 }
