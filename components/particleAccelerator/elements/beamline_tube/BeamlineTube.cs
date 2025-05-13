@@ -22,7 +22,7 @@ public partial class BeamlineTube : Element
 			case "defocusing_magnet":
 				return TransferMatrix2x2Factory.DefocusingQuadrupole(-1, 3.2f);
 			case "rf_cavity":
-				return TransferMatrix2x2Factory.RFCavity(3.2f, 2.0f); // to do
+				return TransferMatrix2x2Factory.RFCavity(3.2f, 2.0f);
 			default:
 				return TransferMatrix2x2Factory.Drift(3.2f);
 		}

@@ -7,7 +7,7 @@
 		{
 		"connection": "U",
 		"positions": [[0,0]],
-		"allowed": ["septum_magnet"]
+		"allowed": ["beamline_tube", "control_console", "particle_emitter"]
 		}
 		]
 }
