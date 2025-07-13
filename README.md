@@ -7,6 +7,6 @@
 <h1>How to run</h1>
 <ol>
   <li>Download source code</li>
-  <li>Run <code>protonic.exe</code> on Windows, or <code>protonic.x86_64</code> on Linux</li>
+  <li>Run <code>bin/protonic.exe</code> on Windows, or <code>bin/protonic.x86_64</code> on Linux</li>
   <li>Have fun!</li>
 </ol>
