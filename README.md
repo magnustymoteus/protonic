@@ -10,3 +10,11 @@
   <li>Run <code>bin/protonic.exe</code> on Windows, or <code>bin/protonic.x86_64</code> on Linux</li>
   <li>Have fun!</li>
 </ol>
+<h1>Controls</h1>
+<ul>
+  <li>Movement: WASD/Arrows</li>
+  <li>Sprint: SHIFT</li>
+  <li>Delete component: DEL key (while hovering on the component on the map)</li>
+  <li>Undo: CTRL+Z</li>
+  <li>Redo: CTRL+Y</li>
+</ul>
